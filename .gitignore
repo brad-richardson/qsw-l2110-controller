@@ -9,4 +9,9 @@ dist/
 backups/
 *.cfg
 *.bin
+*.img
+*.pcap
+*.pcapng
+*.key
 .env
+.env.*

@@ -18,7 +18,8 @@ The switch does no routing between them; all WAN/LAN traffic must cross Firewall
 | LAG 1, ports 1+2 | Firewalla WAN | VLAN 3999, untagged only |
 | LAG 2, ports 3+4 | Firewalla LAN | native LAN untagged; internal VLANs tagged |
 | Port 10 | office switch | same LAN trunk as LAG 2 |
-| Port 5 | rescue laptop | native LAN only |
+| Port 5 | LAN access/test host | native LAN only |
+| Port 8 | rescue laptop | VLAN 1, untagged, until QSS management behavior is proven |
 
 Never add ports 3, 4, 5, or 10 to VLAN 3999. Remove ports 1, 2, and 9 from VLAN 1.
 

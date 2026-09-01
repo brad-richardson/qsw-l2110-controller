@@ -6,10 +6,16 @@ project is pre-alpha.
 Before submitting a change:
 
 ```console
-uv sync --extra dev
+uv venv --python 3.14
+uv sync --locked --extra dev
 uv run ruff check .
+uv run ruff format --check .
 uv run pytest -q
 ```
+
+The full suite binds a loopback HTTP socket for the contract emulator. See
+[pre-hardware testing](docs/pre-hardware-testing.md) for manual use and the clear
+boundary between emulator evidence and hardware evidence.
 
 When reporting a new model or firmware build, include:
 

@@ -7,14 +7,24 @@
   QSS 2.2.3 build 20260713 firmware image.
 - QNAP does not publish this as a supported API. Any firmware update may change it.
 - Only QSW-L2110-10T is enabled in the example model guard.
+- The guard requires the exact `2.2.3.20260713` firmware string inferred from
+  the image. A different live string requires renewed inspection, not a prefix match.
 
 ## Configuration behavior
 
 - Applies are ordered but not transactional: LAG changes occur before VLAN changes.
+- There is no distributed lock or compare-and-swap API. Treat the switch as
+  single-writer and close other QSS/controller sessions during plan/apply.
 - The switch may apply running configuration before the explicit global save.
 - Automatic rollback is not implemented. Each apply downloads an opaque backup first.
+- Backups are created exclusively with mode `0600`, are never silently overwritten,
+  and are reported with a SHA-256 checksum.
 - Backup restore is intentionally absent because it reboots and replaces all configuration.
 - VLAN deletion is intentionally absent. Unlisted VLANs are preserved.
+- PVID writes are intentionally absent until `/port_vlan.json` transitions are
+  captured on hardware. Drift is shown in plans and must converge before save.
+- Multi-destination VLAN writes and destination-before-source ordering are still
+  unverified. Untagged moves require a separate post-canary acknowledgement.
 - Management IP, HTTPS, certificates, users, firmware, port speed, QoS, and loop
   protection are outside the initial declarative scope.
 - The firmware UI renders VLAN membership for ten physical ports, not logical LAG
@@ -22,6 +32,9 @@
   member, but actual ASIC behavior still needs validation.
 - The firmware UI enforces at most 64 VLAN entries, IDs 1-4094, names up to 16
   characters, and one untagged VLAN per port.
+- The optional Firewalla policy protects the shipped topology's WAN, LAN, office,
+  ONT, and rescue roles; generic configurations without that policy do not gain
+  topology-specific isolation guarantees.
 
 ## Authentication and transport
 
@@ -42,6 +55,19 @@
 - LACP aggregates flows; one flow remains limited to one member.
 - The VLAN listing uses Server-Sent Events and appears to signal completion by
   closing the stream rather than sending an explicit final object.
+- The client rejects SSE timeouts and cross-checks clean reads against the
+  separate VLAN-ID list and stable PVID snapshots.
+- `/port_trunk_refresh.json` appears to expose link up/down, not full LACP
+  collecting/distributing state.
+
+## Contract emulator
+
+- The loopback emulator independently implements the inferred request/response
+  shapes and catches controller sequencing, validation, and verification bugs.
+- It has no switch ASIC, LACP peer, forwarding plane, vendor TLS stack, reboot,
+  flash persistence, or firmware parser. Passing it cannot validate those behaviors.
+- Its successful path models the possibility that a VLAN write updates PVIDs;
+  a fault test also holds PVIDs stale and proves the controller refuses to save.
 
 ## Shared-switch firewall topology
 

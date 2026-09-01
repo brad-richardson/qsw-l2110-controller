@@ -13,13 +13,15 @@ CivetWeb interface with separate handlers for LACP, VLANs, backup, and persisten
 This project currently provides:
 
 - model and firmware guards before planning or writing;
-- read-only identity, LAG, VLAN, PVID, and live LAG-state commands;
+- read-only identity, LAG, VLAN, PVID, and raw per-port link-state commands;
 - opaque QSS configuration backups;
 - YAML-driven LAG and VLAN reconciliation;
 - dry-run diffs by default;
 - automatic backup, ordered LAG/VLAN writes, explicit save, and read-back verification;
 - safety validation for mixed-speed groups, duplicate untagged memberships, and
-  inconsistent VLAN membership among LAG members.
+  inconsistent VLAN membership among LAG members;
+- an optional Firewalla double-LACP policy that enforces exact WAN-transit
+  membership, LAN/office trunk parity, and a dedicated rescue port.
 
 It deliberately does **not** delete VLANs, restore backups, update firmware, or
 change the management address.
@@ -28,9 +30,9 @@ change the management address.
 
 | Target | Status |
 |---|---|
-| QSW-L2110-10T, QSS 2.2.3 | Firmware-derived; hardware validation pending |
+| QSW-L2110-10T, QSS 2.2.3 build 20260713 | Firmware-derived; hardware validation pending |
 | QSW-L2110-2S8T, QSS 2.2.3 | Likely same handlers; not enabled in the example guard |
-| QSW-M and other `/api/v1`/`api/v2` models | Not supported |
+| QSW-M and other `/api/v1` or `/api/v2` models | Not supported |
 
 QNAP's current firmware and release notes are available from the
 [QSS 2.2 release page](https://www.qnap.com/en-us/release-notes/qss/overview/2.2).
@@ -41,8 +43,13 @@ This project is independent and is not affiliated with or supported by QNAP.
 ```console
 git clone https://github.com/brad-richardson/qsw-l2110-controller.git
 cd qsw-l2110-controller
-uv sync --extra dev
+uv venv --python 3.14
+uv sync --locked --extra dev
 ```
+
+The project targets Python 3.14, the latest stable feature line at project
+inception, with upstream support through October 2030. The unqualified `3.14`
+selector lets `uv` choose an up-to-date 3.14.x patch release.
 
 Credentials are read from the environment or an interactive prompt. A password
 command-line option is intentionally not provided.
@@ -78,8 +85,9 @@ The example uses this layout:
 |---|---|
 | 1+2 | LACP group 1, Firewalla WAN, untagged WAN-transit VLAN 3999 |
 | 3+4 | LACP group 2, Firewalla LAN trunk |
-| 5 | temporary LAN-side rescue/management port |
-| 6-8 | default/local access ports |
+| 5 | LAN-native access/test port |
+| 6-7 | default/local access ports |
+| 8 | dedicated VLAN 1 rescue port until management behavior is proven |
 | 9 | 10G ONT port, untagged WAN-transit VLAN 3999 |
 | 10 | 10G office-switch LAN trunk |
 
@@ -95,11 +103,13 @@ always downloads a backup before its first write.
 ```console
 uv run qsw-l2110 --insecure apply \
   --config examples/firewalla-gold-plus.yaml \
-  --yes-i-understand-private-api
+  --yes-i-understand-private-api \
+  --yes-i-validated-vlan-transitions
 ```
 
-Do not run that command until the read-only and canary phases in the
-[hardware validation plan](docs/hardware-validation.md) pass.
+The second acknowledgement is required when ingress VLAN ownership moves. Do not
+use it until the disconnected VLAN/PVID transition canary in the
+[hardware validation plan](docs/hardware-validation.md) passes.
 
 ## Safety model
 
@@ -109,6 +119,11 @@ Do not run that command until the read-only and canary phases in the
   VLAN too, making the removal visible in the plan.
 - Ports 1-8 and 9-10 cannot be mixed within one LAG.
 - Every member of a LAG must have identical desired VLAN membership.
+- The example's `safety.firewalla_double_lacp` policy is checked against both
+  desired VLANs and preserved VLANs discovered on the switch.
+- VLAN SSE data is cross-checked against a separate VLAN-ID list and stable PVID
+  snapshots; timeouts and partial inventories fail closed.
+- PVID drift is planned and verified before save. PVID writes are not implemented.
 - An apply is not transactional. If connectivity is lost between LAG and VLAN
   writes, recover manually using the automatic backup and a dedicated rescue port.
 
@@ -119,8 +134,18 @@ and the [Firewalla topology notes](docs/firewalla-topology.md) before deployment
 
 ```console
 uv run ruff check .
+uv run ruff format --check .
 uv run pytest -q
 ```
+
+The suite includes a stateful loopback QSS contract emulator and fault tests. It
+can validate the complete HTTP workflow before the switch arrives, but it cannot
+validate ASIC behavior or prove that physical firmware matches the inferred
+contract. See [pre-hardware testing](docs/pre-hardware-testing.md).
+
+`qsw_l2110.client.QswL2110Client` is intentionally a low-level protocol client.
+Its mutating methods bypass the CLI's model, backup, ordering, and verification
+gates; supported safety orchestration is currently CLI-only.
 
 Contributions with sanitized hardware observations are welcome. Never attach
 passwords, MD5 login digests, cookies, public IP addresses, or configuration

@@ -7,7 +7,12 @@ import httpx
 import pytest
 
 from qsw_l2110.client import QswL2110Client, parse_sse_lines
-from qsw_l2110.errors import AuthenticationError
+from qsw_l2110.errors import ApiError, AuthenticationError
+
+
+def test_client_rejects_credentials_or_paths_in_host_url() -> None:
+    with pytest.raises(ValueError, match="only scheme, hostname"):
+        QswL2110Client("https://admin:secret@switch/ui")
 
 
 def test_parse_sse_lines_ignores_metadata() -> None:
@@ -79,6 +84,76 @@ def test_reads_vlan_sse_stream() -> None:
     client.close()
 
 
+def test_vlan_sse_timeout_after_data_fails_closed() -> None:
+    class TimeoutStream(httpx.SyncByteStream):
+        def __iter__(self):
+            yield b'data: {"PortNum":10}\n\ndata: {"vlan_id":"1"}\n\n'
+            raise httpx.ReadTimeout("simulated truncated stream")
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        return httpx.Response(
+            200,
+            stream=TimeoutStream(),
+            headers={"content-type": "text/event-stream"},
+        )
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    with pytest.raises(ApiError, match="timed out before cleanly closing"):
+        client.get_vlans()
+    client.close()
+
+
+def test_vlan_sse_protocol_error_is_wrapped_and_fails_closed() -> None:
+    class BrokenStream(httpx.SyncByteStream):
+        def __iter__(self):
+            yield b'data: {"PortNum":10}\n\n'
+            raise httpx.RemoteProtocolError("simulated disconnect")
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        return httpx.Response(200, stream=BrokenStream())
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    with pytest.raises(ApiError, match="failed before cleanly closing"):
+        client.get_vlans()
+    client.close()
+
+
+def test_vlan_snapshot_rejects_sse_missing_pvid_inventory_vlan() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        if request.url.path == "/get_vlan_list.json":
+            return httpx.Response(200, json={"vlan_ids": [1, 20]})
+        if request.url.path == "/all_port_pvid.json":
+            return httpx.Response(
+                200,
+                json={"port_pvids": [0, *([1] * 10)]},
+            )
+        if request.url.path == "/tag_vlan.json":
+            body = "\n".join(
+                [
+                    'data: {"PortNum":10}',
+                    "",
+                    'data: {"vlan_id":"1","port_states":[0,1]}',
+                    "",
+                ]
+            )
+            return httpx.Response(200, text=body, headers={"content-type": "text/event-stream"})
+        return httpx.Response(404)
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    with pytest.raises(ApiError, match="changed or was incomplete"):
+        client.get_vlan_snapshot()
+    client.close()
+
+
 def test_post_json_uses_expected_payload() -> None:
     observed: dict = {}
 
@@ -95,6 +170,32 @@ def test_post_json_uses_expected_payload() -> None:
     assert observed == {"system_priority": "32768"}
 
 
+def test_post_json_rejects_failure_alert_key() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        return httpx.Response(200, json={"alert_key": "alert_save_fail"})
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    with pytest.raises(ApiError, match="returned an API error"):
+        client.save()
+    client.close()
+
+
+def test_save_rejects_non_object_json_response() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        return httpx.Response(200, json=["unexpected"])
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    with pytest.raises(ApiError, match="non-object JSON"):
+        client.save()
+    client.close()
+
+
 def test_backup_rejects_json_login_redirect() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         if request.url.path == "/authorize":
@@ -105,4 +206,30 @@ def test_backup_rejects_json_login_redirect() -> None:
     client.authenticate("admin", "secret")
     with pytest.raises(AuthenticationError, match="redirected to login"):
         client.download_backup()
+    client.close()
+
+
+def test_backup_rejects_structured_api_error() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        return httpx.Response(200, json={"error": {"code": 1}})
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    with pytest.raises(ApiError, match="API error object"):
+        client.download_backup()
+    client.close()
+
+
+def test_redirect_status_is_not_treated_as_success() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        return httpx.Response(302, headers={"location": "/elsewhere"})
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    with pytest.raises(ApiError, match="HTTP 302 redirect"):
+        client.get_lag_config()
     client.close()

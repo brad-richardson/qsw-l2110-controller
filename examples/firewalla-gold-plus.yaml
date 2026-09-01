@@ -3,9 +3,9 @@ schema_version: 1
 device:
   models:
     - QSW-L2110-10T
-  # Prefix matching permits values such as 2.2.3.20260713.
+  # Writes are guarded by an exact build string from /status.json.
   firmware:
-    - "2.2.3"
+    - "2.2.3.20260713"
   port_count: 10
 
 link_aggregation:
@@ -25,11 +25,24 @@ link_aggregation:
       port_priority: 128
       timeout: short
 
+# This optional profile turns the topology's non-negotiable WAN/LAN separation
+# into executable policy. It is checked against desired and discovered VLANs.
+safety:
+  firewalla_double_lacp:
+    wan_transit_vlan: 3999
+    wan_lag: 1
+    lan_lag: 2
+    ont_port: 9
+    office_port: 10
+    rescue_port: 8
+    rescue_vlan: 1
+
 # Port plan:
 #   1+2  Firewalla WAN LAG
 #   3+4  Firewalla LAN LAG
-#   5    temporary management/rescue connection
-#   6-8  unused/local access ports
+#   5    LAN-native access/test connection
+#   6-7  unused/local access ports
+#   8    dedicated VLAN 1 rescue connection until management behavior is proven
 #   9    10G ONT
 #   10   10G office-switch trunk
 #

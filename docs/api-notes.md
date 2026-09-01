@@ -30,6 +30,9 @@ GET /status.json
 Known response fields include `model_name`, `des`, `fw_ver`, `hw_ver`,
 `sys_ipv4`, `sys_macaddr`, and `temperature`.
 
+The controller requires an exact configured `fw_ver` match. A private interface
+must not be assumed compatible merely because its major/minor prefix is unchanged.
+
 ## LAG configuration
 
 ```text
@@ -65,15 +68,21 @@ for physical ports. Observed values:
 | `Port_N_grpInd` | group 1-10 |
 | `system_priority` | 0-65535, default 32768 |
 
-The client sends a complete ten-port object derived from the current GET, then
-overlays only explicitly managed ports. This preserves unknown or future fields
-as far as the known schema permits.
+The client requires every known field and sends a complete ten-port object
+derived from the current GET, then overlays only explicitly managed ports. It
+refuses a desired group ID already used by an unmanaged active port. Unknown
+future fields cannot be preserved in the UI's flat POST schema. It also refuses
+to move a managed port away from a current group containing unmanaged peers.
+
+`/port_trunk_refresh.json` exposes raw per-port link up/down state. Static UI
+inspection does not show collecting/distributing LACP protocol state.
 
 ## VLAN configuration
 
 ```text
 GET  /tag_vlan.json          # Server-Sent Events
 POST /tag_vlan.json
+GET  /get_vlan_list.json
 GET  /all_port_pvid.json
 ```
 
@@ -107,6 +116,25 @@ supports partial updates and explicit deletions:
 This project never populates `deletedVlans`. It also refuses to take a port's
 untagged membership from a VLAN omitted from the desired file.
 
+The separate inventory helpers return shapes inferred from their UI consumers:
+
+```json
+{"vlan_ids": [1, 10, 3999]}
+{"port_pvids": [0, 3999, 3999, 10, 10, 10, 1, 1, 1, 3999, 10]}
+```
+
+The PVID array is 1-indexed with reserved element zero. A safe snapshot brackets
+the finite SSE read with VLAN-ID and PVID reads, requires stable before/after
+values, unique identical VLAN-ID sets, and a clean EOF. A timeout is never
+accepted as completion.
+
+For an untagged ownership move, update entries are ordered with the destination
+VLAN before the old source VLAN, matching the direction observed in the UI. The
+UI normally submits one active destination plus conflicting sources; multi-
+destination batching remains hardware-gated. PVID writes through
+`/port_vlan.json` are not implemented. Apply requires the resulting PVIDs to
+match desired untagged ownership before save and again afterward.
+
 ## Persistence and backup
 
 ```text
@@ -117,7 +145,13 @@ POST /config/upload
 
 Configuration upload is deliberately not wrapped. It replaces configuration and
 may reboot the switch. `apply` uses download only, performs read-back checks after
-writes, calls the global save handler, and verifies again.
+writes, calls the global save handler, and verifies the running configuration
+again. Only a hardware reboot test can establish flash persistence. Automatic
+backups use exclusive mode-`0600` creation and include a displayed SHA-256 checksum.
+
+`QswL2110Client` is a low-level transport for protocol investigation. Its direct
+mutating methods do not invoke the CLI's identity, backup, planning, ordering, or
+read-back gates and are deliberately not exported from the package's top level.
 
 ## Other discovered handlers
 

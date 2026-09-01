@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import getpass
+import hashlib
 import json
 import os
 import re
@@ -13,13 +14,11 @@ from typing import Any
 
 from qsw_l2110.client import QswL2110Client
 from qsw_l2110.config import load_config
-from qsw_l2110.errors import QswError
+from qsw_l2110.errors import ConfigError, QswError
 from qsw_l2110.reconcile import (
     Change,
     Plan,
-    build_lag_payload,
     build_plan,
-    build_vlan_payload,
     verify_clean,
     verify_identity,
 )
@@ -86,13 +85,20 @@ def _parser() -> argparse.ArgumentParser:
     plan = subparsers.add_parser("plan", help="show the changes needed for a YAML file")
     plan.add_argument("--config", "-f", type=Path, required=True)
 
-    apply = subparsers.add_parser("apply", help="back up, apply, save, and verify a YAML file")
+    apply = subparsers.add_parser(
+        "apply", help="back up, apply, request save, and verify running state"
+    )
     apply.add_argument("--config", "-f", type=Path, required=True)
     apply.add_argument("--backup-dir", type=Path, default=Path("backups"))
     apply.add_argument(
         "--yes-i-understand-private-api",
         action="store_true",
         help="required acknowledgement for writes through an unsupported API",
+    )
+    apply.add_argument(
+        "--yes-i-validated-vlan-transitions",
+        action="store_true",
+        help="required for untagged VLAN moves after completing the hardware canary",
     )
     return parser
 
@@ -130,16 +136,18 @@ def _dispatch(args: argparse.Namespace, client: QswL2110Client) -> int:
         _print_json({"configuration": client.get_lag_config(), "state": client.get_lag_status()})
         return 0
     if args.command == "dump-vlans":
-        _print_json({"vlans": client.get_vlans(), "pvids": client.get_port_pvids()})
+        vlans, pvids = client.get_vlan_snapshot()
+        _print_json({"vlans": vlans, "pvids": pvids})
         return 0
     if args.command == "backup":
-        _write_backup(args.output, client.download_backup())
-        print(args.output)
+        digest = _write_backup(args.output, client.download_backup())
+        print(f"{args.output} sha256:{digest}")
         return 0
     if args.command == "plan":
         desired = load_config(args.config)
         verify_identity(desired, client.get_identity())
-        plan = build_plan(desired, client.get_lag_config(), client.get_vlans())
+        vlans, pvids = client.get_vlan_snapshot()
+        plan = build_plan(desired, client.get_lag_config(), vlans, pvids)
         _print_plan(plan)
         return 0
     if args.command == "apply":
@@ -153,46 +161,63 @@ def _apply(args: argparse.Namespace, client: QswL2110Client) -> int:
     desired = load_config(args.config)
     model, firmware = verify_identity(desired, client.get_identity())
     current_lags = client.get_lag_config()
-    current_vlans = client.get_vlans()
-    initial_plan = build_plan(desired, current_lags, current_vlans)
+    current_vlans, current_pvids = client.get_vlan_snapshot()
+    initial_plan = build_plan(desired, current_lags, current_vlans, current_pvids)
     _print_plan(initial_plan)
     if initial_plan.empty:
         return 0
+    _validate_write_plan(args, initial_plan)
 
-    timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S.%fZ")
     safe_model = re.sub(r"[^A-Za-z0-9_.-]", "_", model)
     safe_firmware = re.sub(r"[^A-Za-z0-9_.-]", "_", firmware)
     backup_path = args.backup_dir / f"{safe_model}-{safe_firmware}-{timestamp}.cfg"
-    _write_backup(backup_path, client.download_backup())
-    print(f"Backup: {backup_path}")
+    backup_digest = _write_backup(backup_path, client.download_backup())
+    print(f"Backup: {backup_path} (sha256:{backup_digest})")
 
-    if initial_plan.lag_payload is not None:
-        client.set_lag_config(initial_plan.lag_payload)
-        lag_payload, lag_changes = build_lag_payload(desired, client.get_lag_config())
-        if lag_payload is not None or lag_changes:
-            keys = ", ".join(change.key for change in lag_changes)
-            raise ValueError(f"LAG read-back differs before VLAN changes: {keys}")
+    # Abort rather than writing from a snapshot that changed while the backup
+    # was downloaded. The backup remains useful evidence for investigation.
+    current_lags = client.get_lag_config()
+    current_vlans, current_pvids = client.get_vlan_snapshot()
+    refreshed_plan = build_plan(desired, current_lags, current_vlans, current_pvids)
+    if refreshed_plan != initial_plan:
+        raise ConfigError("switch state changed while the backup was downloaded; no writes made")
+    _validate_write_plan(args, refreshed_plan)
+
+    if refreshed_plan.lag_payload is not None:
+        client.set_lag_config(refreshed_plan.lag_payload)
 
     # LAG creation may alter VLAN membership. Re-read instead of applying the
     # potentially stale payload from the original plan.
-    current_vlans = client.get_vlans()
-    vlan_payload, _ = build_vlan_payload(desired, current_vlans)
-    if vlan_payload is not None:
-        client.set_vlans(vlan_payload)
+    current_vlans, current_pvids = client.get_vlan_snapshot()
+    post_lag_plan = build_plan(desired, client.get_lag_config(), current_vlans, current_pvids)
+    if post_lag_plan.lag_payload is not None:
+        keys = ", ".join(change.key for change in post_lag_plan.changes if change.area == "lag")
+        raise ConfigError(f"LAG read-back differs before VLAN changes: {keys}")
+    _validate_write_plan(args, post_lag_plan)
+    if post_lag_plan.vlan_payload is not None:
+        client.set_vlans(post_lag_plan.vlan_payload)
 
-    # Never persist a state that has not already passed a full read-back.
-    pre_save_plan = build_plan(desired, client.get_lag_config(), client.get_vlans())
+    # Never request persistence for a state that has not passed a full read-back.
+    current_vlans, current_pvids = client.get_vlan_snapshot()
+    pre_save_plan = build_plan(desired, client.get_lag_config(), current_vlans, current_pvids)
     verify_clean(pre_save_plan)
     client.save()
-    final_plan = build_plan(desired, client.get_lag_config(), client.get_vlans())
+    current_vlans, current_pvids = client.get_vlan_snapshot()
+    final_plan = build_plan(desired, client.get_lag_config(), current_vlans, current_pvids)
     verify_clean(final_plan)
-    print("Configuration saved and verified.")
+    print("Save requested; running configuration verified. Reboot persistence not verified.")
     return 0
 
 
-def _write_backup(path: Path, content: bytes) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(content)
+def _write_backup(path: Path, content: bytes) -> str:
+    path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(descriptor, "wb") as handle:
+        handle.write(content)
+        handle.flush()
+        os.fsync(handle.fileno())
+    return hashlib.sha256(content).hexdigest()
 
 
 def _print_plan(plan: Plan) -> None:
@@ -202,6 +227,62 @@ def _print_plan(plan: Plan) -> None:
     print(f"Planned changes ({len(plan.changes)}):")
     for change in plan.changes:
         print(_format_change(change))
+
+
+def _uncovered_pvid_ports(plan: Plan) -> list[int]:
+    possible_updates: set[tuple[int, int]] = set()
+    for change in plan.changes:
+        if change.area != "vlan":
+            continue
+        before = change.before if isinstance(change.before, dict) else {}
+        after = change.after if isinstance(change.after, dict) else {}
+        before_states = before.get("port_states", [])
+        after_states = after.get("port_states", [])
+        if not isinstance(before_states, list) or not isinstance(after_states, list):
+            continue
+        for port in range(1, len(after_states)):
+            before_state = before_states[port] if port < len(before_states) else 0
+            if before_state != 1 and after_states[port] == 1:
+                possible_updates.add((port, int(change.key)))
+    return [
+        int(change.key)
+        for change in plan.changes
+        if change.area == "pvid" and (int(change.key), int(change.after)) not in possible_updates
+    ]
+
+
+def _validate_write_plan(args: argparse.Namespace, plan: Plan) -> None:
+    uncovered_pvids = _uncovered_pvid_ports(plan)
+    if uncovered_pvids:
+        ports = ", ".join(str(port) for port in uncovered_pvids)
+        raise ConfigError(
+            f"PVID drift on ports {ports} is not accompanied by its untagged VLAN change; "
+            "PVID writes are not implemented, so correct these ports in QSS first"
+        )
+    transition_ports = _untagged_transition_ports(plan)
+    if transition_ports and not getattr(args, "yes_i_validated_vlan_transitions", False):
+        ports = ", ".join(str(port) for port in transition_ports)
+        raise ConfigError(
+            f"untagged VLAN transitions on ports {ports} require "
+            "--yes-i-validated-vlan-transitions after the disconnected hardware canary"
+        )
+
+
+def _untagged_transition_ports(plan: Plan) -> list[int]:
+    ports: set[int] = set()
+    for change in plan.changes:
+        if change.area != "vlan" or not isinstance(change.after, dict):
+            continue
+        before = change.before if isinstance(change.before, dict) else {}
+        before_states = before.get("port_states", [])
+        after_states = change.after.get("port_states", [])
+        if not isinstance(before_states, list) or not isinstance(after_states, list):
+            continue
+        for port in range(1, len(after_states)):
+            before_state = before_states[port] if port < len(before_states) else 0
+            if before_state != 1 and after_states[port] == 1:
+                ports.add(port)
+    return sorted(ports)
 
 
 def _format_change(change: Change) -> str:

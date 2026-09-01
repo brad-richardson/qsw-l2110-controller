@@ -9,14 +9,20 @@ Record the date, model, firmware build, switch configuration checksum, observed
 response shapes, and result of each phase. Do not publish credentials, cookies,
 login digests, MAC addresses, public addresses, or configuration backups.
 
+Before the switch arrives, complete the [pre-hardware test plan](pre-hardware-testing.md)
+and preserve the passing commit hash and CI run URL.
+
 ## Required lab state
 
 - The real ONT is physically disconnected.
 - The office production trunk is physically disconnected.
-- A laptop is connected directly to port 5 as the rescue path.
+- A laptop is connected directly to port 8 as the dedicated VLAN 1 rescue path.
 - Only one cable of any proposed LAG is connected until both endpoints are configured.
 - The current QSS configuration has been downloaded through the web UI.
-- The switch is on the latest applicable QSS 2.2.x firmware.
+- Other QSS sessions and monitoring integrations are logged out except while a
+  browser request is being deliberately captured.
+- The switch reports the exact guarded QSS build `2.2.3.20260713`. Stop and
+  reinspect the interface if QNAP has supplied a different build.
 
 The documented DHCP fallback address is `169.254.100.101`; use a laptop address
 such as `169.254.100.102/16` if no DHCP server is present.
@@ -25,20 +31,22 @@ such as `169.254.100.102/16` if no DHCP server is present.
 
 1. Change the default password and enable HTTPS in QSS.
 2. Record the exact model and firmware shown by QSS.
-3. Run `about`, `dump-lags`, and `dump-vlans`.
-4. Confirm `about` agrees with the QSS UI.
-5. Confirm both dump commands make no visible configuration change.
-6. Confirm VLAN GET completes or reaches a harmless stream timeout after returning all entries.
-7. Compare every returned LAG, VLAN membership, and PVID with QSS.
-8. Download a CLI backup and compare its size and SHA-256 with a web-UI backup.
+3. Test whether opening the CLI invalidates the browser session or vice versa;
+   record any single-session or duplicate-login behavior.
+4. Run `about`, `dump-lags`, and `dump-vlans`.
+5. Confirm `about` agrees with the QSS UI.
+6. Confirm both dump commands make no visible configuration change.
+7. Confirm VLAN SSE reaches a clean EOF. Any timeout or transport error must fail closed.
+8. Compare every returned LAG, VLAN membership, and PVID with QSS.
+9. Download a CLI backup and compare its size and SHA-256 with a web-UI backup.
 
 Expected firmware-derived endpoints:
 
 | Operation | Endpoint |
 |---|---|
 | Identity | `GET /get_model_name.json`, `GET /status.json` |
-| LAG configuration/state | `GET /port_trunk_cfg.json`, `GET /port_trunk_refresh.json` |
-| VLAN membership/PVID | SSE `GET /tag_vlan.json`, `GET /all_port_pvid.json` |
+| LAG configuration/link state | `GET /port_trunk_cfg.json`, `GET /port_trunk_refresh.json` |
+| VLAN membership/list/PVID | SSE `GET /tag_vlan.json`, `GET /get_vlan_list.json`, `GET /all_port_pvid.json` |
 | Backup | `GET /config/download` |
 
 Stop if the model, field names, array indexing, authentication behavior, or
@@ -47,7 +55,7 @@ enabling writes.
 
 ## 2. Disconnected LAG canary
 
-Use two disconnected spare 2.5G ports, preferably ports 6 and 7.
+Use disconnected spare 2.5G ports 6 and 7. Keep rescue port 8 untouched.
 
 1. In QSS, put ports 6 and 7 into an otherwise unused LACP group.
 2. Capture the browser request body and the before/after `dump-lags` output.
@@ -64,7 +72,7 @@ or cannot be verified through a fresh GET.
 
 ## 3. Disconnected VLAN canary
 
-1. Through QSS, create VLAN 4093 named `api-canary` with port 8 tagged.
+1. Through QSS, create VLAN 4093 named `api-canary` with port 6 tagged.
 2. Capture the browser POST and SSE read-back.
 3. Confirm `port_states` is 1-indexed with element zero reserved, and values are
    `0=not member`, `1=untagged`, `2=tagged`.
@@ -77,6 +85,26 @@ Also verify whether VLAN membership is displayed only on physical LAG member
 ports, as the 2.2.3 firmware UI suggests. Until proven otherwise, keep all member
 ports identical; the configuration validator enforces this.
 
+## 3b. Disconnected untagged/PVID transition canary
+
+This phase is required before using `--yes-i-validated-vlan-transitions`.
+
+1. Keep port 6 physically disconnected and port 8 on VLAN 1 as rescue.
+2. In QSS, move port 6 from VLAN 1 untagged to VLAN 4093 untagged while capturing
+   every `/tag_vlan.json`, `/port_vlan.json`, `/get_vlan_list.json`, and
+   `/all_port_pvid.json` request and response.
+3. Record whether QSS stages the destination as tagged, changes PVID separately,
+   and then changes egress membership; do not assume tag-VLAN POST updates PVID.
+4. Confirm any multi-entry tag-VLAN request places the destination before the old source.
+5. Restore port 6 to VLAN 1 and repeat the capture in reverse.
+6. Encode sanitized response shapes as fixtures and adjust the controller if the
+   inferred array indexing, operation order, or PVID side effect differs.
+7. Run a controller canary only after the UI sequence is understood. It must
+   back up first, verify PVID before save, and produce an empty second plan.
+
+Stop if the transition requires an unimplemented PVID write, a membership write
+is non-atomic, or the controller changes any unrelated VLAN or PVID.
+
 ## 4. Build the intended switch configuration offline
 
 1. Keep all four Firewalla cables and both 10G edge cables disconnected.
@@ -85,7 +113,8 @@ ports identical; the configuration validator enforces this.
 4. Confirm the WAN-transit VLAN contains exactly ports 1, 2, and 9, all untagged.
 5. Confirm the LAN native VLAN contains ports 3, 4, 5, and 10, all untagged.
 6. Confirm every internal LAN VLAN is tagged on ports 3, 4, and 10 only.
-7. Run `plan`, inspect every line, then run the gated `apply`.
+7. Run `plan`, inspect every line, then run the gated `apply` with both explicit
+   acknowledgements documented in the README.
 8. Reboot the switch and confirm `plan` remains empty.
 9. Export and checksum the known-good configuration.
 
@@ -95,8 +124,9 @@ ports identical; the configuration validator enforces this.
 2. Connect one member of each group.
 3. Confirm the correct VLAN and basic WAN/LAN path before adding redundancy.
 4. Connect the second member of each group.
-5. Verify all four members are collecting/distributing in QSS and, read-only,
-   in `/proc/net/bonding/*` on Firewalla.
+5. Verify all four physical links are up in QSS. Verify collecting/distributing
+   state, read-only, in `/proc/net/bonding/*` on Firewalla; QSS link state alone
+   does not establish LACP protocol state.
 6. Pull each member individually and verify traffic continues.
 7. Reconnect it and confirm it rejoins the correct aggregator.
 
@@ -110,7 +140,7 @@ Perform these before attaching the real ONT:
 2. With Firewalla disconnected, verify the port-10/office side sees no DHCP,
    IPv6 router advertisements, ARP, or unicast from the simulated WAN.
 3. Verify the simulated-WAN host cannot reach LAN hosts or the QSS web interface.
-4. Verify the rescue host on port 5 can still reach QSS.
+4. Verify the rescue host on port 8 can still reach QSS.
 5. Run a packet capture on both sides while generating broadcasts.
 6. Reboot the switch and repeat the negative tests before reconnecting Firewalla.
 
@@ -150,6 +180,8 @@ Only with the ONT physically disconnected:
 | Login/cookie behavior | Pending |
 | Read-only LAG response | Pending |
 | VLAN SSE response and termination | Pending |
+| VLAN-ID list and PVID response shapes | Pending |
+| Untagged transition ordering/PVID side effect | Pending |
 | Backup parity | Pending |
 | LAG canary/read-back | Pending |
 | VLAN canary/read-back | Pending |

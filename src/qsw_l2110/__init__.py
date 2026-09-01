@@ -1,8 +1,11 @@
-"""Experimental controller for QNAP QSW-L2110 switches."""
+"""Declarative configuration models for QNAP QSW-L2110 switches.
 
-from qsw_l2110.client import QswL2110Client
+Safe write orchestration is exposed through the CLI. The private-API transport
+remains available explicitly from :mod:`qsw_l2110.client` for protocol work.
+"""
+
 from qsw_l2110.config import load_config
 from qsw_l2110.models import DesiredConfig
 
-__all__ = ["DesiredConfig", "QswL2110Client", "load_config"]
+__all__ = ["DesiredConfig", "load_config"]
 __version__ = "0.1.0a0"

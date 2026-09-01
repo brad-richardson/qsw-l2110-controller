@@ -7,7 +7,7 @@ name = "qsw-l2110-controller"
 version = "0.1.0a0"
 description = "Experimental declarative controller for QNAP QSW-L2110 switches"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.14,<3.15"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [
@@ -19,9 +19,7 @@ classifiers = [
   "Environment :: Console",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: System :: Networking",
 ]
 dependencies = [
@@ -47,11 +45,12 @@ packages = ["src/qsw_l2110"]
 
 [tool.pytest.ini_options]
 addopts = "-ra"
+pythonpath = ["."]
 testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py314"
 
 [tool.ruff.lint]
 select = ["B", "E", "F", "I", "UP"]
