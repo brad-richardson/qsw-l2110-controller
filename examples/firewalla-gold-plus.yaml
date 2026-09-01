@@ -1,0 +1,59 @@
+schema_version: 1
+
+device:
+  models:
+    - QSW-L2110-10T
+  # Prefix matching permits values such as 2.2.3.20260713.
+  firmware:
+    - "2.2.3"
+  port_count: 10
+
+link_aggregation:
+  system_priority: 32768
+  # Only these ports may be changed by the LAG reconciler. Unlisted ports are
+  # preserved, while a managed port absent from a group is set to Disable.
+  managed_ports: [1, 2, 3, 4]
+  groups:
+    - id: 1
+      mode: lacp
+      members: [1, 2]
+      port_priority: 128
+      timeout: short
+    - id: 2
+      mode: lacp
+      members: [3, 4]
+      port_priority: 128
+      timeout: short
+
+# Port plan:
+#   1+2  Firewalla WAN LAG
+#   3+4  Firewalla LAN LAG
+#   5    temporary management/rescue connection
+#   6-8  unused/local access ports
+#   9    10G ONT
+#   10   10G office-switch trunk
+#
+# VLAN state values are generated as 0=not-member, 1=untagged, 2=tagged.
+# Include VLAN 1 because ports are deliberately being removed from its default
+# untagged membership. Unlisted VLANs are preserved, never deleted.
+vlans:
+  - id: 1
+    name: default
+    untagged: [6, 7, 8]
+    tagged: []
+  - id: 10
+    name: lan-native
+    untagged: [3, 4, 5, 10]
+    tagged: []
+  - id: 20
+    name: trusted
+    untagged: []
+    tagged: [3, 4, 10]
+  - id: 30
+    name: iot
+    untagged: []
+    tagged: [3, 4, 10]
+  - id: 3999
+    name: wan-transit
+    untagged: [1, 2, 9]
+    tagged: []
