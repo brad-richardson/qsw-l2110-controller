@@ -193,7 +193,7 @@ Only with the ONT physically disconnected:
 | Backup parity | Pass 2026-09-04: CLI and web-UI backups identical (159 bytes, same SHA-256) |
 | LAG canary/read-back | Pass 2026-09-04: UI group 7 on ports 6+7 moved to controller group 3, then disabled; each apply verified, second plan empty, unmanaged ports untouched. Disabled ports retain their last `grpInd` |
 | VLAN canary/read-back | Pass 2026-09-04: controller created VLAN 4093 tagged on port 6, verified, second plan empty |
-| Save and reboot persistence | Save verified 2026-09-04 with the flat-LAN example (18 changes, second plan empty, management still on port 8 / VLAN 1, known-good backup exported); reboot persistence pending a power cycle |
+| Save and reboot persistence | Pass 2026-09-04: flat-LAN example applied (18 changes, second plan empty, management still on port 8 / VLAN 1); after a power cycle the plan is still empty and the backup SHA-256 matches the known-good export |
 | WAN/LAN negative isolation | Pending |
 | Management-plane isolation | Pending |
 | Per-flow and parallel-flow distribution | Pending |
