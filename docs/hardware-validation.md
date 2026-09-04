@@ -115,7 +115,8 @@ VLAN, then remove the VLAN with `delete-vlan`.
 ## 4. Build the intended switch configuration offline
 
 1. Keep all four Firewalla cables and both 10G edge cables disconnected.
-2. Adapt `examples/firewalla-gold-plus.yaml` to the actual LAN VLAN IDs.
+2. Adapt `examples/firewalla-gold-plus.yaml` to the actual LAN VLAN IDs. If the
+   Firewalla LAN is one flat bridge, use `examples/firewalla-gold-plus-flat-lan.yaml`.
 3. Confirm VLAN 1 explicitly removes ports 1, 2, and 9.
 4. Confirm the WAN-transit VLAN contains exactly ports 1, 2, and 9, all untagged.
 5. Confirm the LAN native VLAN contains ports 3, 4, 5, and 10, all untagged.
@@ -192,7 +193,7 @@ Only with the ONT physically disconnected:
 | Backup parity | Pass 2026-09-04: CLI and web-UI backups identical (159 bytes, same SHA-256) |
 | LAG canary/read-back | Pass 2026-09-04: UI group 7 on ports 6+7 moved to controller group 3, then disabled; each apply verified, second plan empty, unmanaged ports untouched. Disabled ports retain their last `grpInd` |
 | VLAN canary/read-back | Pass 2026-09-04: controller created VLAN 4093 tagged on port 6, verified, second plan empty |
-| Save and reboot persistence | Pending |
+| Save and reboot persistence | Save verified 2026-09-04 with the flat-LAN example (18 changes, second plan empty, management still on port 8 / VLAN 1, known-good backup exported); reboot persistence pending a power cycle |
 | WAN/LAN negative isolation | Pending |
 | Management-plane isolation | Pending |
 | Per-flow and parallel-flow distribution | Pending |

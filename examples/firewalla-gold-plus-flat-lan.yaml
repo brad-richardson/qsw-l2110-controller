@@ -1,0 +1,60 @@
+schema_version: 1
+
+# Variant of firewalla-gold-plus.yaml for a Firewalla whose LAN is one flat
+# bridge with no VLAN networks (confirmed from FireRouter's active config on
+# 2026-09-04: bridge br0 over eth1-3, WAN eth0 DHCP with DHCPv6-PD). The LAN
+# LAG, access port 5, and the office trunk all carry a single native VLAN.
+
+device:
+  models:
+    - QSW-L2110-10T
+  firmware:
+    - "2.2.3.20260713"
+  port_count: 10
+
+link_aggregation:
+  system_priority: 32768
+  managed_ports: [1, 2, 3, 4]
+  groups:
+    - id: 1
+      mode: lacp
+      members: [1, 2]
+      port_priority: 128
+      timeout: short
+    - id: 2
+      mode: lacp
+      members: [3, 4]
+      port_priority: 128
+      timeout: short
+
+safety:
+  firewalla_double_lacp:
+    wan_transit_vlan: 3999
+    wan_lag: 1
+    lan_lag: 2
+    ont_port: 9
+    office_port: 10
+    rescue_port: 8
+    rescue_vlan: 1
+
+# Port plan:
+#   1+2  Firewalla WAN LAG      VLAN 3999 untagged
+#   3+4  Firewalla LAN LAG      VLAN 10 untagged
+#   5    LAN access/test        VLAN 10 untagged
+#   6-7  spare / canary ports   VLAN 1 untagged
+#   8    rescue + management    VLAN 1 untagged (QSS reached only through here)
+#   9    10G ONT                VLAN 3999 untagged
+#   10   10G office switch      VLAN 10 untagged
+vlans:
+  - id: 1
+    name: default
+    untagged: [6, 7, 8]
+    tagged: []
+  - id: 10
+    name: lan
+    untagged: [3, 4, 5, 10]
+    tagged: []
+  - id: 3999
+    name: wan-transit
+    untagged: [1, 2, 9]
+    tagged: []

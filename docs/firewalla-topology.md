@@ -23,6 +23,11 @@ The switch does no routing between them; all WAN/LAN traffic must cross Firewall
 
 Never add ports 3, 4, 5, or 10 to VLAN 3999. Remove ports 1, 2, and 9 from VLAN 1.
 
+Deployed 2026-09-04: the Firewalla LAN is one flat bridge (`br0` over eth1-3, no
+VLAN networks, WAN `eth0` on DHCP with DHCPv6-PD), so the LAN side uses a single
+native VLAN 10 per `examples/firewalla-gold-plus-flat-lan.yaml`. Firewalla's LAN
+and WAN LAGs are not yet configured; `/proc/net/bonding` is empty.
+
 ## Firewalla constraints
 
 Firewalla Gold Plus supports the necessary two dynamic 802.3ad groups, one WAN
