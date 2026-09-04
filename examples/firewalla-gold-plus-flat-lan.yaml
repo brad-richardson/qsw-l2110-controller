@@ -40,19 +40,18 @@ safety:
 # Port plan:
 #   1+2  Firewalla WAN LAG      VLAN 3999 untagged
 #   3+4  Firewalla LAN LAG      VLAN 10 untagged
-#   5    LAN access/test        VLAN 10 untagged
-#   6-7  spare / canary ports   VLAN 1 untagged
+#   5-7  LAN access ports       VLAN 10 untagged
 #   8    rescue + management    VLAN 1 untagged (QSS reached only through here)
 #   9    10G ONT                VLAN 3999 untagged
 #   10   10G office switch      VLAN 10 untagged
 vlans:
   - id: 1
     name: default
-    untagged: [6, 7, 8]
+    untagged: [8]
     tagged: []
   - id: 10
     name: lan
-    untagged: [3, 4, 5, 10]
+    untagged: [3, 4, 5, 6, 7, 10]
     tagged: []
   - id: 3999
     name: wan-transit

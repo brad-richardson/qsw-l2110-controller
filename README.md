@@ -92,7 +92,7 @@ The example uses this layout:
 | 1+2 | LACP group 1, Firewalla WAN, untagged WAN-transit VLAN 3999 |
 | 3+4 | LACP group 2, Firewalla LAN trunk |
 | 5 | LAN-native access/test port |
-| 6-7 | default/local access ports |
+| 6-7 | LAN access ports (flat-LAN example) or default/local ports |
 | 8 | dedicated VLAN 1 rescue port until management behavior is proven |
 | 9 | 10G ONT port, untagged WAN-transit VLAN 3999 |
 | 10 | 10G office-switch LAN trunk |
