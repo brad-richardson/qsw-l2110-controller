@@ -190,9 +190,68 @@ backups use exclusive mode-`0600` creation and include a displayed SHA-256 check
 mutating methods do not invoke the CLI's identity, backup, planning, ordering, or
 read-back gates and are deliberately not exported from the package's top level.
 
-## Other discovered handlers
+## Endpoint inventory
 
-The firmware includes handlers for port statistics/settings, mirroring, EEE,
-QoS, IGMP snooping, loop protection, DHCP snooping, MAC tables, network settings,
-time/SNTP, firmware update, reboot, and factory reset. They are out of scope until
-the core identity/LAG/VLAN behavior is validated on hardware.
+Every handler referenced by `myajax.js` on the QSS 2.2.3.20260713 UI, with the
+HTTP method the UI uses. "Sampled" means the GET response was captured from a
+physical QSW-L2110-10T on 2026-09-04 and the shape is reproduced by the
+emulator. Anything marked write is out of scope for this project unless a row
+above says otherwise; the last group is destructive.
+
+### Used by this project
+
+| Endpoint | Method | Notes |
+|---|---|---|
+| `get_model_name.json`, `status.json` | GET | identity guard |
+| `port_trunk_cfg.json` | GET/POST | LAG configuration |
+| `port_trunk_refresh.json` | GET | per-port link state |
+| `tag_vlan.json` | SSE/POST | VLAN membership; stream ends with `{"done": true}` then EOF |
+| `get_vlan_list.json`, `all_port_pvid.json` | GET | VLAN-ID list and PVIDs |
+| `save_all_configs.json` | POST | persist running configuration |
+| `config/download` | GET | opaque backup |
+
+### Read-only, exposed by `dump-*` and `system-status` (sampled)
+
+| Endpoint | Method | Notes |
+|---|---|---|
+| `port_vlan_cfg.json` | GET/POST | per-port `PVID` and `Frame_Type`; the hidden port-based VLAN page. Its POST is the only PVID setter found; untested |
+| `port_setting_load.json` | GET | admin state, speed/duplex, flow control, EEE per port |
+| `port_stats.json` | GET | compact link state per port (`connected`/`unconnected`) |
+| `port_statistics.json` | GET | Tx/Rx good and bad packet counters per port |
+| `mac_get_dynamic_mac_entries.json` | GET | `{"batch": [{mac_addr, vlan_id, fid, portid, age_timer}]}`; useful for isolation tests |
+| `system_status.json` | GET | `fw_time` and `uptime`; useful for reboot-persistence checks |
+
+### Read-only, sampled but not exposed
+
+| Endpoint | Method | Notes |
+|---|---|---|
+| `tag_vlan_cfg.json` | SSE/POST | same stream as `tag_vlan.json`; POST is form-based |
+| `stp.json` | GET/POST | `stp_enable`, `stp_rstp_mode`, per-port edge and state |
+| `port_loop_status.json`, `port_lock_cfg.json` | GET(/POST) | loop detection violations and settings |
+| `storm_ctrl_cfg.json` | GET/POST | per-port broadcast/multicast/unknown-unicast limits |
+| `dhcp_snooping_cfg.json` | GET/POST | snooping mode and per-port trust/rate limit |
+| `eee_config.json` | GET/POST | per-port EEE, keyed `Idx_0`..`Idx_7` for the 2.5G ports |
+| `port_mirror.json` | GET/POST | monitoring port and per-port ingress/egress mirroring |
+| `qos_get_port_mode.json` | GET | `{"qos_mode": 0}` |
+| `sntp_setting.json`, `systemtime_settings.json` | GET/POST | SNTP server, poll interval, time, zone, DST |
+| `fid_vlan_map_cfg.json`, `lldp_loadsts.json` | GET/POST | return HTTP 400 on GET; the UI uses POST for LLDP |
+
+### Not sampled
+
+| Group | Endpoints |
+|---|---|
+| QoS | `qos_get_*`, `qos_set_*`, `qos_save_*` for rate limit, queue scheduling, CoS/DSCP/TC maps, port priority |
+| IGMP snooping | `igmp_config`, `igmp_query_*`, `igmp_rp_*`, `igmp_get_entries`, `igmp_add_static_entries`, `igmp_delete_entries`, `igmp_save_entries` |
+| LLDP | `lldp_enable`, `lldp_disable`, `lldp_fetch_rx_data`, `lldp_loadsts` (all POST) |
+| MAC table writes | `mac_add_static_mac_entries`, `mac_save_static_mac_entries`, `mac_delete_static_mac_entries`, `mac_clear_static_mac_entries`, `mac_clear_dynamic_mac_entries` |
+| ACL | `acl_add`, `acl_del`, `acl_save` (page hidden in the menu) |
+| Port settings writes | `apply_user_port_setting`, `update_port_id_list`, `update_bpid_list`, `rx_auto_adapt`, `clear_statistics` |
+| Port-based VLAN | `port_vlan.json`, `save_port_vlan_map`, `save_tag_vlan_map` |
+| Diagnostics | `cable_test`, `eye_test_*`, `usxgmii_reg_rd`, `usxgmii_reg_wr`, `dynamic_tools_opt_check` |
+| Management | `network_settings`, `network_settings_ipv4`, `network_settings_ipv6`, `user_ac_cfg` (password), `set_des`, `check_session_alive` |
+
+### Destructive, never called by this project
+
+`system_reboot.json`, `factory_reset.json`, `fwupdate_reboot_check.json`,
+`cfgupdate_reboot_check.json`. A factory reset collapses every port into one
+broadcast domain; see the fail-open warning in the topology notes.

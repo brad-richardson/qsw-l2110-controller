@@ -13,7 +13,8 @@ CivetWeb interface with separate handlers for LACP, VLANs, backup, and persisten
 This project currently provides:
 
 - model and firmware guards before planning or writing;
-- read-only identity, LAG, VLAN, PVID, and raw per-port link-state commands;
+- read-only identity, LAG, VLAN, PVID, port setting, link, packet counter,
+  MAC table, and uptime commands;
 - gated deletion of a single VLAN that owns no untagged port or PVID;
 - opaque QSS configuration backups;
 - YAML-driven LAG and VLAN reconciliation;
@@ -71,6 +72,10 @@ uv run qsw-l2110 --insecure about
 uv run qsw-l2110 --insecure dump-lags
 uv run qsw-l2110 --insecure dump-vlans
 uv run qsw-l2110 --insecure backup backups/before.cfg
+uv run qsw-l2110 --insecure dump-ports
+uv run qsw-l2110 --insecure dump-stats
+uv run qsw-l2110 --insecure dump-mac-table
+uv run qsw-l2110 --insecure system-status
 ```
 
 Clear-text HTTP is refused by default because authentication puts replayable MD5

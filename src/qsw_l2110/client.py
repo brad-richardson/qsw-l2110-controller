@@ -109,6 +109,30 @@ class QswL2110Client:
     def get_vlan_ids(self) -> dict[str, Any]:
         return self.get_json("/get_vlan_list.json")
 
+    def get_pvid_config(self) -> dict[str, Any]:
+        """Per-port PVID and frame-type view from the hidden port-based VLAN page."""
+        return self.get_json("/port_vlan_cfg.json")
+
+    def get_port_settings(self) -> dict[str, Any]:
+        """Admin state, speed/duplex, flow control, and EEE per port."""
+        return self.get_json("/port_setting_load.json")
+
+    def get_port_link_summary(self) -> dict[str, Any]:
+        """Compact per-port link state used by the UI's port picture."""
+        return self.get_json("/port_stats.json")
+
+    def get_port_statistics(self) -> dict[str, Any]:
+        """Good/bad packet counters per port."""
+        return self.get_json("/port_statistics.json")
+
+    def get_mac_table(self) -> dict[str, Any]:
+        """Dynamic MAC address table with VLAN and port for each entry."""
+        return self.get_json("/mac_get_dynamic_mac_entries.json")
+
+    def get_system_status(self) -> dict[str, Any]:
+        """Firmware build time and uptime."""
+        return self.get_json("/system_status.json")
+
     def get_vlan_snapshot(
         self, *, attempts: int = 2
     ) -> tuple[list[dict[str, Any]], dict[str, Any]]:

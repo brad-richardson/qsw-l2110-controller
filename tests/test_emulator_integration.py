@@ -170,7 +170,23 @@ def test_read_only_cli_surfaces_work_against_contract_emulator(
         assert '"PortNum": 10' in capsys.readouterr().out
 
         assert main(_args(emulator, "dump-vlans")) == 0
-        assert '"vlan_id": "1"' in capsys.readouterr().out
+        vlan_output = capsys.readouterr().out
+        assert '"vlan_id": "1"' in vlan_output
+        assert '"pvid_config"' in vlan_output
+
+        assert main(_args(emulator, "dump-ports")) == 0
+        ports_output = capsys.readouterr().out
+        assert '"Spd_Duplex_Cfg": "Auto"' in ports_output
+        assert '"linkStatus": "unconnected"' in ports_output
+
+        assert main(_args(emulator, "dump-stats")) == 0
+        assert '"RxGoodPkt": "0"' in capsys.readouterr().out
+
+        assert main(_args(emulator, "dump-mac-table")) == 0
+        assert '"batch": []' in capsys.readouterr().out
+
+        assert main(_args(emulator, "system-status")) == 0
+        assert '"uptime"' in capsys.readouterr().out
 
         output = tmp_path / "factory.cfg"
         assert main(_args(emulator, "backup", str(output))) == 0

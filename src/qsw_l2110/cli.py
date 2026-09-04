@@ -84,6 +84,10 @@ def _parser() -> argparse.ArgumentParser:
     subparsers.add_parser("about", help="show model and firmware identity")
     subparsers.add_parser("dump-lags", help="read the raw LAG configuration and state")
     subparsers.add_parser("dump-vlans", help="read VLAN membership and port PVIDs")
+    subparsers.add_parser("dump-ports", help="read per-port settings and link state")
+    subparsers.add_parser("dump-stats", help="read per-port packet counters")
+    subparsers.add_parser("dump-mac-table", help="read the dynamic MAC address table")
+    subparsers.add_parser("system-status", help="read firmware build time and uptime")
 
     backup = subparsers.add_parser("backup", help="download an opaque QSS configuration backup")
     backup.add_argument("output", type=Path)
@@ -155,7 +159,21 @@ def _dispatch(args: argparse.Namespace, client: QswL2110Client) -> int:
         return 0
     if args.command == "dump-vlans":
         vlans, pvids = client.get_vlan_snapshot()
-        _print_json({"vlans": vlans, "pvids": pvids})
+        _print_json({"vlans": vlans, "pvids": pvids, "pvid_config": client.get_pvid_config()})
+        return 0
+    if args.command == "dump-ports":
+        _print_json(
+            {"settings": client.get_port_settings(), "link": client.get_port_link_summary()}
+        )
+        return 0
+    if args.command == "dump-stats":
+        _print_json(client.get_port_statistics())
+        return 0
+    if args.command == "dump-mac-table":
+        _print_json(client.get_mac_table())
+        return 0
+    if args.command == "system-status":
+        _print_json(client.get_system_status())
         return 0
     if args.command == "backup":
         digest = _write_backup(args.output, client.download_backup())

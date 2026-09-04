@@ -282,6 +282,26 @@ def _handler(state: QssEmulatorState) -> type[BaseHTTPRequestHandler]:
                 self._json(200, self._pvids())
             elif path == "/config/download":
                 self._bytes(200, state.backup(), "application/octet-stream")
+            elif path == "/port_vlan_cfg.json":
+                self._json(200, self._pvid_config())
+            elif path == "/port_setting_load.json":
+                self._json(200, self._port_settings())
+            elif path == "/port_stats.json":
+                self._json(200, self._port_link_summary())
+            elif path == "/port_statistics.json":
+                self._json(200, self._port_statistics())
+            elif path == "/mac_get_dynamic_mac_entries.json":
+                self._json(200, {"batch": []})
+            elif path == "/system_status.json":
+                self._json(
+                    200,
+                    {
+                        "des": state.model,
+                        "fw_ver": state.firmware,
+                        "fw_time": "Jul 13 2026 10:35:21",
+                        "uptime": "0 Days 0 Hours 1 Minutes",
+                    },
+                )
             else:
                 self._json(404, {"error": "unknown endpoint"})
 
@@ -348,6 +368,63 @@ def _handler(state: QssEmulatorState) -> type[BaseHTTPRequestHandler]:
                     configured = state.lags[f"Port_{port}"][f"portTypeId_{port}"] != "0"
                     result[f"Port_{port}"] = {f"Port_{port}_state": int(configured)}
             return result
+
+        # Response shapes below were sampled from a QSW-L2110-10T on 2026-09-04.
+        def _pvid_config(self) -> dict[str, Any]:
+            with state.lock:
+                body: dict[str, Any] = {"PortNum": state.port_count}
+                for port in range(1, state.port_count + 1):
+                    body[f"Port_{port}"] = {
+                        "Port_Id": port,
+                        "PVID": state.pvids[port],
+                        "Frame_Type": 0,
+                    }
+                return body
+
+        def _port_settings(self) -> dict[str, Any]:
+            body: dict[str, Any] = {
+                "PortNum": str(state.port_count),
+                "PortMode": "PORT_MODE_8_PLUS_2",
+            }
+            for port in range(1, state.port_count + 1):
+                body[f"Port_{port}"] = {
+                    "Port_Id": str(port),
+                    "Port_Status": "Enabled",
+                    "Spd_Duplex_Cfg": "Auto",
+                    "Spd_Duplex_Actual": "Link Down",
+                    "Flow_Ctrl_Cfg": "On",
+                    "Flow_Ctrl_Actual": "On",
+                    "EEE_Status": "eee_inactive",
+                }
+            return body
+
+        def _port_link_summary(self) -> dict[str, Any]:
+            return {
+                "portsCount": str(state.port_count),
+                "portMode": "PORT_MODE_8_PLUS_2",
+                "portsStatus": [
+                    {
+                        "portLabel": str(port),
+                        "portStatus": "Enabled",
+                        "linkStatus": "unconnected",
+                    }
+                    for port in range(1, state.port_count + 1)
+                ],
+            }
+
+        def _port_statistics(self) -> dict[str, Any]:
+            body: dict[str, Any] = {"PortNum": str(state.port_count)}
+            for port in range(1, state.port_count + 1):
+                body[f"Port_{port}"] = {
+                    "Port_Id": str(port),
+                    "Port_Status": "Enabled",
+                    "Link_Status": "Link Down",
+                    "TxGoodPkt": "0",
+                    "TxBadPkt": "0",
+                    "RxGoodPkt": "0",
+                    "RxBadPkt": "0",
+                }
+            return body
 
         def _pvids(self) -> dict[str, Any]:
             with state.lock:
