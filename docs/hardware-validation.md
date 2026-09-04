@@ -182,7 +182,7 @@ Only with the ONT physically disconnected:
 | VLAN SSE response and termination | Pass 2026-09-04: clean EOF, single VLAN 1; SSE `port_pvids[0]` is garbage |
 | VLAN-ID list and PVID response shapes | Pass 2026-09-04: 11-element PVID array, element zero is 0 |
 | Untagged transition ordering/PVID side effect | Pending |
-| Backup parity | CLI backup downloaded 2026-09-04; web-UI comparison pending |
+| Backup parity | Pass 2026-09-04: CLI and web-UI backups identical (159 bytes, same SHA-256) |
 | LAG canary/read-back | Pending |
 | VLAN canary/read-back | Pending |
 | Save and reboot persistence | Pending |

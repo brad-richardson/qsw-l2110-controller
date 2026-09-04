@@ -33,6 +33,10 @@ Hardware observations (QSW-L2110-10T, 2026-09-04):
 - Element zero of the SSE `port_pvids` array in `/tag_vlan.json` is
   uninitialized memory (observed `1879053478`). PVIDs must be read only from
   `/all_port_pvid.json`, whose element zero is a real `0`.
+- `/config/download` returns exactly the file the web UI offers. On a
+  factory-fresh switch it is 159 bytes and holds only non-default keys
+  (`sys/sntp/server/ip`, `sys/qos/mxl_qos_cos`, `sys/usr_pwd`). The backup
+  embeds the admin password hash, so treat it as a secret.
 
 ## Identity and system status
 
