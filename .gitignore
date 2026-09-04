@@ -15,3 +15,6 @@ backups/
 *.key
 .env
 .env.*
+
+# Browser captures contain session cookies and login digests
+*.har

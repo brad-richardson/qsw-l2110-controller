@@ -86,6 +86,12 @@ for physical ports. Observed values:
 | `Port_N_grpInd` | group 1-10 |
 | `system_priority` | 0-65535, default 32768 |
 
+Hardware observation (2026-09-04): the UI script `port_trunking.js` builds the
+trunk-group dropdown with option values equal to the group number 1-10, and
+`form_to_json()` in `myajax.js` serializes the whole form as a flat JSON object
+of string values, so `Port_N_grpInd` is a real group ID and the POST is flat as
+assumed. `save_all_configs.json` is a separate POST with no body.
+
 The client requires every known field and sends a complete ten-port object
 derived from the current GET, then overlays only explicitly managed ports. It
 refuses a desired group ID already used by an unmanaged active port. Unknown
