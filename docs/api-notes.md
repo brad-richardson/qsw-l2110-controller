@@ -137,6 +137,18 @@ supports partial updates and explicit deletions:
 }
 ```
 
+Hardware observation (2026-09-04): `tag_basedvlan.js` on the QSS 2.2.3 switch
+builds exactly this `updatedVlans`/`deletedVlans` object. `vlan_id` and
+`vlan_name` are strings, `port_states` is a 1-indexed integer array with a
+reserved `0` at element zero, and the edited VLAN is always listed first. When
+the edited VLAN claims a port untagged, the UI appends each conflicting VLAN
+with that port set to `0`, unless that VLAN would become empty, in which case it
+is omitted and left to the firmware. Editing VLAN 1 silently keeps any port
+untagged in VLAN 1 if no other VLAN owns it untagged. Deletion is
+`{"updatedVlans": [], "deletedVlans": ["<id>"]}`; the UI refuses to delete
+VLAN 1. The UI never sends a PVID write; it only blocks setting a port to
+not-member in a VLAN equal to that port's PVID.
+
 This project never populates `deletedVlans`. It also refuses to take a port's
 untagged membership from a VLAN omitted from the desired file.
 
