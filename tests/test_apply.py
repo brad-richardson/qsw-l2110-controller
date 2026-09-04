@@ -9,7 +9,7 @@ import yaml
 from test_models import desired_mapping
 from test_reconcile import current_default_vlan, current_lags
 
-from qsw_l2110.cli import _apply, _write_backup
+from qsw_l2110.cli import _apply, _delete_vlan, _write_backup
 from qsw_l2110.errors import ConfigError, VerificationError
 
 
@@ -78,6 +78,11 @@ class FakeClient:
 
     def save(self) -> None:
         self.actions.append("save")
+
+    def delete_vlan(self, vlan_id: int) -> None:
+        self.actions.append(f"delete:{vlan_id}")
+        if self.converge_vlans:
+            self.vlans = [vlan for vlan in self.vlans if int(vlan["vlan_id"]) != vlan_id]
 
 
 def write_config(path: Path) -> None:
@@ -179,3 +184,58 @@ def test_backup_writer_is_exclusive_and_private(tmp_path: Path) -> None:
     with pytest.raises(FileExistsError):
         _write_backup(output, b"replacement")
     assert output.read_bytes() == b"secret backup"
+
+
+def _tagged_canary() -> dict:
+    return {
+        "vlan_id": "4093",
+        "vlan_name": "api-canary",
+        "port_states": [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
+    }
+
+
+def test_delete_vlan_backs_up_deletes_and_verifies(tmp_path: Path, capsys) -> None:
+    client = FakeClient()
+    client.vlans.append(_tagged_canary())
+    args = Namespace(vlan_id=4093, backup_dir=tmp_path / "backups")
+    assert _delete_vlan(args, client) == 0  # type: ignore[arg-type]
+    assert client.actions == ["backup", "delete:4093", "save"]
+    assert [vlan["vlan_id"] for vlan in client.vlans] == ["1"]
+    assert "Save requested" in capsys.readouterr().out
+
+
+def test_delete_vlan_is_a_no_op_for_missing_vlan(tmp_path: Path, capsys) -> None:
+    client = FakeClient()
+    args = Namespace(vlan_id=4093, backup_dir=tmp_path / "backups")
+    assert _delete_vlan(args, client) == 0  # type: ignore[arg-type]
+    assert client.actions == []
+    assert "not present" in capsys.readouterr().out
+
+
+def test_delete_vlan_refuses_vlan_1(tmp_path: Path) -> None:
+    client = FakeClient()
+    args = Namespace(vlan_id=1, backup_dir=tmp_path / "backups")
+    with pytest.raises(ConfigError, match="VLAN 1"):
+        _delete_vlan(args, client)  # type: ignore[arg-type]
+    assert client.actions == []
+
+
+def test_delete_vlan_refuses_untagged_or_pvid_owner(tmp_path: Path) -> None:
+    client = FakeClient()
+    canary = _tagged_canary()
+    canary["port_states"][6] = 1
+    client.vlans[0]["port_states"][6] = 0
+    client.vlans.append(canary)
+    args = Namespace(vlan_id=4093, backup_dir=tmp_path / "backups")
+    with pytest.raises(ConfigError, match="ports 6"):
+        _delete_vlan(args, client)  # type: ignore[arg-type]
+    assert client.actions == []
+
+
+def test_delete_vlan_never_saves_when_vlan_persists(tmp_path: Path) -> None:
+    client = FakeClient(converge_vlans=False)
+    client.vlans.append(_tagged_canary())
+    args = Namespace(vlan_id=4093, backup_dir=tmp_path / "backups")
+    with pytest.raises(VerificationError, match="still present"):
+        _delete_vlan(args, client)  # type: ignore[arg-type]
+    assert client.actions == ["backup", "delete:4093"]

@@ -297,3 +297,21 @@ def test_post_is_never_retried_after_dropped_socket() -> None:
         client.post_json("/port_trunk_cfg.json", {})
     assert calls["count"] == 1
     client.close()
+
+
+def test_delete_vlan_sends_integer_id_like_the_ui() -> None:
+    bodies: list[bytes] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        bodies.append(request.content)
+        return httpx.Response(200, json={})
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    client.delete_vlan(4093)
+    with pytest.raises(ValueError, match="VLAN 1"):
+        client.delete_vlan(1)
+    client.close()
+    assert bodies == [b'{"updatedVlans":[],"deletedVlans":[4093]}']

@@ -79,7 +79,7 @@ or cannot be verified through a fresh GET.
 4. Delete VLAN 4093 in QSS and verify VLAN 1/PVID state is unchanged.
 5. Repeat creation with a temporary YAML file and `apply`.
 6. Confirm no unlisted VLAN was altered and a second `plan` is empty.
-7. Delete the canary manually; declarative deletion is intentionally not implemented yet.
+7. Delete the canary with `delete-vlan 4093` and confirm VLAN 1 and PVIDs are unchanged.
 
 Also verify whether VLAN membership is displayed only on physical LAG member
 ports, as the 2.2.3 firmware UI suggests. Until proven otherwise, keep all member
@@ -184,7 +184,7 @@ Only with the ONT physically disconnected:
 | Untagged transition ordering/PVID side effect | Pending |
 | Backup parity | Pass 2026-09-04: CLI and web-UI backups identical (159 bytes, same SHA-256) |
 | LAG canary/read-back | Pass 2026-09-04: UI group 7 on ports 6+7 moved to controller group 3, then disabled; each apply verified, second plan empty, unmanaged ports untouched. Disabled ports retain their last `grpInd` |
-| VLAN canary/read-back | Pending |
+| VLAN canary/read-back | Pass 2026-09-04: controller created VLAN 4093 tagged on port 6, verified, second plan empty |
 | Save and reboot persistence | Pending |
 | WAN/LAN negative isolation | Pending |
 | Management-plane isolation | Pending |

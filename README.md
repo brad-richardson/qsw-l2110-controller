@@ -14,6 +14,7 @@ This project currently provides:
 
 - model and firmware guards before planning or writing;
 - read-only identity, LAG, VLAN, PVID, and raw per-port link-state commands;
+- gated deletion of a single VLAN that owns no untagged port or PVID;
 - opaque QSS configuration backups;
 - YAML-driven LAG and VLAN reconciliation;
 - dry-run diffs by default;
@@ -23,7 +24,7 @@ This project currently provides:
 - an optional Firewalla double-LACP policy that enforces exact WAN-transit
   membership, LAN/office trunk parity, and a dedicated rescue port.
 
-It deliberately does **not** delete VLANs, restore backups, update firmware, or
+It deliberately does **not** restore backups, update firmware, or
 change the management address.
 
 ## Target status
@@ -105,6 +106,13 @@ uv run qsw-l2110 --insecure apply \
   --config examples/firewalla-gold-plus.yaml \
   --yes-i-understand-private-api \
   --yes-i-validated-vlan-transitions
+```
+
+Declarative YAML never deletes VLANs. Remove an unwanted VLAN explicitly once
+no port is untagged in it and no port uses it as PVID; VLAN 1 is always refused:
+
+```console
+uv run qsw-l2110 --insecure delete-vlan 4093 --yes-i-understand-private-api
 ```
 
 The second acknowledgement is required when ingress VLAN ownership moves. Do not

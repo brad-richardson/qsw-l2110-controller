@@ -145,11 +145,12 @@ the edited VLAN claims a port untagged, the UI appends each conflicting VLAN
 with that port set to `0`, unless that VLAN would become empty, in which case it
 is omitted and left to the firmware. Editing VLAN 1 silently keeps any port
 untagged in VLAN 1 if no other VLAN owns it untagged. Deletion is
-`{"updatedVlans": [], "deletedVlans": ["<id>"]}`; the UI refuses to delete
-VLAN 1. The UI never sends a PVID write; it only blocks setting a port to
+`{"updatedVlans": [], "deletedVlans": [<id>]}` with an integer ID; the switch
+silently ignores a string ID there (observed 2026-09-04) while `updatedVlans`
+uses string IDs. The UI refuses to delete VLAN 1. The UI never sends a PVID write; it only blocks setting a port to
 not-member in a VLAN equal to that port's PVID.
 
-This project never populates `deletedVlans`. It also refuses to take a port's
+This project sends `deletedVlans` only from the gated `delete-vlan` command. It also refuses to take a port's
 untagged membership from a VLAN omitted from the desired file.
 
 The separate inventory helpers return shapes inferred from their UI consumers:

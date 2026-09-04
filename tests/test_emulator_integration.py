@@ -177,3 +177,37 @@ def test_read_only_cli_surfaces_work_against_contract_emulator(
         capsys.readouterr()
         assert output.read_bytes().startswith(b"QSS-EMULATOR\x00")
         assert {method for method, _path in emulator.state.requests} == {"GET"}
+
+
+def test_cli_deletes_tagged_only_vlan_against_contract_emulator(
+    tmp_path: Path, monkeypatch, capsys
+) -> None:
+    monkeypatch.setenv("QSW_PASSWORD", "emulator-only")
+    canary = tmp_path / "canary.yaml"
+    canary.write_text(
+        "schema_version: 1\n"
+        "device:\n  models: [QSW-L2110-10T]\n  firmware: ['2.2.3.20260713']\n  port_count: 10\n"
+        "link_aggregation:\n  system_priority: 32768\n  managed_ports: []\n  groups: []\n"
+        "vlans:\n  - id: 4093\n    name: api-canary\n    untagged: []\n    tagged: [6]\n",
+        encoding="utf-8",
+    )
+    backups = str(tmp_path / "backups")
+    with QssEmulator() as emulator:
+        common = ("--backup-dir", backups, "--yes-i-understand-private-api")
+        assert main(_args(emulator, "apply", "--config", str(canary), *common)) == 0
+        assert [vlan["vlan_id"] for vlan in emulator.state.vlans] == ["1", "4093"]
+        capsys.readouterr()
+
+        assert main(_args(emulator, "delete-vlan", "1", *common)) == 2
+        assert "VLAN 1" in capsys.readouterr().err
+
+        emulator.state.actions.clear()
+        assert main(_args(emulator, "delete-vlan", "4093", *common)) == 0
+        assert emulator.state.actions == ["backup", "delete-vlans", "save"]
+        assert [vlan["vlan_id"] for vlan in emulator.state.vlans] == ["1"]
+        assert emulator.state.persisted_vlans == emulator.state.vlans
+        assert "Save requested" in capsys.readouterr().out
+
+        assert main(_args(emulator, "delete-vlan", "4093", *common)) == 0
+        assert "not present" in capsys.readouterr().out
+        assert len(list((tmp_path / "backups").glob("*.cfg"))) == 2

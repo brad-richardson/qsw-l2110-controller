@@ -117,8 +117,17 @@ class QssEmulatorState:
     def apply_vlans(self, payload: dict[str, Any]) -> None:
         updated = payload.get("updatedVlans")
         deleted = payload.get("deletedVlans")
-        if not isinstance(updated, list) or deleted != []:
-            raise ValueError("expected updatedVlans list and an empty deletedVlans list")
+        if not isinstance(updated, list) or not isinstance(deleted, list):
+            raise ValueError("expected updatedVlans and deletedVlans lists")
+        if updated and deleted:
+            raise ValueError("the UI never mixes updates and deletions in one request")
+        if any(not isinstance(item, int) or isinstance(item, bool) for item in deleted):
+            # Observed on hardware 2026-09-04: string IDs are silently ignored.
+            deleted_ids: list[str] = []
+        else:
+            deleted_ids = [str(item) for item in deleted]
+        if "1" in deleted_ids:
+            raise ValueError("VLAN 1 cannot be deleted")
 
         normalized: list[dict[str, Any]] = []
         for item in updated:
@@ -138,6 +147,18 @@ class QssEmulatorState:
             )
 
         with self.lock:
+            if deleted_ids:
+                self.actions.append("delete-vlans")
+                if not self.converge_vlan_writes:
+                    return
+                known = {str(item["vlan_id"]) for item in self.vlans}
+                missing = [vlan_id for vlan_id in deleted_ids if vlan_id not in known]
+                if missing:
+                    raise ValueError(f"unknown VLAN {', '.join(missing)}")
+                self.vlans = [
+                    item for item in self.vlans if str(item["vlan_id"]) not in deleted_ids
+                ]
+                return
             self.actions.append("set-vlans")
             if not self.converge_vlan_writes:
                 return

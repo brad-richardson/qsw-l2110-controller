@@ -20,7 +20,9 @@
 - Backups are created exclusively with mode `0600`, are never silently overwritten,
   and are reported with a SHA-256 checksum.
 - Backup restore is intentionally absent because it reboots and replaces all configuration.
-- VLAN deletion is intentionally absent. Unlisted VLANs are preserved.
+- Declarative apply never deletes VLANs; unlisted VLANs are preserved. The
+  separate `delete-vlan` command removes one VLAN only when no port is untagged
+  in it and no port uses it as PVID, and it always refuses VLAN 1.
 - PVID writes are intentionally absent until `/port_vlan.json` transitions are
   captured on hardware. Drift is shown in plans and must converge before save.
 - Multi-destination VLAN writes and destination-before-source ordering are still

@@ -14,7 +14,7 @@ from typing import Any
 
 from qsw_l2110.client import QswL2110Client
 from qsw_l2110.config import load_config
-from qsw_l2110.errors import ConfigError, QswError
+from qsw_l2110.errors import ConfigError, QswError, VerificationError
 from qsw_l2110.reconcile import (
     Change,
     Plan,
@@ -106,6 +106,18 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="required for untagged VLAN moves after completing the hardware canary",
     )
+
+    delete_vlan = subparsers.add_parser(
+        "delete-vlan",
+        help="back up, delete one VLAN that has no untagged members, save, and verify",
+    )
+    delete_vlan.add_argument("vlan_id", type=int)
+    delete_vlan.add_argument("--backup-dir", type=Path, default=Path("backups"))
+    delete_vlan.add_argument(
+        "--yes-i-understand-private-api",
+        action="store_true",
+        help="required acknowledgement for writes through an unsupported API",
+    )
     return parser
 
 
@@ -160,7 +172,81 @@ def _dispatch(args: argparse.Namespace, client: QswL2110Client) -> int:
         if not args.yes_i_understand_private_api:
             raise ValueError("apply requires --yes-i-understand-private-api")
         return _apply(args, client)
+    if args.command == "delete-vlan":
+        if not args.yes_i_understand_private_api:
+            raise ValueError("delete-vlan requires --yes-i-understand-private-api")
+        return _delete_vlan(args, client)
     raise ValueError(f"unsupported command {args.command}")
+
+
+def _delete_vlan(args: argparse.Namespace, client: QswL2110Client) -> int:
+    vlan_id = int(args.vlan_id)
+    if vlan_id == 1:
+        raise ConfigError("VLAN 1 is the default VLAN and cannot be deleted")
+    identity = client.get_identity()
+    model = str(identity.get("model", {}).get("model_name", "unknown"))
+    firmware = str(identity.get("status", {}).get("fw_ver", "unknown"))
+    if not _KNOWN_MODELS.fullmatch(model):
+        raise ConfigError(f"refusing to write to unrecognised model {model!r}")
+
+    def snapshot() -> tuple[dict[str, dict[str, Any]], list[int]]:
+        vlans, pvids = client.get_vlan_snapshot()
+        by_id = {str(vlan["vlan_id"]): vlan for vlan in vlans}
+        return by_id, [int(value) for value in pvids["port_pvids"]]
+
+    before, before_pvids = snapshot()
+    target = before.get(str(vlan_id))
+    if target is None:
+        print(f"VLAN {vlan_id} is not present. No changes.")
+        return 0
+    untagged = [port for port, state in enumerate(target["port_states"][1:], start=1) if state == 1]
+    pvid_ports = [port for port, pvid in enumerate(before_pvids[1:], start=1) if pvid == vlan_id]
+    if untagged or pvid_ports:
+        ports = ", ".join(str(port) for port in sorted(set(untagged) | set(pvid_ports)))
+        raise ConfigError(
+            f"VLAN {vlan_id} still owns ports {ports} untagged or as PVID; "
+            "move them to another VLAN with apply before deleting"
+        )
+    tagged = [port for port, state in enumerate(target["port_states"][1:], start=1) if state == 2]
+    print(f"Deleting VLAN {vlan_id} ({target.get('vlan_name', '')!r}; tagged on {tagged})")
+
+    backup_path = _backup_path(args.backup_dir, model, firmware)
+    backup_digest = _write_backup(backup_path, client.download_backup())
+    print(f"Backup: {backup_path} (sha256:{backup_digest})")
+
+    refreshed, refreshed_pvids = snapshot()
+    if refreshed != before or refreshed_pvids != before_pvids:
+        raise ConfigError("switch state changed while the backup was downloaded; no writes made")
+
+    client.delete_vlan(vlan_id)
+
+    expected = {key: value for key, value in before.items() if key != str(vlan_id)}
+
+    def verify() -> None:
+        after, after_pvids = snapshot()
+        if str(vlan_id) in after:
+            raise VerificationError(f"VLAN {vlan_id} is still present after deletion")
+        if after != expected:
+            raise VerificationError("deletion changed VLANs other than the target")
+        if after_pvids != before_pvids:
+            raise VerificationError("deletion changed port PVIDs")
+
+    # Never request persistence for a state that has not passed a full read-back.
+    verify()
+    client.save()
+    verify()
+    print("Save requested; running configuration verified. Reboot persistence not verified.")
+    return 0
+
+
+_KNOWN_MODELS = re.compile(r"QSW-L2110-(10T|2S8T)")
+
+
+def _backup_path(backup_dir: Path, model: str, firmware: str) -> Path:
+    timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S.%fZ")
+    safe_model = re.sub(r"[^A-Za-z0-9_.-]", "_", model)
+    safe_firmware = re.sub(r"[^A-Za-z0-9_.-]", "_", firmware)
+    return backup_dir / f"{safe_model}-{safe_firmware}-{timestamp}.cfg"
 
 
 def _apply(args: argparse.Namespace, client: QswL2110Client) -> int:
@@ -174,10 +260,7 @@ def _apply(args: argparse.Namespace, client: QswL2110Client) -> int:
         return 0
     _validate_write_plan(args, initial_plan)
 
-    timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S.%fZ")
-    safe_model = re.sub(r"[^A-Za-z0-9_.-]", "_", model)
-    safe_firmware = re.sub(r"[^A-Za-z0-9_.-]", "_", firmware)
-    backup_path = args.backup_dir / f"{safe_model}-{safe_firmware}-{timestamp}.cfg"
+    backup_path = _backup_path(args.backup_dir, model, firmware)
     backup_digest = _write_backup(backup_path, client.download_backup())
     print(f"Backup: {backup_path} (sha256:{backup_digest})")
 

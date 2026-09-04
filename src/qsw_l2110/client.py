@@ -167,6 +167,19 @@ class QswL2110Client:
     def set_vlans(self, payload: dict[str, Any]) -> None:
         self.post_json("/tag_vlan.json", payload)
 
+    def delete_vlan(self, vlan_id: int) -> None:
+        """Send the UI's single-VLAN deletion payload.
+
+        Mirrors ``TagVlanDeleteSingle`` in the QSS 2.2.3 ``tag_basedvlan.js``,
+        whose caller passes the ID through ``parseInt``. The physical switch
+        silently ignores a string ID here, unlike ``updatedVlans``, so the ID
+        must be sent as a JSON integer. The CLI's ``delete-vlan`` command adds
+        the identity, membership, backup, and read-back gates.
+        """
+        if vlan_id == 1:
+            raise ValueError("VLAN 1 cannot be deleted")
+        self.post_json("/tag_vlan.json", {"updatedVlans": [], "deletedVlans": [int(vlan_id)]})
+
     def save(self) -> None:
         self.post_empty("/save_all_configs.json")
 
