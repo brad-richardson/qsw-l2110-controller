@@ -233,3 +233,67 @@ def test_redirect_status_is_not_treated_as_success() -> None:
     with pytest.raises(ApiError, match="HTTP 302 redirect"):
         client.get_lag_config()
     client.close()
+
+
+def test_requests_ask_for_fresh_connections() -> None:
+    seen: list[str | None] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request.headers.get("connection"))
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        return httpx.Response(200, json={"model": "QSW-L2110-10T"})
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    client.get_json("/get_model_name.json")
+    client.close()
+    assert seen == ["close", "close"]
+
+
+def test_read_only_get_retries_once_after_dropped_socket() -> None:
+    calls = {"count": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        calls["count"] += 1
+        if calls["count"] == 1:
+            raise httpx.RemoteProtocolError("server closed idle connection")
+        return httpx.Response(200, json={"model": "QSW-L2110-10T"})
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    assert client.get_json("/get_model_name.json") == {"model": "QSW-L2110-10T"}
+    assert calls["count"] == 2
+    client.close()
+
+
+def test_read_only_get_gives_up_after_second_dropped_socket() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        raise httpx.RemoteProtocolError("server closed idle connection")
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    with pytest.raises(ApiError, match="GET /get_model_name.json failed"):
+        client.get_json("/get_model_name.json")
+    client.close()
+
+
+def test_post_is_never_retried_after_dropped_socket() -> None:
+    calls = {"count": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/authorize":
+            return httpx.Response(200, headers={"set-cookie": "session=abc"}, json={})
+        calls["count"] += 1
+        raise httpx.RemoteProtocolError("server closed idle connection")
+
+    client = QswL2110Client("https://switch", transport=httpx.MockTransport(handler))
+    client.authenticate("admin", "secret")
+    with pytest.raises(ApiError, match="POST /port_trunk_cfg.json failed"):
+        client.post_json("/port_trunk_cfg.json", {})
+    assert calls["count"] == 1
+    client.close()

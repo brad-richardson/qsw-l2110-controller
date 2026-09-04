@@ -34,6 +34,12 @@ def main(argv: list[str] | None = None) -> int:
             return _dispatch(args, client)
     except (QswError, ValueError, OSError) as exc:
         print(f"error: {exc}", file=sys.stderr)
+        cause = exc.__cause__
+        while cause is not None:
+            # Exception types/messages from httpx carry no credentials; the
+            # login digests are only ever in the redacted /authorize request.
+            print(f"  caused by: {type(cause).__name__}: {cause}", file=sys.stderr)
+            cause = cause.__cause__
         return 2
     except KeyboardInterrupt:
         print("interrupted", file=sys.stderr)

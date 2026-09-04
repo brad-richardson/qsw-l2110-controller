@@ -52,7 +52,11 @@ class QswL2110Client:
             follow_redirects=False,
             trust_env=False,
             transport=transport,
-            headers={"Accept": "application/json"},
+            # QSS responds to /authorize without Content-Length or
+            # Connection: close, then drops the socket. A pooled keep-alive
+            # connection reused for the next request fails with a
+            # RemoteProtocolError, so every request asks for a fresh socket.
+            headers={"Accept": "application/json", "Connection": "close"},
         )
 
     def __enter__(self) -> QswL2110Client:
@@ -168,7 +172,7 @@ class QswL2110Client:
 
     def download_backup(self) -> bytes:
         try:
-            response = self._client.get("/config/download")
+            response = self._get_with_retry("/config/download")
         except httpx.HTTPError as exc:
             raise ApiError("configuration backup request failed") from exc
         self._raise_for_status(response)
@@ -182,9 +186,20 @@ class QswL2110Client:
             raise ApiError("configuration backup was empty")
         return response.content
 
+    def _get_with_retry(self, path: str) -> httpx.Response:
+        """Issue a read-only GET, retrying once if the switch drops the socket.
+
+        Only idempotent reads use this. POSTs are never retried because a
+        dropped connection cannot prove whether the switch applied the write.
+        """
+        try:
+            return self._client.get(path)
+        except httpx.RemoteProtocolError:
+            return self._client.get(path)
+
     def get_json(self, path: str) -> dict[str, Any]:
         try:
-            response = self._client.get(path)
+            response = self._get_with_retry(path)
         except httpx.HTTPError as exc:
             raise ApiError(f"GET {path} failed") from exc
         self._raise_for_status(response)

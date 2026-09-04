@@ -20,6 +20,20 @@ GET /authorize?loginusr=<md5(username)>&loginpwd=<md5(password)>
 The response establishes `session` and `user` cookies. Treat both digests and
 cookies as secrets. Use HTTPS and never log the authorization URL.
 
+Hardware observations (QSW-L2110-10T, 2026-09-04):
+
+- The `/authorize` response carries neither `Content-Length` nor
+  `Connection: close`, and the switch then drops the socket. An HTTP client
+  that pools the connection fails its next request with a protocol error
+  (h11: `ConnectionClosed` in state `SEND_RESPONSE`). The client sends
+  `Connection: close` on every request and retries read-only GETs once.
+- Unauthenticated JSON handlers return `{"redirect": ".../login.html"}` with
+  the entire status line, headers, and body duplicated inside the body. Parse
+  only the first JSON object if this ever needs to be read directly.
+- Element zero of the SSE `port_pvids` array in `/tag_vlan.json` is
+  uninitialized memory (observed `1879053478`). PVIDs must be read only from
+  `/all_port_pvid.json`, whose element zero is a real `0`.
+
 ## Identity and system status
 
 ```text

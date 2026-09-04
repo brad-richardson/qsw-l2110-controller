@@ -176,13 +176,13 @@ Only with the ONT physically disconnected:
 
 | Item | Result |
 |---|---|
-| Model and firmware guard | Pending |
-| Login/cookie behavior | Pending |
-| Read-only LAG response | Pending |
-| VLAN SSE response and termination | Pending |
-| VLAN-ID list and PVID response shapes | Pending |
+| Model and firmware guard | Pass 2026-09-04: QSW-L2110-10T, hw A0, QSS 2.2.3.20260713 |
+| Login/cookie behavior | Pass 2026-09-04: session established; switch drops socket after `/authorize`, client sends `Connection: close` |
+| Read-only LAG response | Pass 2026-09-04: `Port_N` nesting, all groups 0, default priorities |
+| VLAN SSE response and termination | Pass 2026-09-04: clean EOF, single VLAN 1; SSE `port_pvids[0]` is garbage |
+| VLAN-ID list and PVID response shapes | Pass 2026-09-04: 11-element PVID array, element zero is 0 |
 | Untagged transition ordering/PVID side effect | Pending |
-| Backup parity | Pending |
+| Backup parity | CLI backup downloaded 2026-09-04; web-UI comparison pending |
 | LAG canary/read-back | Pending |
 | VLAN canary/read-back | Pending |
 | Save and reboot persistence | Pending |
