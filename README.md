@@ -120,9 +120,11 @@ no port is untagged in it and no port uses it as PVID; VLAN 1 is always refused:
 uv run qsw-l2110 --insecure delete-vlan 4093 --yes-i-understand-private-api
 ```
 
-The second acknowledgement is required when ingress VLAN ownership moves. Do not
-use it until the disconnected VLAN/PVID transition canary in the
-[hardware validation plan](docs/hardware-validation.md) passes.
+The second acknowledgement is required when ingress VLAN ownership moves. The
+disconnected VLAN/PVID transition canary in the
+[hardware validation plan](docs/hardware-validation.md) passed on QSS
+2.2.3.20260713 on 2026-09-04; the switch updates PVIDs itself. Re-run the canary
+before trusting the flag on any other firmware build.
 
 ## Safety model
 

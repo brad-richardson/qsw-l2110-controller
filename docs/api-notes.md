@@ -148,7 +148,9 @@ untagged in VLAN 1 if no other VLAN owns it untagged. Deletion is
 `{"updatedVlans": [], "deletedVlans": [<id>]}` with an integer ID; the switch
 silently ignores a string ID there (observed 2026-09-04) while `updatedVlans`
 uses string IDs. The UI refuses to delete VLAN 1. The UI never sends a PVID write; it only blocks setting a port to
-not-member in a VLAN equal to that port's PVID.
+not-member in a VLAN equal to that port's PVID. Confirmed on hardware
+2026-09-04: when a port's untagged membership moves between VLANs in one
+`tag_vlan.json` POST, the switch changes that port's PVID by itself.
 
 This project sends `deletedVlans` only from the gated `delete-vlan` command. It also refuses to take a port's
 untagged membership from a VLAN omitted from the desired file.

@@ -105,6 +105,13 @@ This phase is required before using `--yes-i-validated-vlan-transitions`.
 Stop if the transition requires an unimplemented PVID write, a membership write
 is non-atomic, or the controller changes any unrelated VLAN or PVID.
 
+Result 2026-09-04: the UI script sends no PVID write, and the switch moved the
+PVID itself when the untagged owner changed, in both directions. The
+`--yes-i-validated-vlan-transitions` gate may now be used on this build. Note
+that the config validator requires every declared VLAN to keep at least one
+member, so revert an untagged canary by making the port tagged in the canary
+VLAN, then remove the VLAN with `delete-vlan`.
+
 ## 4. Build the intended switch configuration offline
 
 1. Keep all four Firewalla cables and both 10G edge cables disconnected.
@@ -181,7 +188,7 @@ Only with the ONT physically disconnected:
 | Read-only LAG response | Pass 2026-09-04: `Port_N` nesting, all groups 0, default priorities |
 | VLAN SSE response and termination | Pass 2026-09-04: clean EOF, single VLAN 1; SSE `port_pvids[0]` is garbage |
 | VLAN-ID list and PVID response shapes | Pass 2026-09-04: 11-element PVID array, element zero is 0 |
-| Untagged transition ordering/PVID side effect | Pending |
+| Untagged transition ordering/PVID side effect | Pass 2026-09-04: controller moved disconnected port 6 from VLAN 1 to VLAN 4094 untagged and back; the switch updated the PVID itself on both `tag_vlan.json` writes (verified via `all_port_pvid.json` and `port_vlan_cfg.json`), no PVID write was needed |
 | Backup parity | Pass 2026-09-04: CLI and web-UI backups identical (159 bytes, same SHA-256) |
 | LAG canary/read-back | Pass 2026-09-04: UI group 7 on ports 6+7 moved to controller group 3, then disabled; each apply verified, second plan empty, unmanaged ports untouched. Disabled ports retain their last `grpInd` |
 | VLAN canary/read-back | Pass 2026-09-04: controller created VLAN 4093 tagged on port 6, verified, second plan empty |
