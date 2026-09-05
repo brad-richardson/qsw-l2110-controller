@@ -1,5 +1,10 @@
 # Firmware comparison preparation — 2026-09-05
 
+Follow-up: the [unattended firmware runner](firmware-unattended-runner-20260905.md)
+implements the subsequently requested live upload, supported configuration repair,
+Firewalla native/packet recording, and bounded recovery. The tool described below
+remains the original hardware-free rehearsal.
+
 The images, comparison plan, and hardware-free rehearsal are prepared. **No firmware was uploaded, no Live Update operation was started, and no reboot was requested.** The switch remains on 2.2.3.20260713. The preparation tool exposes no hardware execution command.
 
 The subsequent [Long baseline change](lacp-long-baseline-20260905.md) applied the user's selected timeout to both active LACP groups: ports 1+2 and 3+4. Use the refreshed configuration snapshot and comparison plan from that change for further preparation. The earlier Short snapshots remain historical evidence.

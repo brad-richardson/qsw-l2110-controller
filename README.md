@@ -157,6 +157,8 @@ verifies downloaded images, saves read-only snapshots, and rehearses the version
 sequence in memory. It exposes no firmware execution command.
 The [current Long baseline](docs/lacp-long-baseline-20260905.md) records the applied
 timeout setting on active pairs 1+2 and 3+4, connectivity checks, and refreshed plan.
+The separately armed [unattended firmware runner](docs/firmware-unattended-runner-20260905.md)
+adds raw upload, bounded configuration repair/recovery, and native/packet LAN LACP checks.
 
 ```console
 uv run ruff check .
