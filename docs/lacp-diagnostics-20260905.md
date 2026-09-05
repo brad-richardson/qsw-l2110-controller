@@ -3,7 +3,19 @@
 Draft support report, 2026-09-05. Not submitted. Root cause and vendor
 responsibility remain unconfirmed.
 
-Latest result: the WAN LAG now works on both members with the same QNAP
+Update at 15:18 UTC: both WAN members are again at 2.5G, synchronized,
+collecting, and distributing (61/63). QNAP reports zero RX/TX bad packets
+on both ports. WAN `eth1` last dropped at 15:16:39 and came up at 15:16:42;
+the roughly two-minute recovery check does not establish a permanent fix.
+
+Update at 14:23 UTC: a native-UI move of LAN to group 4 with Long timeout
+did not fix negotiation. A subsequent timed ports-4+7 trial lost LAN
+connectivity, and its independent rollback restored ports 3+4, group 4,
+Long timeout. Port 3 forwards again. WAN `eth1` / QNAP 1 is now physically
+down while the other WAN member carries traffic; cable inspection is
+pending. See the later experiment section for evidence and capture limits.
+
+Earlier result at 04:44 UTC: the WAN LAG works on both members with the same QNAP
 and Firewalla, while the LAN LAG retains its original failure. The initial
 WAN transition had physical-link interruptions; after the user reseated
 a possibly loose cable, both WAN members collected/distributed and all
@@ -84,6 +96,8 @@ Private raw evidence is in
 | Restore LAN `eth3`+`eth2` and map `eth3` to QNAP 3, `eth2` to QNAP 4 | Same one-member failure; all 20 network probes pass after reconnection |
 | Connect failing Firewalla `eth2` directly to a macOS laptop's 1G adapter | Laptop received one LACP frame, proving transmission to an independent receiver at 1G |
 | Enable WAN `bond1` on `eth0`+`eth1` through QNAP ports 1+2 | After reseating a possibly loose cable, both WAN members synchronize and collect/distribute; LAN failure remains |
+| Native-QSS-UI move of LAN ports 3+4 to group 4, Long timeout | Read-back confirms both changes; disabled ports 6+7 now have group 0; original LAN failure remains |
+| Temporarily replace LAN ports 3+4 with 4+7 in group 4, Long timeout | Gateway and internet probes fail after the cable move; independent 60-second rollback restores 3+4; protocol capture does not cover the outage |
 
 These experiments weaken an isolated cable or single physical-port defect.
 They do not establish a specific firmware defect. Whether the user fully
@@ -253,8 +267,9 @@ connected, and WAN/LAN endpoints must not be crossed during the swap.
    then reconnect port 3. The shorter test above has already shown loss
    of LAN connectivity; repeating it is deferred.
 2. Compare the failing LAN group with the now-working WAN group, including
-   a native-QSS-UI-only LAN reapply or recreation and, separately, a brief
-   loop-protection toggle with restoration. Neither has yet been performed.
+   a complete LAN group teardown/recreation and, separately, a brief
+   loop-protection toggle with restoration. The later native-UI group and
+   timeout edit failed to resolve the issue; complete teardown remains unconfirmed.
    Any group recreation must account for the live redundant cables before
    temporarily removing aggregation.
 3. Ask QNAP to explain mirroring and control-frame handling on an unsynchronized
@@ -269,3 +284,61 @@ do not describe an LACP fix or known issue. The
 [Linux bonding documentation](https://docs.kernel.org/networking/bonding.html)
 describes independent LACP rate requests; a slow/fast setting difference
 alone does not demonstrate a configuration mismatch.
+
+## Native UI and timed ports-4+7 experiment at 13:16–14:23 UTC
+
+The user changed LAN ports 3+4 through QSS to group 4, Long timeout. Reads
+confirmed the new configuration and disabled ports 6+7 with group 0.
+Firewalla still reported LAN actor/partner states 61/61 on `eth3` / QNAP 3
+and 13/69 on `eth2` / QNAP 4. Thus the timeout change reached the protocol,
+but the failing member remained defaulted and nonforwarding on Firewalla.
+This weakens the disabled-field serialization explanation; it does not
+establish that the switch completely recreated its underlying aggregate.
+
+The subsequent user-authorized trial removed port 3 from aggregation and
+added port 7, preserving group 4, Long timeout, WAN settings, and VLANs.
+Port 3 was not administratively shut down. A private backup and native-form
+payload validation preceded the write. The observer's MAC was learned on
+unchanged switch port 10, and its management route to QNAP was direct on the
+LAN rather than through Firewalla. A separate local systemd user service
+implemented rollback independently of the agent's internet connection.
+
+| Event | UTC |
+|---|---|
+| Trial POST began and 60-second timer armed | 14:16:25.930 |
+| Ports 4+7 / group 4 / Long read-back verified | 14:16:27.648 |
+| Firewalla `eth3` link down during cable move | 14:16:44 |
+| First failed gateway, Cloudflare, and Google probes | 14:16:46.404 |
+| Firewalla `eth3` physical link up after move | 14:16:53 |
+| Independent rollback began | 14:17:25.978 |
+| Ports 3+4 / group 4 / Long restored and verified | 14:17:29.287 |
+| VLAN membership and PVIDs verified unchanged | 14:17:33.183 |
+
+The recorder captured 37 bond snapshots, ending at 14:16:44, immediately
+before loss of connectivity. Its SSH output did not survive the outage as
+a complete record, and the local 105-second observation window started
+before the apply preflight, ending before rollback. Therefore it cannot
+establish either member's LACP state while both cables were on 4+7. Gateway
+and both internet probes failed in every remaining recorded sample through
+14:17:16.611. The new physical link had only about 33 seconds before rollback;
+the test was not a full 60-second observation after both links came up.
+
+At 14:20:42, after the user returned the cable, LAN had recovered its prior
+one-member state: `eth3` / QNAP 3 forwarded and `eth2` / QNAP 4 remained
+defaulted. Four gateway, Cloudflare, and Google probes each passed at 14:23.
+All three temporary systemd services had finished. No configuration save
+was requested during this experiment.
+
+WAN `eth1` / QNAP 1 was physically down on both devices at the recovery
+check, with `eth0` / QNAP 2 forwarding. Kernel events show `eth1` flapping
+before the trial at 14:15:08–14:15:11, again around the cable move, and down
+at 14:18:30. Other physical link changes occurred during restoration.
+The evidence does not establish what caused them. The user was asked to
+inspect/reseat that WAN cable. A subsequent 15:18 check confirmed both WAN
+members forwarding again, as noted at the top of this report.
+
+Private backup, one-off script, state samples, probes, and read-backs:
+`backups/lag47-test-20260905T133525Z/`. A future repeat needs recording stored
+on Firewalla itself, a window tied to the actual cable move, and a rollback
+deadline long enough for the chosen LACP timing. The generic CLI rollback
+feature was not implemented.

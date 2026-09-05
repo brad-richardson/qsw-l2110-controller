@@ -1,0 +1,51 @@
+schema_version: 1
+
+# Experiment: move the Firewalla LAN LAG from switch ports 3+4 to ports 1+2, the pair
+# that carried a working two-member WAN LAG on 2026-09-05. WAN is a direct ONT-to-eth0
+# link at this point, so ports 1, 2, and 9 are free. Group 1 with Short timeout
+# reproduces the known-working WAN group settings exactly.
+#
+# Ports 3 and 4 stay untagged in VLAN 10 so moving the cables back needs only the
+# restore file. VLAN 3999 keeps port 9 alone: nothing is connected there, and anything
+# plugged into port 9 later stays isolated from the LAN.
+#
+# Runbook: docs/runbook-lan-lag-ports-1-2.md
+# Restore: examples/experiments/lan-lag-ports-3-4-restore.yaml
+
+device:
+  models:
+    - QSW-L2110-10T
+  firmware:
+    - "2.2.3.20260713"
+  port_count: 10
+
+link_aggregation:
+  system_priority: 32768
+  managed_ports: [1, 2, 3, 4, 7]
+  groups:
+    - id: 1
+      mode: lacp
+      members: [1, 2]
+      port_priority: 128
+      timeout: short
+
+# Port plan during the experiment:
+#   1+2  Firewalla LAN LAG      VLAN 10 untagged
+#   3+4  empty, formerly LAN    VLAN 10 untagged, LAG disabled
+#   5-7  LAN access ports       VLAN 10 untagged
+#   8    rescue                VLAN 1 untagged
+#   9    empty, formerly ONT    VLAN 3999 untagged
+#   10   office switch          VLAN 10 untagged
+vlans:
+  - id: 1
+    name: default
+    untagged: [8]
+    tagged: []
+  - id: 10
+    name: lan
+    untagged: [1, 2, 3, 4, 5, 6, 7, 10]
+    tagged: []
+  - id: 3999
+    name: wan-transit
+    untagged: [9]
+    tagged: []

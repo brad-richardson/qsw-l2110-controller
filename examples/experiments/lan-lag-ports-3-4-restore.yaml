@@ -1,0 +1,44 @@
+schema_version: 1
+
+# Restore for the ports-1+2 experiment: the switch configuration in force on
+# 2026-09-05 after the experiments of that day. LAN LAG is group 4 on ports 3+4 with
+# Long timeout (set through the native UI earlier that day), group 1 on ports 1+2 is
+# the former WAN LAG with nothing connected, and the VLAN split is the flat-LAN layout.
+#
+# Apply this only after the LAN cables are back in ports 3 and 4.
+
+device:
+  models:
+    - QSW-L2110-10T
+  firmware:
+    - "2.2.3.20260713"
+  port_count: 10
+
+link_aggregation:
+  system_priority: 32768
+  managed_ports: [1, 2, 3, 4, 7]
+  groups:
+    - id: 1
+      mode: lacp
+      members: [1, 2]
+      port_priority: 128
+      timeout: short
+    - id: 4
+      mode: lacp
+      members: [3, 4]
+      port_priority: 128
+      timeout: long
+
+vlans:
+  - id: 1
+    name: default
+    untagged: [8]
+    tagged: []
+  - id: 10
+    name: lan
+    untagged: [3, 4, 5, 6, 7, 10]
+    tagged: []
+  - id: 3999
+    name: wan-transit
+    untagged: [1, 2, 9]
+    tagged: []

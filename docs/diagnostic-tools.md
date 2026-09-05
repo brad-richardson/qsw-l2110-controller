@@ -123,3 +123,67 @@ firmware may return only eight entries on the first page. The client rejects
 malformed or nonadvancing pagination instead of returning a silently partial
 table. Learning and aging continue during the reads, so the combined result
 is not an atomic snapshot.
+
+## Detached recorder on the router
+
+`tools/capture_lacp.py` streams over SSH, so a LAN outage during an experiment
+ends the recording. The recorder instead runs on the router itself under a
+transient `systemd-run` unit (or `nohup` without systemd) and writes to the
+router's filesystem. Start it before the change, make the change, then fetch:
+
+```console
+uv run python -m tools.firewalla_recorder start --ssh-target pi@router.example \
+  --identity-file ~/.ssh/router_capture --interface eth2 --interface eth3 \
+  --bond bond0 --duration 900 --label lan-order --output backups/rec-lan-order
+uv run python -m tools.firewalla_recorder status --output backups/rec-lan-order
+uv run python -m tools.firewalla_recorder fetch --output backups/rec-lan-order
+```
+
+Each run records, at one-second intervals by default and all in UTC, the full
+`/proc/net/bonding/<bond>` text (aggregator IDs, churn states and counts, actor
+and partner LACPDU details), `ip -s -s link show` for every interface, kernel
+link events from `journalctl -k -f`, and a per-interface tcpdump limited to
+EtherType 0x8809 unless `--capture-filter all` or another filter is given.
+The run directory defaults to `/home/pi/lag-recorder/<label>-<timestamp>`.
+`stop` ends a run early. `fetch` copies the directory into `<output>/remote/`
+with private permissions and checks every PCAP header. Nothing managed by the
+router vendor is modified; the transient unit is removed when the run ends.
+
+For a timed trial, treat the second member's link-up in `kernel-events.txt` as
+T0 and do not roll back sooner than three minutes after it. Compare the switch's
+per-port good-packet deltas against `link-stats.txt` over the same window to
+establish loss-free delivery in both directions.
+
+## ARP ingress probe from an inactive bond slave
+
+```console
+uv run python -m tools.arp_ingress_probe --ssh-target pi@router.example \
+  --identity-file ~/.ssh/router_capture --interface eth2 --control-interface eth3 \
+  --target-ip 192.0.2.1 --output backups/arp-probe
+```
+
+The probe sends three ARP requests for the switch's management address from a
+raw socket on the slave under test, using a locally administered test MAC and a
+0.0.0.0 sender address, while capturing on every slave. Because the raw socket
+bypasses Linux bonding, the frames leave an inactive slave. A reply on the other
+slave means the switch attributes that port's ingress to the LAG and answers via
+the active member; check `dump-mac-table` for which port learned the test MAC.
+No reply while the control probe gets one means the port's ingress is discarded.
+No switch or router configuration is changed; the remote temporary directory is
+removed after the captures are copied.
+
+Result on 2026-09-05 (private evidence in `backups/arp-ingress-probe-20260905T155702Z/`):
+probes sent from failing `eth2` into QNAP port 4 were answered within 0.4 ms, and every
+reply arrived on `eth3` via port 3. The switch learned the test MAC, and `eth2`'s
+permanent MAC that only ever appears as its LACPDU source, on port 3. The switch
+therefore already treats the unsynchronized member's ingress as LAG traffic mapped
+to the lowest-numbered member, which is consistent with its LACP receive machine
+never seeing that member's own LACPDUs.
+
+## Runbooks
+
+- [LAN LAG on ports 1+2, both bring-up orders](runbook-lan-lag-ports-1-2.md) with its YAML
+  under `examples/experiments/`.
+
+- [Second LACP peer from a laptop](runbook-laptop-lacp-peer.md) with `tools/lacp_peer_test.py`,
+  a single-file macOS/Linux harness that reads sync state from captured LACPDUs.
