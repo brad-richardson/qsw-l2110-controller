@@ -1,0 +1,575 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-05",
+  "tested_commit": "7874d043577370d811d8aa818f27e66876f5079d",
+  "platform": {
+    "macOS": "26.6.2",
+    "build": "25G83",
+    "python": "3.14.6",
+    "tcpdump": "4.99.1 Apple 158"
+  },
+  "mapping": {
+    "A": {
+      "brand": "Anker",
+      "interface": "en8",
+      "chipset": "Realtek 0bda:8153",
+      "permanent_mac": "a0:ce:c8:59:74:22",
+      "switch_port": 1
+    },
+    "B": {
+      "brand": "TP-Link",
+      "interface": "en9",
+      "chipset": "ASIX AX88179B 0b95:1790",
+      "permanent_mac": "c8:a3:62:f4:21:b0",
+      "switch_port": 2
+    },
+    "mac_lacp_system_id": "68:5e:dd:14:2e:92",
+    "bond_ethernet_mac": "a0:ce:c8:59:74:22",
+    "switch_lacp_system_id": "24:5e:be:77:e5:86"
+  },
+  "scope": {
+    "switch_ports": [
+      1,
+      2
+    ],
+    "switch_configuration_changed": false,
+    "firewalla_changed": false,
+    "production_cables_moved": false,
+    "other_port_pairs_tested": false
+  },
+  "runs": {
+    "ports-1-2-port1-first-repeat": {
+      "native_sample_count": 384,
+      "native_longest_good_seconds": 2.06,
+      "native_sample_max_gap_seconds": 1.202,
+      "native_sampling_gaps_over_3s": [],
+      "wifi": {
+        "samples": 39,
+        "probe_failures": 0,
+        "route_departures": 0,
+        "last": "2026-09-05T21:38:11.717+00:00"
+      },
+      "started_utc": "2026-09-05T21:31:40.708+00:00",
+      "finished_utc": "2026-09-05T21:38:14.817+00:00",
+      "both_carrier_up_since_utc": "2026-09-05T21:32:58.789+00:00",
+      "both_carrier_observation_seconds": 316.028,
+      "verdict": "FAIL_SUSTAINED_NO_EXPIRATION_REQUIREMENT",
+      "events": [
+        "2026-09-05T21:31:40.715+00:00 AUTO en8 carrier inactive (native observation)",
+        "2026-09-05T21:31:40.715+00:00 AUTO en9 carrier inactive (native observation)",
+        "2026-09-05T21:32:11.496+00:00 AUTO en8 carrier active (native observation)",
+        "2026-09-05T21:32:13.558+00:00 AUTO en8 carrier inactive (native observation)",
+        "2026-09-05T21:32:16.646+00:00 AUTO en8 carrier active (native observation)",
+        "2026-09-05T21:32:58.789+00:00 AUTO en9 carrier active (native observation)",
+        "2026-09-05T21:32:59.884+00:00 USER confirmed Anker/en8 connected to switch port 1. Native carrier active at 21:32:11.496, inactive at 21:32:13.558, restored at 21:32:16.646 UTC. Joined in fresh LACP; requested TP-Link/en9 to switch port 2.",
+        "2026-09-05T21:33:38.374+00:00 USER confirms both connected: Anker/en8 port 1, TP-Link/en9 port 2.",
+        "2026-09-05T21:38:14.673726+00:00 STOP requested after >=300 seconds both continuously carrier-up; both cables remain connected."
+      ],
+      "members": {
+        "en8": {
+          "packet_count": 455,
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "partner_identity_mismatch_against_latest_opposite_actor": [
+            "2026-09-05T21:32:11.501+00:00",
+            "2026-09-05T21:32:15.801+00:00"
+          ],
+          "directions": {
+            "mac": {
+              "count": 362,
+              "first": "2026-09-05T21:32:11.261+00:00",
+              "last": "2026-09-05T21:38:13.289+00:00",
+              "last_age_seconds": 1.527,
+              "max_gap_seconds": 3.538,
+              "median_gap_seconds": 1.001,
+              "last_60s_count": 59,
+              "actor_states": {
+                "133": 2,
+                "5": 3,
+                "61": 268,
+                "189": 89
+              },
+              "partner_states": {
+                "55": 90,
+                "119": 3,
+                "63": 269
+              },
+              "source_macs": [
+                "a0:ce:c8:59:74:22"
+              ],
+              "latest": {
+                "epoch": 1788644293.289508,
+                "utc": "2026-09-05T21:38:13.289+00:00",
+                "source": "a0:ce:c8:59:74:22",
+                "direction": "mac",
+                "actor": {
+                  "system_priority": 32768,
+                  "system": "68:5e:dd:14:2e:92",
+                  "key": 1,
+                  "port_priority": 32768,
+                  "port": 32,
+                  "state": 61
+                },
+                "partner": {
+                  "system_priority": 32768,
+                  "system": "24:5e:be:77:e5:86",
+                  "key": 1,
+                  "port_priority": 128,
+                  "port": 1,
+                  "state": 63
+                }
+              }
+            },
+            "peer": {
+              "count": 93,
+              "first": "2026-09-05T21:32:11.501+00:00",
+              "last": "2026-09-05T21:38:12.380+00:00",
+              "last_age_seconds": 2.436,
+              "max_gap_seconds": 4.21,
+              "median_gap_seconds": 4.0,
+              "last_60s_count": 15,
+              "actor_states": {
+                "119": 2,
+                "63": 91
+              },
+              "partner_states": {
+                "2": 2,
+                "5": 1,
+                "133": 1,
+                "189": 89
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:87"
+              ],
+              "latest": {
+                "epoch": 1788644292.380513,
+                "utc": "2026-09-05T21:38:12.380+00:00",
+                "source": "24:5e:be:77:e5:87",
+                "direction": "peer",
+                "actor": {
+                  "system_priority": 32768,
+                  "system": "24:5e:be:77:e5:86",
+                  "key": 1,
+                  "port_priority": 128,
+                  "port": 1,
+                  "state": 63
+                },
+                "partner": {
+                  "system_priority": 32768,
+                  "system": "68:5e:dd:14:2e:92",
+                  "key": 1,
+                  "port_priority": 32768,
+                  "port": 32,
+                  "state": 189
+                }
+              }
+            }
+          },
+          "capture_counters": {
+            "captured": 1171,
+            "received_by_filter": 1376,
+            "dropped_by_kernel": 0
+          },
+          "pcap_sha256": "d82fcaae3073e2edcf0f8963137d667c19472a43e67d20feb1c9d6b4afbd99f6"
+        },
+        "en9": {
+          "packet_count": 398,
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "partner_identity_mismatch_against_latest_opposite_actor": [],
+          "directions": {
+            "peer": {
+              "count": 81,
+              "first": "2026-09-05T21:32:58.001+00:00",
+              "last": "2026-09-05T21:38:10.380+00:00",
+              "last_age_seconds": 4.437,
+              "max_gap_seconds": 4.1,
+              "median_gap_seconds": 4.0,
+              "last_60s_count": 14,
+              "actor_states": {
+                "71": 2,
+                "63": 79
+              },
+              "partner_states": {
+                "2": 2,
+                "13": 1,
+                "189": 78
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:88"
+              ],
+              "latest": {
+                "epoch": 1788644290.380392,
+                "utc": "2026-09-05T21:38:10.380+00:00",
+                "source": "24:5e:be:77:e5:88",
+                "direction": "peer",
+                "actor": {
+                  "system_priority": 32768,
+                  "system": "24:5e:be:77:e5:86",
+                  "key": 1,
+                  "port_priority": 128,
+                  "port": 2,
+                  "state": 63
+                },
+                "partner": {
+                  "system_priority": 32768,
+                  "system": "68:5e:dd:14:2e:92",
+                  "key": 1,
+                  "port_priority": 32768,
+                  "port": 33,
+                  "state": 189
+                }
+              }
+            },
+            "mac": {
+              "count": 317,
+              "first": "2026-09-05T21:32:59.088+00:00",
+              "last": "2026-09-05T21:38:13.352+00:00",
+              "last_age_seconds": 1.465,
+              "max_gap_seconds": 1.001,
+              "median_gap_seconds": 1.001,
+              "last_60s_count": 59,
+              "actor_states": {
+                "5": 1,
+                "13": 1,
+                "61": 237,
+                "189": 78
+              },
+              "partner_states": {
+                "71": 2,
+                "63": 237,
+                "55": 78
+              },
+              "source_macs": [
+                "c8:a3:62:f4:21:b0"
+              ],
+              "latest": {
+                "epoch": 1788644293.352275,
+                "utc": "2026-09-05T21:38:13.352+00:00",
+                "source": "c8:a3:62:f4:21:b0",
+                "direction": "mac",
+                "actor": {
+                  "system_priority": 32768,
+                  "system": "68:5e:dd:14:2e:92",
+                  "key": 1,
+                  "port_priority": 32768,
+                  "port": 33,
+                  "state": 61
+                },
+                "partner": {
+                  "system_priority": 32768,
+                  "system": "24:5e:be:77:e5:86",
+                  "key": 1,
+                  "port_priority": 128,
+                  "port": 2,
+                  "state": 63
+                }
+              }
+            }
+          },
+          "capture_counters": {
+            "captured": 398,
+            "received_by_filter": 504,
+            "dropped_by_kernel": 0
+          },
+          "pcap_sha256": "ddc1c65d0ddd534e5e67f9a2ab0459b93aa46b097b148764a13c166311c8cbe9"
+        }
+      }
+    },
+    "ports-1-2-port2-first": {
+      "native_sample_count": 365,
+      "native_longest_good_seconds": 2.05,
+      "native_sample_max_gap_seconds": 1.073,
+      "native_sampling_gaps_over_3s": [],
+      "wifi": {
+        "samples": 37,
+        "probe_failures": 0,
+        "route_departures": 0,
+        "last": "2026-09-05T21:47:39.075+00:00"
+      },
+      "started_utc": "2026-09-05T21:41:29.247+00:00",
+      "finished_utc": "2026-09-05T21:47:43.210+00:00",
+      "both_carrier_up_since_utc": "2026-09-05T21:42:34.077+00:00",
+      "both_carrier_observation_seconds": 309.133,
+      "verdict": "FAIL_SUSTAINED_NO_EXPIRATION_REQUIREMENT",
+      "events": [
+        "2026-09-05T21:41:29.329+00:00 AUTO en8 carrier inactive (native observation)",
+        "2026-09-05T21:41:29.329+00:00 AUTO en9 carrier inactive (native observation)",
+        "2026-09-05T21:41:54.060+00:00 AUTO en9 carrier active (native observation)",
+        "2026-09-05T21:42:14.002+00:00 USER confirms TP-Link/en9 connected to switch port 2 first, Anker Ethernet disconnected.",
+        "2026-09-05T21:42:34.077+00:00 AUTO en8 carrier active (native observation)",
+        "2026-09-05T21:43:08.092+00:00 USER confirms both connected in reverse order: TP-Link/en9 port 2 first, then Anker/en8 port 1.",
+        "2026-09-05T21:47:42.692473+00:00 STOP requested after >=300 seconds both continuously carrier-up; both cables still connected."
+      ],
+      "members": {
+        "en8": {
+          "packet_count": 389,
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "partner_identity_mismatch_against_latest_opposite_actor": [],
+          "directions": {
+            "peer": {
+              "count": 79,
+              "first": "2026-09-05T21:42:33.886+00:00",
+              "last": "2026-09-05T21:47:42.066+00:00",
+              "last_age_seconds": 1.144,
+              "max_gap_seconds": 4.1,
+              "median_gap_seconds": 4.0,
+              "last_60s_count": 15,
+              "actor_states": {
+                "71": 1,
+                "63": 78
+              },
+              "partner_states": {
+                "2": 1,
+                "13": 1,
+                "189": 77
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:87"
+              ],
+              "latest": {
+                "epoch": 1788644862.066048,
+                "utc": "2026-09-05T21:47:42.066+00:00",
+                "source": "24:5e:be:77:e5:87",
+                "direction": "peer",
+                "actor": {
+                  "system_priority": 32768,
+                  "system": "24:5e:be:77:e5:86",
+                  "key": 1,
+                  "port_priority": 128,
+                  "port": 1,
+                  "state": 63
+                },
+                "partner": {
+                  "system_priority": 32768,
+                  "system": "68:5e:dd:14:2e:92",
+                  "key": 1,
+                  "port_priority": 32768,
+                  "port": 32,
+                  "state": 189
+                }
+              }
+            },
+            "mac": {
+              "count": 310,
+              "first": "2026-09-05T21:42:33.886+00:00",
+              "last": "2026-09-05T21:47:41.985+00:00",
+              "last_age_seconds": 1.225,
+              "max_gap_seconds": 1.001,
+              "median_gap_seconds": 1.001,
+              "last_60s_count": 59,
+              "actor_states": {
+                "13": 1,
+                "61": 232,
+                "189": 77
+              },
+              "partner_states": {
+                "71": 1,
+                "63": 232,
+                "55": 77
+              },
+              "source_macs": [
+                "a0:ce:c8:59:74:22"
+              ],
+              "latest": {
+                "epoch": 1788644861.985271,
+                "utc": "2026-09-05T21:47:41.985+00:00",
+                "source": "a0:ce:c8:59:74:22",
+                "direction": "mac",
+                "actor": {
+                  "system_priority": 32768,
+                  "system": "68:5e:dd:14:2e:92",
+                  "key": 1,
+                  "port_priority": 32768,
+                  "port": 32,
+                  "state": 189
+                },
+                "partner": {
+                  "system_priority": 32768,
+                  "system": "24:5e:be:77:e5:86",
+                  "key": 1,
+                  "port_priority": 128,
+                  "port": 1,
+                  "state": 55
+                }
+              }
+            }
+          },
+          "capture_counters": {
+            "captured": 1005,
+            "received_by_filter": 1111,
+            "dropped_by_kernel": 0
+          },
+          "pcap_sha256": "d7f546e0dfae0db877e63c6c38b3cc96811857de59be98604e846dc81f94a242"
+        },
+        "en9": {
+          "packet_count": 438,
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "partner_identity_mismatch_against_latest_opposite_actor": [],
+          "directions": {
+            "peer": {
+              "count": 89,
+              "first": "2026-09-05T21:41:53.587+00:00",
+              "last": "2026-09-05T21:47:38.966+00:00",
+              "last_age_seconds": 4.244,
+              "max_gap_seconds": 4.1,
+              "median_gap_seconds": 4.0,
+              "last_60s_count": 14,
+              "actor_states": {
+                "119": 2,
+                "63": 87
+              },
+              "partner_states": {
+                "2": 2,
+                "5": 1,
+                "189": 86
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:88"
+              ],
+              "latest": {
+                "epoch": 1788644858.966135,
+                "utc": "2026-09-05T21:47:38.966+00:00",
+                "source": "24:5e:be:77:e5:88",
+                "direction": "peer",
+                "actor": {
+                  "system_priority": 32768,
+                  "system": "24:5e:be:77:e5:86",
+                  "key": 1,
+                  "port_priority": 128,
+                  "port": 2,
+                  "state": 63
+                },
+                "partner": {
+                  "system_priority": 32768,
+                  "system": "68:5e:dd:14:2e:92",
+                  "key": 1,
+                  "port_priority": 32768,
+                  "port": 33,
+                  "state": 189
+                }
+              }
+            },
+            "mac": {
+              "count": 349,
+              "first": "2026-09-05T21:41:54.674+00:00",
+              "last": "2026-09-05T21:47:41.962+00:00",
+              "last_age_seconds": 1.247,
+              "max_gap_seconds": 1.001,
+              "median_gap_seconds": 1.001,
+              "last_60s_count": 59,
+              "actor_states": {
+                "5": 2,
+                "61": 261,
+                "189": 86
+              },
+              "partner_states": {
+                "119": 1,
+                "63": 262,
+                "55": 86
+              },
+              "source_macs": [
+                "c8:a3:62:f4:21:b0"
+              ],
+              "latest": {
+                "epoch": 1788644861.962514,
+                "utc": "2026-09-05T21:47:41.962+00:00",
+                "source": "c8:a3:62:f4:21:b0",
+                "direction": "mac",
+                "actor": {
+                  "system_priority": 32768,
+                  "system": "68:5e:dd:14:2e:92",
+                  "key": 1,
+                  "port_priority": 32768,
+                  "port": 33,
+                  "state": 61
+                },
+                "partner": {
+                  "system_priority": 32768,
+                  "system": "24:5e:be:77:e5:86",
+                  "key": 1,
+                  "port_priority": 128,
+                  "port": 2,
+                  "state": 63
+                }
+              }
+            }
+          },
+          "capture_counters": {
+            "captured": 438,
+            "received_by_filter": 623,
+            "dropped_by_kernel": 0
+          },
+          "pcap_sha256": "f90fffc663e9d08a23ad03d86c5f87545900a0ef722bd9aeb3abf72a58a2d669"
+        }
+      }
+    }
+  },
+  "aging_intervals": {
+    "before-repeat": 120.62,
+    "before-port2-first": 120.5
+  },
+  "exploratory_run": {
+    "path": "backups/macbook-lacp-20260905T210804Z/ports-1-2-port1-first",
+    "reason_not_counted_as_verified_baseline": "Inherited blocked signals prevented tcpdump final counters. Original PCAPs and harness summary preserved locally; repeated with corrected launch.",
+    "drop_counters": null
+  },
+  "raw_evidence_local_directory": "backups/macbook-lacp-20260905T210804Z",
+  "notes": [
+    "Both verified baselines used fresh bidirectional PCAPs and native state; no reliance on harness SYNCED label.",
+    "Actor 0xbd includes expired despite synchronization/collecting/distributing bits.",
+    "en9 native displayed MAC differs from captured TX Ethernet source; classify by actor system identity.",
+    "Counts are host capture observations; zero kernel drops does not rule out all driver or physical loss."
+  ],
+  "postflight_verification": {
+    "utc": "2026-09-05T21:50:21.049160+00:00",
+    "checks": {
+      "no_bonds": true,
+      "original_service_order": true,
+      "original_services": true,
+      "original_wifi_route": true,
+      "internet_icmp": true,
+      "internet_https": true,
+      "en8-getinfo": true,
+      "en8-empty-client-id": true,
+      "en8-getnetworkserviceenabled": true,
+      "en8-getdnsservers": true,
+      "en8-getsearchdomains": true,
+      "en8-getadditionalroutes": true,
+      "en8-getv6additionalroutes": true,
+      "en9-getinfo": true,
+      "en9-empty-client-id": true,
+      "en9-getnetworkserviceenabled": true,
+      "en9-getdnsservers": true,
+      "en9-getsearchdomains": true,
+      "en9-getadditionalroutes": true,
+      "en9-getv6additionalroutes": true,
+      "wifi-getinfo": true,
+      "wifi-empty-client-id": true,
+      "wifi-getnetworkserviceenabled": true,
+      "wifi-getdnsservers": true,
+      "wifi-getsearchdomains": true,
+      "wifi-getadditionalroutes": true,
+      "wifi-getv6additionalroutes": true,
+      "en8-restored-mac": true,
+      "en8-carrier-down": true,
+      "en8-not-promiscuous": true,
+      "en9-restored-mac": true,
+      "en9-carrier-down": true,
+      "en9-not-promiscuous": true,
+      "no_test_processes": true
+    },
+    "all_checks_passed": true,
+    "remaining_test_processes": []
+  }
+}
