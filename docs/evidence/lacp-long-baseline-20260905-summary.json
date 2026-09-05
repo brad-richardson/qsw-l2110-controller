@@ -1,0 +1,160 @@
+{
+  "date": "2026-09-05",
+  "scope": "Set all configured active LACP pairs to Long at user request",
+  "active_groups": {
+    "1": [
+      1,
+      2
+    ],
+    "4": [
+      3,
+      4
+    ]
+  },
+  "before_utc": "2026-09-05T23:02:38.817141+00:00",
+  "settled_snapshot_started_utc": "2026-09-05T23:07:51.936368+00:00",
+  "completed_utc": "2026-09-05T23:08:01.870+00:00",
+  "firmware": "2.2.3.20260713",
+  "changes": [
+    {
+      "field": "lacpTimeoutId_1",
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "field": "lacpTimeoutId_2",
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "field": "lacpTimeoutId_3",
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "field": "lacpTimeoutId_4",
+      "before": "0",
+      "after": "1"
+    }
+  ],
+  "before_configuration_sha256": "d80f5a5a03c264f1ea2725d98fbe08d2e470fc35bce93101b0be8ebb44f73737",
+  "after_configuration_sha256": "84f599868694e27a4abb959608f192b3d2046b29ca8a94a70b11d88cf557d87b",
+  "all_other_configuration_preserved": true,
+  "save_requested": true,
+  "reboot_persistence_tested": false,
+  "before_state": {
+    "1": {
+      "timeout": 0,
+      "member_state": 0,
+      "physical_link": "1000MbpsFull"
+    },
+    "2": {
+      "timeout": 0,
+      "member_state": 0,
+      "physical_link": "1000MbpsFull"
+    },
+    "3": {
+      "timeout": 0,
+      "member_state": 1,
+      "physical_link": "2500MbpsFull"
+    },
+    "4": {
+      "timeout": 0,
+      "member_state": 0,
+      "physical_link": "2500MbpsFull"
+    }
+  },
+  "settled_state": {
+    "1": {
+      "timeout": 1,
+      "member_state": 0,
+      "physical_link": "1000MbpsFull"
+    },
+    "2": {
+      "timeout": 1,
+      "member_state": 0,
+      "physical_link": "1000MbpsFull"
+    },
+    "3": {
+      "timeout": 1,
+      "member_state": 1,
+      "physical_link": "2500MbpsFull"
+    },
+    "4": {
+      "timeout": 1,
+      "member_state": 0,
+      "physical_link": "2500MbpsFull"
+    }
+  },
+  "connectivity": {
+    "gateway": {
+      "samples": 176,
+      "first_utc": "2026-09-05T23:05:04.629+00:00",
+      "last_utc": "2026-09-05T23:08:01.435+00:00",
+      "failed_samples": [
+        {
+          "utc": "2026-09-05T23:05:23.718+00:00",
+          "exit": 2,
+          "previous_success_utc": "2026-09-05T23:05:22.712+00:00",
+          "next_success_utc": "2026-09-05T23:05:25.741+00:00",
+          "successful_observation_bracket_seconds": 3.029
+        }
+      ]
+    },
+    "internet": {
+      "samples": 176,
+      "first_utc": "2026-09-05T23:05:04.630+00:00",
+      "last_utc": "2026-09-05T23:08:01.416+00:00",
+      "failed_samples": [
+        {
+          "utc": "2026-09-05T23:05:23.719+00:00",
+          "exit": 2,
+          "previous_success_utc": "2026-09-05T23:05:22.713+00:00",
+          "next_success_utc": "2026-09-05T23:05:25.744+00:00",
+          "successful_observation_bracket_seconds": 3.031
+        }
+      ]
+    },
+    "route": {
+      "samples": 36,
+      "first_utc": "2026-09-05T23:05:04.632+00:00",
+      "last_utc": "2026-09-05T23:07:59.784+00:00",
+      "failed_samples": [],
+      "departures_from_en0": 0
+    }
+  },
+  "final_https_http_status": "200",
+  "mac_bond_present": false,
+  "firmware_uploaded": false,
+  "firewalla_configuration_operations": 0,
+  "production_cable_changes": 0,
+  "comparison_plan": {
+    "configuration_sha256": "84f599868694e27a4abb959608f192b3d2046b29ca8a94a70b11d88cf557d87b",
+    "source_snapshot_configuration_sha256": "84f599868694e27a4abb959608f192b3d2046b29ca8a94a70b11d88cf557d87b",
+    "readiness_items": [],
+    "hardware_execution_enabled": false,
+    "fresh_physical_long_baseline_still_required": true,
+    "rehearsal_status": "rehearsal-complete",
+    "rehearsal_chunk_calls": 1353,
+    "rehearsal_is_synthetic": true
+  },
+  "private_artifact_directory": "backups/lacp-all-long-20260905T2302Z",
+  "artifact_sha256": {
+    "before.json": "8588e8b383744c5d391b47c20c5c18c9b27895f89cf3381119a992df7df26b7b",
+    "before.cfg": "4f5dfc72129f17700543eb163742086604d1a38a9c3b0cb2f331e0ab63aca605",
+    "pre-apply.json": "04124cf7d7db44303bc7c91a0150f5286b4052903cf9d07d5bca06cf1bf037fd",
+    "reviewed-plan.json": "0fb46ac8061c17fab62e5ab38cda67762a951cc136b2853572ee5d4c7f28fb66",
+    "long-all-active.yaml": "1a07e833ff883d8e45e92907330c582d2e5a47f6b35d72853fadbff785ec7f2b",
+    "apply.log": "e67dc42dfed66cafd13b03b7b818f57e2d7de02ab99d7e5570acadfaa0175155",
+    "after-apply.json": "e0cd92574fa318c56a01f39a567a400134842a4ddf3a43660e5f01a971ee4a41",
+    "settled.json": "a9501613a226eb051339923f85777869143af3bf9c7f082e403688cfbfdeef32",
+    "settled.cfg": "db80e44f800d9b877912403c458c030f08489ee1d009d1dc55c5b7c0a2c0e810",
+    "gateway.jsonl": "cdb54ef6fb581e757dcd3f089cbeda59d039b2a32e64559f856e826ad2dfd683",
+    "internet.jsonl": "48c977d3b9877f5fa6072ecbca62e6f91d77896a86cac82c89caa1e39421f272",
+    "route.jsonl": "8fb6b8ed38b4d8ae3e97273d63775e4903e5fca66be814877772732555f4c7eb",
+    "events.jsonl": "61b1292d056586d9854f56c59fe8bed3cf9e742f48fb8eeef546abfcb6d6434e",
+    "postflight.json": "f793c1b31d13bb8783325bcdeab2b7cd751c05b054d55d383c619e70382f39d1",
+    "comparison-plan.json": "206880683cd39f6056bf93286535226d34882f4c1cd90bb05a1cb1ac7068a9d1",
+    "rehearsal.json": "3af8da6d2c254178ce9a2ae97f2df117240ca32a800d49aa50ed1315cdf87fdd"
+  }
+}

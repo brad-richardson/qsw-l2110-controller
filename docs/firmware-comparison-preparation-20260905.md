@@ -2,6 +2,8 @@
 
 The images, comparison plan, and hardware-free rehearsal are prepared. **No firmware was uploaded, no Live Update operation was started, and no reboot was requested.** The switch remains on 2.2.3.20260713. The preparation tool exposes no hardware execution command.
 
+The subsequent [Long baseline change](lacp-long-baseline-20260905.md) applied the user's selected timeout to both active LACP groups: ports 1+2 and 3+4. Use the refreshed configuration snapshot and comparison plan from that change for further preparation. The earlier Short snapshots remain historical evidence.
+
 The [Mac timeout experiment](macbook-timeout-results-20260905.md) established a useful Long-timeout control on ports 1+2. It also identified a plausible macOS receive-timer explanation for the Short failure. A firmware comparison tests a separate hypothesis; a simulated result cannot establish which firmware handles LACP correctly. Earlier Firewalla testing already failed on production ports 3+4 with Long.
 
 All three official images were downloaded locally and verified against both the recorded SHA-256 and published MD5. Each is 5,407,908 bytes. Images remain in ignored `backups/firmware/`; vendor firmware/UI assets are not redistributed.
@@ -38,7 +40,7 @@ Run the preparation locally from the repository root:
   --images backups/firmware --output backups/firmware-ui-prep/rehearsal-new.json
 ```
 
-Output files must be new, preserving previous evidence. `prepare` checks the model, starting firmware, image hashes, and existing group 1. It constructs a **local candidate** with Long on test ports 1+2, preserving all production fields, VLANs, PVIDs, and port settings. It records a separate hash of the source snapshot and lists any live readiness gaps. It changes no switch settings. Production Long scope remains a separate user decision.
+Output files must be new, preserving previous evidence. `prepare` checks the model, starting firmware, image hashes, and existing group 1. It constructs a **local candidate** with Long on test ports 1+2, preserving all production fields, VLANs, PVIDs, and port settings. It records a separate hash of the source snapshot and lists any live readiness gaps. It changes no switch settings. The user subsequently authorized Long on all active LACP pairs; production ports 3+4 now belong to that baseline and must remain Long throughout a future firmware comparison.
 
 The successful rehearsal fed the real verified image bytes to an in-memory receiver: 451 chunks per image, 1,353 total, in the requested version order including restoration. Its firmware versions, reboot events, configuration responses, and LACP observations are explicitly synthetic. It is not a CPU/ASIC emulator and does not execute QNAP firmware.
 
@@ -52,4 +54,4 @@ A live upload driver and privileged Mac capture lifecycle are **not exposed by t
 
 A real firmware change necessarily interrupts switching and therefore this Wi-Fi path's internet reachability during reboot. Hands-free recovery is conditional on management address, credentials, VLANs, and configuration surviving. If the device rejects a downgrade, comes back at another address, resets configuration, or remains unreachable, stop and preserve evidence. Do not automatically import a newer `.cfg` into an older build or start another flash. Preserve a current backup and a recovery path independent of the tested LAG; keep the ONT directly connected to Firewalla. A local journal can survive an internet interruption but cannot guarantee recovery from an inaccessible switch.
 
-Before enabling a live run, refresh the complete baseline after the chosen Long change, confirm its scope, integrate and validate the real capture driver, and review the upload acceptance/recovery behavior. The downloaded 2.2.3 image is available for a planned return after successful comparisons; it is not an unconditional watchdog rollback action. No factory reset belongs in this comparison, because that would change another variable.
+Before enabling a live run, refresh the complete configuration snapshot, record a fresh native/packet Long baseline, integrate and validate the real capture driver, and review the upload acceptance/recovery behavior. The authorized Long scope is both active pairs, 1+2 and 3+4. The downloaded 2.2.3 image is available for a planned return after successful comparisons; it is not an unconditional watchdog rollback action. No factory reset belongs in this comparison, because that would change another variable.
