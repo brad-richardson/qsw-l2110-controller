@@ -23,10 +23,59 @@ The switch does no routing between them; all WAN/LAN traffic must cross Firewall
 
 Never add ports 3, 4, 5, or 10 to VLAN 3999. Remove ports 1, 2, and 9 from VLAN 1.
 
-Deployed 2026-09-04: the Firewalla LAN is one flat bridge (`br0` over eth1-3, no
-VLAN networks, WAN `eth0` on DHCP with DHCPv6-PD), so the LAN side uses a single
-native VLAN 10 per `examples/firewalla-gold-plus-flat-lan.yaml`. Firewalla's LAN
-and WAN LAGs are not yet configured; `/proc/net/bonding` is empty.
+Deployment status 2026-09-05: Firewalla's flat LAN is now `bond0` over
+`eth3`+`eth2` after reverting the router-port test. WAN remains a single
+`eth0` link. The switch uses native LAN VLAN 10 per
+`examples/firewalla-gold-plus-flat-lan.yaml`; WAN ports 1, 2, and 9 remain
+disconnected. The office link on port 10 currently negotiates 2.5 Gb/s.
+
+The flat-LAN configuration is restored to the original **ports 3+4** in
+LAN LAG 2; port 7 is again an ordinary LAN access port. The restore was backed
+up, applied, saved, and read back successfully. Both LAN cables are back on
+ports 3+4. Reboot persistence of the restored switch configuration has not
+been retested.
+
+LAN LACP diagnosis on 2026-09-05: port 4 failed negotiation after a cable
+replacement, swapping the two Firewalla connections, and a switch power cycle.
+Either Firewalla member forwards through port 3. Temporarily substituting
+port 7 for port 4 reproduced the same failure: the second member links at
+2.5 Gb/s but the switch advertises a defaulted LACP state and zero partner
+identity. The applied settings matched the YAML and no loop violations were
+reported. This weakens the hypothesis of an isolated port-4 defect; the
+broader negotiation failure remains unresolved. After the cable swap, port 3
+connects to Firewalla `eth2`, and the second member is `eth3`. A subsequent
+Firewalla reboot did not clear the fault: `eth2` remains collecting/distributing
+while `eth3` reports a defaulted switch partner and does not forward. Firewalla
+services and all three observatory collectors recovered. The observatory's
+Google ICMP probe began timing out after reboot despite successful direct
+pings to 8.8.8.8 from both the observer and Firewalla; the other monitored
+targets pass. The cause of this probe discrepancy is unconfirmed.
+
+The subsequent Firewalla LAN-member change from `eth2`+`eth3` to
+`eth3`+`eth1` also reproduced the fault. Partner-port details map `eth1` to
+QNAP port 3 (active, actor/partner states 61/63) and `eth3` to QNAP port 4
+(backup, states 13/71). Both physical links are 2.5 Gb/s full duplex;
+`eth2` is disconnected. QNAP's LAG table labels port 3 up and port 4 down,
+with no loop violations; the later UI audit found that this status column
+does not prove individual-member forwarding. Firewalla's protocol state
+verifies that the replacement router port
+works, but does not establish a defective router NIC: earlier swaps showed
+`eth3` forwarding through QNAP port 3. All 20 observatory probes, including
+Google ICMP, and all three Firewalla collectors pass at this latest check.
+
+See the [QNAP UI audit](qnap-ui-audit-20260905.md) for screenshots, native
+form comparisons, hidden-page limitations, and remaining switch-side tests.
+
+Before the ingress-mirror test, the user restored the router's original LAN
+pair and swapped its cable mapping: `eth3` now identifies QNAP port 3 and
+collects/distributes (states 61/63), while `eth2` identifies QNAP port 4 and
+remains defaulted (13/71). Both links are 2.5G. All 20 probes pass. The
+capture laptop is directly connected to port 7 at 1G; that port remains
+outside the LAG. These observations supersede the earlier interface mapping.
+
+QSS management at 192.168.1.72 is reachable through the LAN with rescue port 8
+disconnected. This confirms LAN management access; WAN-side management
+isolation remains untested.
 
 ## Firewalla constraints
 

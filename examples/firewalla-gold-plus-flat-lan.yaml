@@ -1,9 +1,9 @@
 schema_version: 1
 
-# Variant of firewalla-gold-plus.yaml for a Firewalla whose LAN is one flat
-# bridge with no VLAN networks (confirmed from FireRouter's active config on
-# 2026-09-04: bridge br0 over eth1-3, WAN eth0 DHCP with DHCPv6-PD). The LAN
-# LAG, access port 5, and the office trunk all carry a single native VLAN.
+# Variant of firewalla-gold-plus.yaml for a Firewalla with one flat LAN and
+# no VLAN networks. The latest 2026-09-05 test uses bond0 over eth3+eth2;
+# WAN remains on eth0. The LAN LAG, access ports, and
+# office trunk all carry a single native VLAN.
 
 device:
   models:
@@ -41,7 +41,7 @@ safety:
 #   1+2  Firewalla WAN LAG      VLAN 3999 untagged
 #   3+4  Firewalla LAN LAG      VLAN 10 untagged
 #   5-7  LAN access ports       VLAN 10 untagged
-#   8    rescue + management    VLAN 1 untagged (QSS reached only through here)
+#   8    rescue                VLAN 1 untagged (QSS also reachable via LAN)
 #   9    10G ONT                VLAN 3999 untagged
 #   10   10G office switch      VLAN 10 untagged
 vlans:

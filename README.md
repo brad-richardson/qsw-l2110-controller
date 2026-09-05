@@ -3,8 +3,9 @@
 Experimental, declarative control of the QNAP QSW-L2110 switch family.
 
 > **Pre-alpha:** the HTTP interface was derived from QNAP's QSS 2.2.3 firmware and
-> has not yet been exercised against a physical switch. Read-only commands should
-> be tested first. Do not attach an ONT or production LAN while validating writes.
+> has been exercised on a QSW-L2110-10T, including VLAN transitions and saved
+> configuration. Two-member LACP forwarding with Firewalla remains unresolved;
+> see the [diagnostic report](docs/lacp-diagnostics-20260905.md).
 
 The QSW-L2110 does not use the Linux-based `/api/v1` or `/api/v2` interface found
 on many QSW-M switches. Its QSS 2.2.x firmware exposes a smaller, undocumented
@@ -32,7 +33,7 @@ change the management address.
 
 | Target | Status |
 |---|---|
-| QSW-L2110-10T, QSS 2.2.3 build 20260713 | Firmware-derived; hardware validation pending |
+| QSW-L2110-10T, QSS 2.2.3 build 20260713 | Reads, configuration writes, and persistence exercised; LACP interoperability unresolved |
 | QSW-L2110-2S8T, QSS 2.2.3 | Likely same handlers; not enabled in the example guard |
 | QSW-M and other `/api/v1` or `/api/v2` models | Not supported |
 
@@ -146,6 +147,10 @@ See [known limitations](docs/limitations.md), [private API notes](docs/api-notes
 and the [Firewalla topology notes](docs/firewalla-topology.md) before deployment.
 
 ## Development
+
+Reusable [diagnostic tools](docs/diagnostic-tools.md) capture QSS response bodies,
+rendered forms and screenshots, collect LACP over SSH, and temporarily mirror
+ingress to a dedicated receiver. Raw artifacts stay in ignored private directories.
 
 ```console
 uv run ruff check .

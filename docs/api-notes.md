@@ -98,8 +98,22 @@ refuses a desired group ID already used by an unmanaged active port. Unknown
 future fields cannot be preserved in the UI's flat POST schema. It also refuses
 to move a managed port away from a current group containing unmanaged peers.
 
-`/port_trunk_refresh.json` exposes raw per-port link up/down state. Static UI
-inspection does not show collecting/distributing LACP protocol state.
+`/port_trunk_refresh.json` exposes a per-port value which the UI labels
+"Link Up" or "Link Down". On 2026-09-05, port 4 returned down there while
+the physical port header and port-settings page showed an active 2.5G link.
+The UI language asset also describes the lowest-numbered member as the
+group's mapped bridge port. Treat this field as opaque vendor status; it
+has not been established as either physical carrier or per-member
+collecting/distributing state. Use peer LACP evidence for protocol diagnosis.
+
+Rendered-form audit (2026-09-05): the browser's `FormData` omits disabled
+controls. With ports 1-4 configured for LACP and 5-10 disabled, it produces
+23 fields; the controller's complete object contains 41. All shared values
+match. The 18 controller-only fields are the priority, timeout, and retained
+group of ports 5-10. Prior hardware checks validated read-back and persistence,
+but the two payloads are not byte-for-byte equivalent, and side effects of
+these extra disabled-port fields have not been excluded. No write was made
+during this audit. See [the UI audit](qnap-ui-audit-20260905.md).
 
 ## VLAN configuration
 
@@ -234,6 +248,8 @@ above says otherwise; the last group is destructive.
 | `dhcp_snooping_cfg.json` | GET/POST | snooping mode and per-port trust/rate limit |
 | `eee_config.json` | GET/POST | per-port EEE, keyed `Idx_0`..`Idx_7` for the 2.5G ports |
 | `port_mirror.json` | GET/POST | monitoring port and per-port ingress/egress mirroring |
+| `port_vlan.json` | GET/POST | hidden page's GET returns per-port PVID/frame type; read confirmed 2026-09-05; its rendered UI fails on missing translations |
+| `acl_add.json` | GET/POST | hidden ACL page uses GET to list rules; read confirmed 2026-09-05, zero entries; POST remains a write |
 | `qos_get_port_mode.json` | GET | `{"qos_mode": 0}` |
 | `sntp_setting.json`, `systemtime_settings.json` | GET/POST | SNTP server, poll interval, time, zone, DST |
 | `fid_vlan_map_cfg.json`, `lldp_loadsts.json` | GET/POST | return HTTP 400 on GET; the UI uses POST for LLDP |

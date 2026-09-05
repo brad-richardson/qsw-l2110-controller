@@ -126,8 +126,37 @@ class QswL2110Client:
         return self.get_json("/port_statistics.json")
 
     def get_mac_table(self) -> dict[str, Any]:
-        """Dynamic MAC address table with VLAN and port for each entry."""
-        return self.get_json("/mac_get_dynamic_mac_entries.json")
+        """Read every dynamic-MAC page; the first response may contain only eight entries.
+
+        Learning and aging continue during pagination, so this is not an atomic
+        snapshot. Never silently return a partial table if pagination is broken.
+        """
+        endpoint = "/mac_get_dynamic_mac_entries.json"
+        data = self.get_json(endpoint)
+        if "has_more" not in data:  # Older observed response shape was unpaginated.
+            return data
+        entries: list[dict[str, Any]] = []
+        offset = 0
+        for _ in range(1024):
+            batch = data.get("batch")
+            if not isinstance(batch, list) or not all(isinstance(e, dict) for e in batch):
+                raise ApiError("dynamic MAC page has an invalid batch")
+            if not isinstance(data.get("has_more"), bool):
+                raise ApiError("dynamic MAC page has invalid has_more metadata")
+            entries.extend(batch)
+            if not data["has_more"]:
+                return {**data, "batch": entries, "count": len(entries)}
+            next_offset = data.get("next_offset")
+            if (
+                not batch
+                or isinstance(next_offset, bool)
+                or not isinstance(next_offset, int)
+                or next_offset <= offset
+            ):
+                raise ApiError("dynamic MAC pagination did not advance")
+            offset = next_offset
+            data = self.get_json(f"{endpoint}?offset={offset}")
+        raise ApiError("dynamic MAC pagination exceeded 1024 pages")
 
     def get_system_status(self) -> dict[str, Any]:
         """Firmware build time and uptime."""
