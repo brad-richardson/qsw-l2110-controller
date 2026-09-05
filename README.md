@@ -152,6 +152,10 @@ Reusable [diagnostic tools](docs/diagnostic-tools.md) capture QSS response bodie
 rendered forms and screenshots, collect LACP over SSH, and temporarily mirror
 ingress to a dedicated receiver. Raw artifacts stay in ignored private directories.
 
+The [firmware comparison preparation](docs/firmware-comparison-preparation-20260905.md)
+verifies downloaded images, saves read-only snapshots, and rehearses the version
+sequence in memory. It exposes no firmware execution command.
+
 ```console
 uv run ruff check .
 uv run ruff format --check .

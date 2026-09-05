@@ -1,0 +1,117 @@
+{
+  "date": "2026-09-05",
+  "hardware_firmware_requests": 0,
+  "firmware_executed": false,
+  "image_checksums_verified": true,
+  "upload_ui_static_comparison": {
+    "QSW-L2110-FW.v2.2.2_S20260520_100037.img": {
+      "upload_js_offset": 2589625,
+      "upload_js_bytes": 7707,
+      "upload_js_sha256": "1df4558af82e665cf096d6e5cbc300d4c382f2f269fd326d45e8de17a4d0a75d",
+      "https_12000_byte_chunks": true,
+      "raw_post_body": true,
+      "verification_success": true
+    },
+    "QSW-L2110-FW.v2.2.3_S20260713_100043.img": {
+      "upload_js_offset": 2640901,
+      "upload_js_bytes": 7707,
+      "upload_js_sha256": "1df4558af82e665cf096d6e5cbc300d4c382f2f269fd326d45e8de17a4d0a75d",
+      "https_12000_byte_chunks": true,
+      "raw_post_body": true,
+      "verification_success": true
+    },
+    "QSW-L2110-FW.v2.2.1_S20260417_100035.img": {
+      "upload_js_offset": 2599469,
+      "upload_js_bytes": 7707,
+      "upload_js_sha256": "1df4558af82e665cf096d6e5cbc300d4c382f2f269fd326d45e8de17a4d0a75d",
+      "https_12000_byte_chunks": true,
+      "raw_post_body": true,
+      "verification_success": true
+    }
+  },
+  "rehearsal": {
+    "success": {
+      "status": "rehearsal-complete",
+      "chunk_calls": 1353,
+      "versions": [
+        "2.2.2.20260520",
+        "2.2.1.20260417",
+        "2.2.3.20260713"
+      ]
+    },
+    "faults": {
+      "ambiguous-chunk": {
+        "status": "stopped",
+        "uploads_started": 1,
+        "chunk_calls": 2,
+        "reason": "Upload response lost after receiver accepted chunk; do not replay",
+        "synthetic_observer_passes": []
+      },
+      "rejected-image": {
+        "status": "stopped",
+        "uploads_started": 1,
+        "chunk_calls": 451,
+        "reason": "Image verification was not successful",
+        "synthetic_observer_passes": []
+      },
+      "boot-timeout": {
+        "status": "stopped",
+        "uploads_started": 1,
+        "chunk_calls": 451,
+        "reason": "No management recovery within simulated deadline",
+        "synthetic_observer_passes": []
+      },
+      "wrong-build": {
+        "status": "stopped",
+        "uploads_started": 1,
+        "chunk_calls": 451,
+        "reason": "Wrong model or build after reboot",
+        "synthetic_observer_passes": []
+      },
+      "configuration-reset": {
+        "status": "stopped",
+        "uploads_started": 1,
+        "chunk_calls": 451,
+        "reason": "Configuration changed after reboot; do not overwrite automatically",
+        "synthetic_observer_passes": []
+      },
+      "stale-packets": {
+        "status": "rehearsal-complete",
+        "uploads_started": 3,
+        "chunk_calls": 1353,
+        "reason": null,
+        "synthetic_observer_passes": [
+          false,
+          false,
+          false
+        ]
+      },
+      "native-expired": {
+        "status": "rehearsal-complete",
+        "uploads_started": 3,
+        "chunk_calls": 1353,
+        "reason": null,
+        "synthetic_observer_passes": [
+          false,
+          false,
+          false
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "All upload, reboot, configuration, and LACP observations in the rehearsal are simulated.",
+    "No live execution subcommand is exposed.",
+    "Downgrade acceptance, configuration persistence, and recovery with these older builds remain untested."
+  ],
+  "targeted_tests_passed": 13,
+  "live_snapshot_read_only_verified": true,
+  "live_snapshot_utc": "2026-09-05T22:51:26.416490+00:00",
+  "current_timeouts": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0
+  },
+  "long_change_scope_pending": true
+}

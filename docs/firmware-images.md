@@ -31,12 +31,17 @@ Downgrade notes:
 - Firmware flashing is deliberately outside this controller. Use the QSS web UI's
   firmware page; whether QSS accepts an older image through manual upload is not
   documented. The 2.2.3 manual upload failed once on this unit and Live Update
-  succeeded; treat a second manual failure as a real limitation, not a fluke.
+  succeeded. The user later clarified that the manual attempt was through the UI
+  and may have been interrupted; its failure remains unexplained.
 - Keep the ONT off the switch until the configuration is re-applied and verified;
   a downgrade may reset the switch to one flat VLAN.
 - Add the target build to `device.firmware` in the YAML before the controller will
   talk to it, and run the read-only commands first: endpoint shapes were sampled on
   2.2.3 only. Do not rely on importing a 2.2.3 backup into an older build.
+
+The [firmware comparison preparation](firmware-comparison-preparation-20260905.md)
+adds a pinned image catalog and hardware-free rehearsal. It inspects the raw
+chunk upload protocol but exposes no live firmware execution command.
 
 To re-fetch and verify:
 
