@@ -3,7 +3,7 @@
 Draft support report, 2026-09-05. Not submitted. Root cause and vendor
 responsibility remain unconfirmed.
 
-## Current reproduction
+## Reproduction configuration before the direct-laptop test
 
 - QNAP QSW-L2110-10T, QSS 2.2.3.20260713, hardware A0.
 - Firewalla Gold Plus, Linux 5.15.0-27-generic; both tested NICs use `igc`,
@@ -76,6 +76,7 @@ Private raw evidence is in
 | Change Firewalla LAN members from `eth2`+`eth3` to `eth3`+`eth1` | New `eth1` works through QNAP 3; `eth3` through QNAP 4 still fails |
 | Disconnect working `eth1` / QNAP 3 for approximately 51 seconds | Observer lost LAN gateway connectivity; it recovered after `eth1` reconnected |
 | Restore LAN `eth3`+`eth2` and map `eth3` to QNAP 3, `eth2` to QNAP 4 | Same one-member failure; all 20 network probes pass after reconnection |
+| Connect failing Firewalla `eth2` directly to a macOS laptop's 1G adapter | Laptop received one LACP frame, proving transmission to an independent receiver at 1G |
 
 These experiments weaken an isolated cable or single physical-port defect.
 They do not establish a specific firmware defect. Whether the user fully
@@ -151,6 +152,33 @@ Private evidence:
 
 The reusable [diagnostic tools](diagnostic-tools.md) implement capture,
 temporary mirroring with cleanup, and LACP state summaries.
+
+## Direct Firewalla-to-laptop capture at 04:20 UTC
+
+The user connected the laptop directly to Firewalla's physical port 2 and
+provided a short capture. It contains one 124-byte Ethernet LACPv1 frame at
+04:20:34.825076 UTC. Its Ethernet source matches the recorded permanent
+address of `eth2`, confirming the interface independently of the case label.
+The actor identifies the existing bond system, actor port 2, key 9, and
+state 77. The partner system is zero because the laptop does not participate
+in LACP. Both the repository decoder and tcpdump decode the same fields.
+
+This proves that Firewalla `eth2` can physically transmit LACP to an
+independent receiver. The laptop adapter is limited to 1G, so the experiment
+does not reproduce the failing 2.5G QNAP link or exclude speed-dependent
+behavior. The actor-key change from 11 to 9 is consistent with the
+[Linux 5.15 bonding implementation](https://github.com/torvalds/linux/blob/v5.15/drivers/net/bonding/bond_3ad.c):
+the key includes link speed and duplex. It is not evidence of configuration
+drift between the two captures. One packet is sufficient to demonstrate
+transmission, but does not establish sustained reliability or loss rate.
+
+After the capture, live state showed `eth2` disconnected and `eth3` still
+collecting/distributing through QNAP port 3 at 2.5G. All 20 probes passed.
+No switch or router configuration was changed by the assistant for this test.
+
+Private evidence is in `backups/lacp-direct-laptop-20260905T042034Z/`:
+`laptop.pcap` and `summary.json`. The user-provided original
+`firewalla-ingress.pcap` remains ignored in the checkout.
 
 ## Remaining discriminating tests
 
