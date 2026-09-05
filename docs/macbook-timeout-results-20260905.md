@@ -1,0 +1,49 @@
+# MacBook LACP Short → Long → Short — 2026-09-05
+
+The same MacBook and USB adapters failed on Short, passed on Long, and failed again after returning to Short. No cable was moved between settings. This is a repeatable timeout-dependent result for this Mac/switch combination; it does not establish that switch firmware or Firewalla is faulty.
+
+| Switch timeout on ports 1+2 | Observation (UTC) | Duration | Longest clean native interval | Result |
+|---|---|---:|---:|---|
+| Short before | 22:11:27.453–22:16:57.459 | 330.0 s | 2.01 s | Fail |
+| Long | 22:17:49.829–22:25:19.834 | 450.0 s | 449.48 s | Pass |
+| Short restored | 22:25:44.313–22:26:19.583 | 35.3 s | 2.01 s | Expired again; interrupted |
+
+The final Short return window was interrupted after 35.27 seconds by malformed JSON in read-only QSS monitoring. Expiration returned within that window, but the planned five-minute reversal observation did not complete. A watchdog disarm read also failed; the runner had already restored and verified Short before either read failed. Cleanup removed the bond, then required a retry to bring en9 up before restoring its permanent MAC. A later independent read verified all original switch settings. Original error logs are retained. The completed Short baseline and Long observation remain usable.
+
+Long supplied **419.915 seconds** of jointly clean native and fresh packet evidence, exceeding the 300-second requirement. Both original captures finalized with zero kernel drops.
+
+This follows the [two-order baseline](macbook-lacp-results-20260905.md). The original baseline kept all switch settings unchanged. The user subsequently authorized this scoped Short → Long → Short comparison on spare group 1, ports 1+2.
+
+The Anker/Realtek adapter stayed on en8/port 1 and the TP-Link/ASIX adapter on en9/port 2. Both negotiated 1000baseT full duplex. The switch remained QSW-L2110-10T firmware 2.2.3.20260713, with VLAN/PVID 3999 on the test pair. Firewalla was not managed, production cables were not moved, and no other pair or firmware build was tested.
+
+The controller backed up the switch, checked its model and exact firmware, and built plans containing only `lacpTimeoutId_1` and `lacpTimeoutId_2`: `0 → 1` for Long and `1 → 0` for restoration. QSS submits the full 41-field LAG table. The other 39 fields, all VLAN memberships/names, PVIDs, and port settings were checked against the original snapshot. Every apply used the controller's backup, refreshed-plan, read-back, and save gates. A separate process enforced a fixed restoration deadline while Long was active, and was asked to disarm after the controller verified Short. Its independent verification read failed, as detailed above. Reboot persistence was not tested.
+
+Native support was rechecked with both cables disconnected. The temporary `LacpTimeoutTest` bond was discovered as bond0 and explicitly given en8/en9 members using native ifconfig, because networksetup again created an empty membership configuration. IPv4 and IPv6 were disabled on the temporary bond service. Both tcpdump processes and native/Wi-Fi monitoring were running before the user was told to connect Ethernet. Wi-Fi en0 remained the default route.
+
+“Clean” requires synchronization, collecting, and distributing in both actor and partner state, with neither expired nor defaulted, on both active members. Native snapshots were taken about once per second. Packet direction was identified by actor system ID, avoiding the harness's stale SYNCED label and its en9 source-MAC misclassification. Mac system ID was 68:5e:dd:14:2e:92, key 1, ports 32/33; QNAP was 24:5e:be:77:e5:86, key 1, ports 1/2. Identities matched reciprocally in all three observation windows.
+
+One continuous capture covers setup, both setting changes, and all three phases. Per-phase PCAPs retain exact original records selected by UTC timestamp; capture drop counters belong to the original continuous files. The joint evidence interval intersects clean native spans with clean spans in all four packet streams, bounded by actual packet timestamps and requiring packet gaps no greater than 35 seconds. Thus the slower Long cadence must supply fresh evidence across the interval; cached state alone cannot pass.
+
+On Short, Mac advertisements alternated between actor `0x3d` and `0xbd` (expired), and their partner state between `0x3f` and `0x37` (synchronization cleared). QNAP advertisements repeatedly echoed the expired Mac state. On Long, every actor and partner TLV captured inside the observation window was `0x3d`: synchronization, collecting, and distributing without expired/defaulted. Returning to Short reproduced the original cycle.
+
+| Phase | Mac PDU median gap, en8 / en9 | QNAP PDU median gap, en8 / en9 |
+|---|---|---|
+| short-before | 1.001 s / 1.001 s | 4.000 s / 4.000 s |
+| long | 30.001 s / 30.001 s | 29.999 s / 29.999 s |
+| short-after | 1.001 s / 1.001 s | 4.000 s / 4.000 s |
+
+The approximately four-second QNAP cadence on Short is an observation, not proof of a four-second periodic timer. For example, on en8 at 22:16:42.889 the Mac advertised expired; QNAP replied at 22:16:42.925, echoing that state. The same sequence repeated at 22:16:46.892/.925. Event-triggered replies to Mac expiration are a plausible explanation for that cadence.
+
+[Apple's published XNU receive machine](https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/net/if_bond.c#L4479) selects the receive timeout from the stored **partner** timeout bit; its [constants](https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/net/lacp.h#L396) are 3 and 90 seconds. [Linux's receive machine](https://github.com/torvalds/linux/blob/9f0346dcbea363787186c94ef94dd01aaa215afa/drivers/net/bonding/bond_3ad.c#L1387) instead selects it from the local **actor** timeout bit. The Mac advertised Long throughout these trials, while QNAP advertised Short in the failing phases. This gives a concrete Mac-side timing hypothesis consistent with the packets. These published revisions were not verified against the running binaries, so this is supporting context, not a fault assignment.
+
+The [earlier production diagnostics](lacp-diagnostics-20260905.md#native-ui-and-timed-ports-47-experiment-at-13161423-utc) already record ports 3+4 being tested with Long and Firewalla port 4 remaining defaulted/nonforwarding. A fresh read at 22:27:43 UTC confirmed both production ports are currently Short in group 4, matching this experiment's starting snapshot. Their timeout fields were preserved throughout. The Mac result should not be presented as evidence that changing production to Long will fix port 4.
+
+Wi-Fi remained the default route in all 105 periodic observations. There was one failed internet probe at 22:17:22.654 UTC during the Long apply; subsequent probes passed. Additional one-second probes began during Long. During the return to Short, gateway and internet probes each failed once at 22:25:44.459, with successful probes immediately before at approximately 22:25:43.45 and afterward at 22:25:46.48. This brackets that disturbance between successful observations about three seconds apart; it is not an exact outage duration. There were 1/839 failed one-second internet probes and 1/839 failed gateway probes overall. Both setting changes therefore had observable transient reachability impact. Unchanged production configuration does not imply uninterrupted forwarding during a QSS full-table LAG apply.
+
+The final switch read-back matched all 41 original LAG configuration fields, all VLANs/PVIDs, and all port settings. Production physical links remained at their original speeds in sampled snapshots; QSS continued to report port 3 up and port 4 down as LAG members. These samples do not resolve the exact production runtime state during the brief ping failures.
+
+At 2026-09-05T22:33:26.096+00:00 UTC, cleanup had removed the temporary Mac bond, restored original adapter MACs, cleared promiscuous flags, and preserved the original network service list/order. The cables could remain connected: cleanup first brought down only the temporary bond and its two members, detached them, deleted the bond, and restored the adapters' original administrative state. DHCP/automatic IPv6 service configuration was retained. Final Wi-Fi ICMP and HTTPS checks passed. No other port pair was tested.
+
+A useful independent control would be a Linux peer on this same isolated pair, with fresh packet and native-state evidence, before interpreting Mac failures as a switch regression. Hold peer, adapters, speed, cables, and VLAN constant as far as possible. Further production changes need their own scope; the existing Firewalla Long trial was already negative. A firmware comparison would be a separate experiment affecting the whole switch and would be testing a separate hypothesis. The user subsequently requested preparation for a 2.2.2/2.2.1 firmware comparison without applying firmware.
+
+Durable metrics, events, source revisions, capture hashes, and cleanup checks are in [the evidence summary](evidence/macbook-timeout-20260905-summary.json). Original PCAPs, complete native snapshots, switch snapshots, plans, protected configuration backups, apply logs, signal-safe launch/cleanup scripts, and independent decoding remain in ignored `backups/macbook-timeout-20260905T215743Z/`. The local `.env` and switch configuration backups were not committed. The controller's relevant checks passed before the experiment (54 tests, including the seven loopback emulator tests rerun outside the restricted sandbox); report JSON and repository whitespace checks were also verified. No production controller code changed.

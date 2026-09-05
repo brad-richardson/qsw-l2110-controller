@@ -1,5 +1,7 @@
 # MacBook LACP baseline — 2026-09-05
 
+Follow-up: the [Short → Long → Short comparison](macbook-timeout-results-20260905.md) found sustained clean Mac negotiation on Long and renewed expiration after restoring Short. Its final reversal recording was interrupted. That result makes these Short-only Mac failures weaker evidence against switch firmware; see the follow-up for native timing behavior, reachability blips, and cleanup details.
+
 **Neither connection order met the required five minutes of sustained two-member LACP without expiration.** Both adapters negotiated 1000baseT full duplex and exchanged fresh LACPDUs with the expected switch ports. The Mac repeatedly entered expired state on each link, including while each was the only connected member. Reversing connection order did not remove that behavior. This does not identify the faulty implementation or establish a routed-traffic failure.
 
 Only existing group 1 on ports 1+2 was tested. Firewalla’s recreated LAG, production cables, and switch configuration were untouched. No other pair or firmware version was tested.

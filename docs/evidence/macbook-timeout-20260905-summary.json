@@ -1,0 +1,868 @@
+{
+  "schema_version": 1,
+  "experiment": "MacBook spare ports 1+2 Short-Long-Short",
+  "date": "2026-09-05",
+  "controller_commit": "6e85eada915b8edf30eba159079922f13fc496bd",
+  "model": "QSW-L2110-10T",
+  "firmware": "2.2.3.20260713",
+  "macos": "26.6.2",
+  "native_bond": {
+    "bond": "bond0",
+    "index": "34",
+    "name": "LacpTimeoutTest",
+    "utc": "2026-09-05T22:08:50.776+00:00"
+  },
+  "adapters": {
+    "en8": {
+      "label": "Anker",
+      "switch_port": 1,
+      "chipset": "Realtek RTL8153",
+      "driver": "AppleUserECM",
+      "permanent_mac": "a0:ce:c8:59:74:22"
+    },
+    "en9": {
+      "label": "TP-Link",
+      "switch_port": 2,
+      "chipset": "ASIX AX88179B",
+      "driver": "AppleUSBNCMData",
+      "permanent_mac": "c8:a3:62:f4:21:b0"
+    }
+  },
+  "actor_systems": {
+    "mac": "68:5e:dd:14:2e:92",
+    "switch": "24:5e:be:77:e5:86"
+  },
+  "scope": {
+    "managed_ports": [
+      1,
+      2
+    ],
+    "changed_fields": [
+      "lacpTimeoutId_1",
+      "lacpTimeoutId_2"
+    ],
+    "timeout_values": {
+      "short": "0",
+      "long": "1"
+    },
+    "firmware_changed": false,
+    "firewalla_management_calls": false,
+    "production_cables_moved": false,
+    "cable_changes_between_settings": false
+  },
+  "phases": {
+    "short-before": {
+      "phase_window": {
+        "label": "short-before",
+        "target": "short",
+        "start": "2026-09-05T22:11:27.453+00:00",
+        "end": "2026-09-05T22:16:57.459+00:00"
+      },
+      "duration_seconds": 330.006,
+      "passes_300_seconds": false,
+      "native_sample_count": 329,
+      "native_longest_good_seconds": 2.01,
+      "native_sample_max_gap_seconds": 1.006,
+      "native_sampling_gaps_over_3s": [],
+      "joint_native_and_four_packet_streams_clean_seconds": 0,
+      "joint_clean_windows_epoch": [],
+      "pcap_sha256": {
+        "en8.pcap": "e884ce37b135528e87a65275fe4c5720add633466d8bbe75f3fdedf3b5f84b3a",
+        "en9.pcap": "8b00d53e87cab2c48a4db400ecf6716066b030a62c4ba2d782224a0692e93a9c"
+      },
+      "wifi": {
+        "samples": 33,
+        "probe_failures": 0,
+        "route_departures": 0,
+        "last": "2026-09-05T22:16:52.563+00:00"
+      },
+      "final_300_seconds": {
+        "en8": {
+          "mac": {
+            "packets": 300,
+            "both_tlvs_clean_packets": 225,
+            "actor_states": [
+              61,
+              189
+            ],
+            "partner_states": [
+              55,
+              63
+            ],
+            "first": "2026-09-05T22:11:57.655+00:00",
+            "last": "2026-09-05T22:16:56.901+00:00"
+          },
+          "peer": {
+            "packets": 75,
+            "both_tlvs_clean_packets": 0,
+            "actor_states": [
+              63
+            ],
+            "partner_states": [
+              189
+            ],
+            "first": "2026-09-05T22:11:58.732+00:00",
+            "last": "2026-09-05T22:16:54.925+00:00"
+          }
+        },
+        "en9": {
+          "mac": {
+            "packets": 300,
+            "both_tlvs_clean_packets": 225,
+            "actor_states": [
+              61,
+              189
+            ],
+            "partner_states": [
+              55,
+              63
+            ],
+            "first": "2026-09-05T22:11:57.557+00:00",
+            "last": "2026-09-05T22:16:56.805+00:00"
+          },
+          "peer": {
+            "packets": 75,
+            "both_tlvs_clean_packets": 0,
+            "actor_states": [
+              63
+            ],
+            "partner_states": [
+              189
+            ],
+            "first": "2026-09-05T22:11:58.631+00:00",
+            "last": "2026-09-05T22:16:54.824+00:00"
+          }
+        }
+      },
+      "native_transition_count": 167,
+      "members": {
+        "en8": {
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "identity_mismatch_count": 0,
+          "directions": {
+            "mac": {
+              "count": 330,
+              "first": "2026-09-05T22:11:27.630+00:00",
+              "last": "2026-09-05T22:16:56.901+00:00",
+              "last_age_seconds": 0.558,
+              "max_gap_seconds": 1.001,
+              "median_gap_seconds": 1.001,
+              "last_60s_count": 60,
+              "actor_states": {
+                "61": 248,
+                "189": 82
+              },
+              "partner_states": {
+                "63": 248,
+                "55": 82
+              },
+              "source_macs": [
+                "a0:ce:c8:59:74:22"
+              ]
+            },
+            "peer": {
+              "count": 82,
+              "first": "2026-09-05T22:11:30.733+00:00",
+              "last": "2026-09-05T22:16:54.925+00:00",
+              "last_age_seconds": 2.534,
+              "max_gap_seconds": 4.1,
+              "median_gap_seconds": 4.0,
+              "last_60s_count": 15,
+              "actor_states": {
+                "63": 82
+              },
+              "partner_states": {
+                "189": 82
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:87"
+              ]
+            }
+          }
+        },
+        "en9": {
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "identity_mismatch_count": 0,
+          "directions": {
+            "mac": {
+              "count": 330,
+              "first": "2026-09-05T22:11:27.533+00:00",
+              "last": "2026-09-05T22:16:56.805+00:00",
+              "last_age_seconds": 0.654,
+              "max_gap_seconds": 1.001,
+              "median_gap_seconds": 1.001,
+              "last_60s_count": 60,
+              "actor_states": {
+                "61": 248,
+                "189": 82
+              },
+              "partner_states": {
+                "63": 248,
+                "55": 82
+              },
+              "source_macs": [
+                "c8:a3:62:f4:21:b0"
+              ]
+            },
+            "peer": {
+              "count": 82,
+              "first": "2026-09-05T22:11:30.632+00:00",
+              "last": "2026-09-05T22:16:54.824+00:00",
+              "last_age_seconds": 2.634,
+              "max_gap_seconds": 4.1,
+              "median_gap_seconds": 4.0,
+              "last_60s_count": 15,
+              "actor_states": {
+                "63": 82
+              },
+              "partner_states": {
+                "189": 82
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:88"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "long": {
+      "phase_window": {
+        "label": "long",
+        "target": "long",
+        "start": "2026-09-05T22:17:49.829+00:00",
+        "end": "2026-09-05T22:25:19.834+00:00"
+      },
+      "duration_seconds": 450.005,
+      "passes_300_seconds": true,
+      "native_sample_count": 449,
+      "native_longest_good_seconds": 449.48,
+      "native_sample_max_gap_seconds": 1.006,
+      "native_sampling_gaps_over_3s": [],
+      "joint_native_and_four_packet_streams_clean_seconds": 419.915,
+      "joint_clean_windows_epoch": [
+        [
+          1788646672.723532,
+          1788647092.638128
+        ]
+      ],
+      "pcap_sha256": {
+        "en8.pcap": "b993453fe48605a31b177e3b6cc3d199ee58dfb618b378c34ee36bd18f649b5e",
+        "en9.pcap": "ec6d99bc212e06c7762ed41a2c56891a7ce5d83c342bc0ca6e1df75658d6371a"
+      },
+      "wifi": {
+        "samples": 45,
+        "probe_failures": 0,
+        "route_departures": 0,
+        "last": "2026-09-05T22:25:16.978+00:00"
+      },
+      "final_300_seconds": {
+        "en8": {
+          "mac": {
+            "packets": 10,
+            "both_tlvs_clean_packets": 10,
+            "actor_states": [
+              61
+            ],
+            "partner_states": [
+              61
+            ],
+            "first": "2026-09-05T22:20:22.631+00:00",
+            "last": "2026-09-05T22:24:52.638+00:00"
+          },
+          "peer": {
+            "packets": 10,
+            "both_tlvs_clean_packets": 10,
+            "actor_states": [
+              61
+            ],
+            "partner_states": [
+              61
+            ],
+            "first": "2026-09-05T22:20:22.720+00:00",
+            "last": "2026-09-05T22:24:52.713+00:00"
+          }
+        },
+        "en9": {
+          "mac": {
+            "packets": 10,
+            "both_tlvs_clean_packets": 10,
+            "actor_states": [
+              61
+            ],
+            "partner_states": [
+              61
+            ],
+            "first": "2026-09-05T22:20:22.631+00:00",
+            "last": "2026-09-05T22:24:52.638+00:00"
+          },
+          "peer": {
+            "packets": 10,
+            "both_tlvs_clean_packets": 10,
+            "actor_states": [
+              61
+            ],
+            "partner_states": [
+              61
+            ],
+            "first": "2026-09-05T22:20:22.720+00:00",
+            "last": "2026-09-05T22:24:52.713+00:00"
+          }
+        }
+      },
+      "native_transition_count": 1,
+      "members": {
+        "en8": {
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "identity_mismatch_count": 0,
+          "directions": {
+            "mac": {
+              "count": 15,
+              "first": "2026-09-05T22:17:52.625+00:00",
+              "last": "2026-09-05T22:24:52.638+00:00",
+              "last_age_seconds": 27.196,
+              "max_gap_seconds": 30.001,
+              "median_gap_seconds": 30.001,
+              "last_60s_count": 2,
+              "actor_states": {
+                "61": 15
+              },
+              "partner_states": {
+                "61": 15
+              },
+              "source_macs": [
+                "a0:ce:c8:59:74:22"
+              ]
+            },
+            "peer": {
+              "count": 15,
+              "first": "2026-09-05T22:17:52.723+00:00",
+              "last": "2026-09-05T22:24:52.713+00:00",
+              "last_age_seconds": 27.12,
+              "max_gap_seconds": 30.0,
+              "median_gap_seconds": 29.999,
+              "last_60s_count": 2,
+              "actor_states": {
+                "61": 15
+              },
+              "partner_states": {
+                "61": 15
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:87"
+              ]
+            }
+          }
+        },
+        "en9": {
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "identity_mismatch_count": 0,
+          "directions": {
+            "mac": {
+              "count": 15,
+              "first": "2026-09-05T22:17:52.625+00:00",
+              "last": "2026-09-05T22:24:52.638+00:00",
+              "last_age_seconds": 27.196,
+              "max_gap_seconds": 30.001,
+              "median_gap_seconds": 30.001,
+              "last_60s_count": 2,
+              "actor_states": {
+                "61": 15
+              },
+              "partner_states": {
+                "61": 15
+              },
+              "source_macs": [
+                "c8:a3:62:f4:21:b0"
+              ]
+            },
+            "peer": {
+              "count": 15,
+              "first": "2026-09-05T22:17:52.723+00:00",
+              "last": "2026-09-05T22:24:52.713+00:00",
+              "last_age_seconds": 27.12,
+              "max_gap_seconds": 30.0,
+              "median_gap_seconds": 29.999,
+              "last_60s_count": 2,
+              "actor_states": {
+                "61": 15
+              },
+              "partner_states": {
+                "61": 15
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:88"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "short-after": {
+      "phase_window": {
+        "label": "short-after",
+        "target": "short",
+        "start": "2026-09-05T22:25:44.313+00:00",
+        "end": "2026-09-05T22:26:19.583+00:00",
+        "complete_planned_window": false,
+        "boundary": "first returned-Short QNAP PDU through capture stop",
+        "interruption": "QSS malformed JSON during read-only observer and watchdog disarm"
+      },
+      "duration_seconds": 35.27,
+      "passes_300_seconds": false,
+      "native_sample_count": 36,
+      "native_longest_good_seconds": 2.01,
+      "native_sample_max_gap_seconds": 1.006,
+      "native_sampling_gaps_over_3s": [],
+      "joint_native_and_four_packet_streams_clean_seconds": 0,
+      "joint_clean_windows_epoch": [],
+      "pcap_sha256": {
+        "en8.pcap": "7c35cb0c53a047543931eb2c0fdc7822818d480606a0fc58021bd5cb15075a01",
+        "en9.pcap": "136fcd2d1d5ea35cea3ce9b59e5a140902015f04fae4f23c33262cac2caa9e2f"
+      },
+      "wifi": {
+        "samples": 4,
+        "probe_failures": 0,
+        "route_departures": 0,
+        "last": "2026-09-05T22:26:17.142+00:00"
+      },
+      "final_300_seconds": {
+        "en8": {
+          "mac": {
+            "packets": 36,
+            "both_tlvs_clean_packets": 27,
+            "actor_states": [
+              13,
+              61,
+              189
+            ],
+            "partner_states": [
+              55,
+              63,
+              119
+            ],
+            "first": "2026-09-05T22:25:44.313+00:00",
+            "last": "2026-09-05T22:26:18.341+00:00"
+          },
+          "peer": {
+            "packets": 10,
+            "both_tlvs_clean_packets": 0,
+            "actor_states": [
+              63,
+              119
+            ],
+            "partner_states": [
+              0,
+              13,
+              189
+            ],
+            "first": "2026-09-05T22:25:44.313+00:00",
+            "last": "2026-09-05T22:26:16.411+00:00"
+          }
+        },
+        "en9": {
+          "mac": {
+            "packets": 36,
+            "both_tlvs_clean_packets": 27,
+            "actor_states": [
+              13,
+              61,
+              189
+            ],
+            "partner_states": [
+              55,
+              63,
+              119
+            ],
+            "first": "2026-09-05T22:25:44.313+00:00",
+            "last": "2026-09-05T22:26:18.341+00:00"
+          },
+          "peer": {
+            "packets": 10,
+            "both_tlvs_clean_packets": 0,
+            "actor_states": [
+              63,
+              119
+            ],
+            "partner_states": [
+              0,
+              13,
+              189
+            ],
+            "first": "2026-09-05T22:25:44.313+00:00",
+            "last": "2026-09-05T22:26:16.411+00:00"
+          }
+        }
+      },
+      "native_transition_count": 18,
+      "members": {
+        "en8": {
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "identity_mismatch_count": 0,
+          "directions": {
+            "peer": {
+              "count": 10,
+              "first": "2026-09-05T22:25:44.313+00:00",
+              "last": "2026-09-05T22:26:16.411+00:00",
+              "last_age_seconds": 3.171,
+              "max_gap_seconds": 4.0,
+              "median_gap_seconds": 4.0,
+              "last_60s_count": 10,
+              "actor_states": {
+                "119": 1,
+                "63": 9
+              },
+              "partner_states": {
+                "0": 1,
+                "13": 1,
+                "189": 8
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:87"
+              ]
+            },
+            "mac": {
+              "count": 36,
+              "first": "2026-09-05T22:25:44.313+00:00",
+              "last": "2026-09-05T22:26:18.341+00:00",
+              "last_age_seconds": 1.242,
+              "max_gap_seconds": 1.001,
+              "median_gap_seconds": 1.001,
+              "last_60s_count": 36,
+              "actor_states": {
+                "13": 1,
+                "61": 27,
+                "189": 8
+              },
+              "partner_states": {
+                "119": 1,
+                "63": 27,
+                "55": 8
+              },
+              "source_macs": [
+                "a0:ce:c8:59:74:22"
+              ]
+            }
+          }
+        },
+        "en9": {
+          "media": [
+            "media: autoselect (1000baseT <full-duplex>)",
+            "status: active"
+          ],
+          "identity_mismatch_count": 0,
+          "directions": {
+            "peer": {
+              "count": 10,
+              "first": "2026-09-05T22:25:44.313+00:00",
+              "last": "2026-09-05T22:26:16.411+00:00",
+              "last_age_seconds": 3.171,
+              "max_gap_seconds": 4.0,
+              "median_gap_seconds": 4.0,
+              "last_60s_count": 10,
+              "actor_states": {
+                "119": 1,
+                "63": 9
+              },
+              "partner_states": {
+                "0": 1,
+                "13": 1,
+                "189": 8
+              },
+              "source_macs": [
+                "24:5e:be:77:e5:88"
+              ]
+            },
+            "mac": {
+              "count": 36,
+              "first": "2026-09-05T22:25:44.313+00:00",
+              "last": "2026-09-05T22:26:18.341+00:00",
+              "last_age_seconds": 1.242,
+              "max_gap_seconds": 1.001,
+              "median_gap_seconds": 1.001,
+              "last_60s_count": 36,
+              "actor_states": {
+                "13": 1,
+                "61": 27,
+                "189": 8
+              },
+              "partner_states": {
+                "119": 1,
+                "63": 27,
+                "55": 8
+              },
+              "source_macs": [
+                "c8:a3:62:f4:21:b0"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "captures": {
+    "en8": {
+      "sha256": "75e5b1a1a90b5bdfd3265698b2e39c19bf3ab50c24598352ebcbfe3c6b364db1",
+      "bytes": 211536,
+      "captured": 2330,
+      "received_by_filter": 2542,
+      "dropped_by_kernel": 0
+    },
+    "en9": {
+      "sha256": "98affa93318fb99c71c3e61595bc527c12fc0ef7652d4b2482eec7995b7ca832",
+      "bytes": 74504,
+      "captured": 532,
+      "received_by_filter": 699,
+      "dropped_by_kernel": 0
+    }
+  },
+  "events": [
+    {
+      "utc": "2026-09-05T22:09:48.117+00:00",
+      "kind": "apply-start",
+      "target": "short",
+      "label": "short-baseline",
+      "changes": []
+    },
+    {
+      "utc": "2026-09-05T22:09:55.411+00:00",
+      "kind": "apply-return",
+      "target": "short",
+      "label": "short-baseline",
+      "exit": 0
+    },
+    {
+      "utc": "2026-09-05T22:10:05.794+00:00",
+      "kind": "readback-verified",
+      "target": "short",
+      "label": "short-baseline"
+    },
+    {
+      "utc": "2026-09-05T22:10:05.796+00:00",
+      "kind": "ready-to-connect"
+    },
+    {
+      "utc": "2026-09-05T22:10:05.837+00:00",
+      "kind": "watchdog-start",
+      "pid": 30179
+    },
+    {
+      "utc": "2026-09-05T22:11:27.453+00:00",
+      "kind": "both-connected-native"
+    },
+    {
+      "utc": "2026-09-05T22:11:27.453+00:00",
+      "kind": "phase-start",
+      "label": "short-before",
+      "target": "short",
+      "seconds": 330
+    },
+    {
+      "utc": "2026-09-05T22:16:57.459+00:00",
+      "kind": "phase-end",
+      "label": "short-before",
+      "target": "short"
+    },
+    {
+      "utc": "2026-09-05T22:16:57.461+00:00",
+      "kind": "long-restoration-lease-armed",
+      "maximum_seconds": 660
+    },
+    {
+      "utc": "2026-09-05T22:17:08.365+00:00",
+      "kind": "apply-start",
+      "target": "long",
+      "label": "set-long",
+      "changes": [
+        {
+          "area": "lag",
+          "key": "lacpTimeoutId_1",
+          "before": "0",
+          "after": "1"
+        },
+        {
+          "area": "lag",
+          "key": "lacpTimeoutId_2",
+          "before": "0",
+          "after": "1"
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-05T22:17:39.433+00:00",
+      "kind": "apply-return",
+      "target": "long",
+      "label": "set-long",
+      "exit": 0
+    },
+    {
+      "utc": "2026-09-05T22:17:49.829+00:00",
+      "kind": "readback-verified",
+      "target": "long",
+      "label": "set-long"
+    },
+    {
+      "utc": "2026-09-05T22:17:49.829+00:00",
+      "kind": "phase-start",
+      "label": "long",
+      "target": "long",
+      "seconds": 450
+    },
+    {
+      "utc": "2026-09-05T22:25:19.834+00:00",
+      "kind": "phase-end",
+      "label": "long",
+      "target": "long"
+    },
+    {
+      "utc": "2026-09-05T22:25:30.206+00:00",
+      "kind": "apply-start",
+      "target": "short",
+      "label": "restore-short",
+      "changes": [
+        {
+          "area": "lag",
+          "key": "lacpTimeoutId_1",
+          "before": "1",
+          "after": "0"
+        },
+        {
+          "area": "lag",
+          "key": "lacpTimeoutId_2",
+          "before": "1",
+          "after": "0"
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-05T22:26:01.883+00:00",
+      "kind": "apply-return",
+      "target": "short",
+      "label": "restore-short",
+      "exit": 0
+    },
+    {
+      "utc": "2026-09-05T22:26:12.681+00:00",
+      "kind": "readback-verified",
+      "target": "short",
+      "label": "restore-short"
+    },
+    {
+      "utc": "2026-09-05T22:26:12.681+00:00",
+      "kind": "phase-start",
+      "label": "short-after",
+      "target": "short",
+      "seconds": 330
+    },
+    {
+      "utc": "2026-09-05T22:26:18.361+00:00",
+      "kind": "experiment-aborted"
+    },
+    {
+      "utc": "2026-09-05T22:26:19.194+00:00",
+      "kind": "mac-cleanup-requested",
+      "short_restored": true
+    },
+    {
+      "utc": "2026-09-05T22:34:49.191+00:00",
+      "kind": "manual-final-readback-verified",
+      "target": "short",
+      "reason": "Independent watchdog disarm read and observer failed on malformed QSS JSON"
+    }
+  ],
+  "evidence_directory": "backups/macbook-timeout-20260905T215743Z",
+  "wifi": {
+    "periodic_samples": 105,
+    "periodic_failures": [
+      {
+        "utc": "2026-09-05T22:17:22.654+00:00",
+        "exit": 2
+      }
+    ],
+    "route_departures": 0,
+    "one_second_probes": {
+      "1.1.1.1": {
+        "samples": 839,
+        "first": "2026-09-05T22:19:24.739+00:00",
+        "last": "2026-09-05T22:33:27.550+00:00",
+        "failures": [
+          {
+            "utc": "2026-09-05T22:25:44.459+00:00",
+            "exit": 2
+          }
+        ]
+      },
+      "192.168.1.1": {
+        "samples": 839,
+        "first": "2026-09-05T22:19:24.739+00:00",
+        "last": "2026-09-05T22:33:27.558+00:00",
+        "failures": [
+          {
+            "utc": "2026-09-05T22:25:44.459+00:00",
+            "exit": 2
+          }
+        ]
+      }
+    }
+  },
+  "restoration": {
+    "all_41_lag_fields_match_original": true,
+    "vlans_match_original": true,
+    "pvids_match_original": true,
+    "all_port_settings_match_original": true,
+    "watchdog_disarm_read_failed": true,
+    "manual_short_readback_verified": true,
+    "switch_verified_utc": "2026-09-05T22:34:39.579+00:00",
+    "mac_cleanup_utc": "2026-09-05T22:33:26.096+00:00",
+    "no_mac_bonds": true,
+    "wifi_default_route": true,
+    "final_icmp_passed": true,
+    "final_https_passed": true,
+    "original_macs_restored": true,
+    "promiscuous_flags_cleared": true,
+    "reboot_persistence_verified": false
+  },
+  "interruption": {
+    "utc": "2026-09-05T22:26:18.360+00:00",
+    "cause": "Malformed JSON from read-only QSS observer and watchdog disarm calls",
+    "short_reversal_seconds": 35.27,
+    "planned_short_reversal_seconds": 330,
+    "automatic_cleanup_mac_restore_retry_required": true,
+    "final_configuration_restored_verified": true
+  },
+  "limitations": [
+    "Final Short reversal recording was interrupted after 35.27 seconds; it demonstrates recurrence but is not a completed five-minute trial.",
+    "Negotiation at 1 Gb/s only; no routed traffic or throughput test.",
+    "Periodic Wi-Fi sampling cannot prove uninterrupted reachability; failed probes are retained.",
+    "The full LAG table is submitted by QSS even for two timeout fields; unchanged configuration does not imply no transient runtime impact.",
+    "Published kernel source is supporting context, not a verified match to the running binary.",
+    "No conclusions about production Firewalla port 4 from this Mac-only experiment."
+  ],
+  "reference_sources": {
+    "apple": {
+      "commit": "f6217f891ac0bb64f3d375211650a4c1ff8ca1ea",
+      "url": "https://raw.githubusercontent.com/apple-oss-distributions/xnu/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/bsd/net/if_bond.c",
+      "sha256": "ea124294df0261eef9abbdb6765b763aa3b6c8f2f3420a1f2df1a29881e48468"
+    },
+    "linux": {
+      "commit": "9f0346dcbea363787186c94ef94dd01aaa215afa",
+      "url": "https://raw.githubusercontent.com/torvalds/linux/9f0346dcbea363787186c94ef94dd01aaa215afa/drivers/net/bonding/bond_3ad.c",
+      "sha256": "4e9c7d1bff35c01a366c0a217525ae645d699424954a79057b7aa98cc020051d"
+    }
+  }
+}
