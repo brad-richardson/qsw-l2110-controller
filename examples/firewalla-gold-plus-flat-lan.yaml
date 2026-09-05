@@ -2,7 +2,7 @@ schema_version: 1
 
 # Variant of firewalla-gold-plus.yaml for a Firewalla with one flat LAN and
 # no VLAN networks. The latest 2026-09-05 test uses bond0 over eth3+eth2;
-# WAN remains on eth0. The LAN LAG, access ports, and
+# WAN now uses bond1 over eth0+eth1. The LAN LAG, access ports, and
 # office trunk all carry a single native VLAN.
 
 device:

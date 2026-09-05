@@ -24,10 +24,20 @@ The switch does no routing between them; all WAN/LAN traffic must cross Firewall
 Never add ports 3, 4, 5, or 10 to VLAN 3999. Remove ports 1, 2, and 9 from VLAN 1.
 
 Deployment status 2026-09-05: Firewalla's flat LAN is now `bond0` over
-`eth3`+`eth2` after reverting the router-port test. WAN remains a single
-`eth0` link. The switch uses native LAN VLAN 10 per
-`examples/firewalla-gold-plus-flat-lan.yaml`; WAN ports 1, 2, and 9 remain
-disconnected. The office link on port 10 currently negotiates 2.5 Gb/s.
+`eth3`+`eth2` after reverting the router-port test. WAN is now `bond1` over
+`eth0`+`eth1`, and both WAN members synchronize and collect/distribute.
+`eth0` connects to QNAP port 2 and `eth1` to port 1, both at 2.5G. The ONT
+connects to port 9 at 1G. The switch uses native LAN VLAN 10 and isolated
+WAN-transit VLAN 3999 per `examples/firewalla-gold-plus-flat-lan.yaml`.
+The office link on port 10 currently negotiates 2.5 Gb/s. LAN still forwards
+through only `eth3` / QNAP port 3; `eth2` / QNAP port 4 remains defaulted.
+
+During the WAN switchover, one WAN member briefly had no physical link;
+the user reported a possibly loose cable. After reseating, both WAN members
+show actor/partner states 61/63, and all 20 probes passed for five minutes.
+The successful WAN group demonstrates two-member LACP interoperability
+between these same devices, narrowing the unresolved problem to the LAN
+setup. See the [diagnostic report](lacp-diagnostics-20260905.md).
 
 The flat-LAN configuration is restored to the original **ports 3+4** in
 LAN LAG 2; port 7 is again an ordinary LAN access port. The restore was backed
@@ -70,8 +80,9 @@ Before the ingress-mirror test, the user restored the router's original LAN
 pair and swapped its cable mapping: `eth3` now identifies QNAP port 3 and
 collects/distributes (states 61/63), while `eth2` identifies QNAP port 4 and
 remains defaulted (13/71). Both links are 2.5G. All 20 probes pass. The
-capture laptop is directly connected to port 7 at 1G; that port remains
-outside the LAG. These observations supersede the earlier interface mapping.
+capture laptop was directly connected to port 7 at 1G; that port remains
+outside the LAG and is now disconnected. These observations supersede the
+earlier interface mapping.
 
 QSS management at 192.168.1.72 is reachable through the LAN with rescue port 8
 disconnected. This confirms LAN management access; WAN-side management

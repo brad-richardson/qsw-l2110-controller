@@ -3,6 +3,12 @@
 Draft support report, 2026-09-05. Not submitted. Root cause and vendor
 responsibility remain unconfirmed.
 
+Latest result: the WAN LAG now works on both members with the same QNAP
+and Firewalla, while the LAN LAG retains its original failure. The initial
+WAN transition had physical-link interruptions; after the user reseated
+a possibly loose cable, both WAN members collected/distributed and all
+20 probes passed for five minutes. Detailed observations follow below.
+
 ## Reproduction configuration before the direct-laptop test
 
 - QNAP QSW-L2110-10T, QSS 2.2.3.20260713, hardware A0.
@@ -77,6 +83,7 @@ Private raw evidence is in
 | Disconnect working `eth1` / QNAP 3 for approximately 51 seconds | Observer lost LAN gateway connectivity; it recovered after `eth1` reconnected |
 | Restore LAN `eth3`+`eth2` and map `eth3` to QNAP 3, `eth2` to QNAP 4 | Same one-member failure; all 20 network probes pass after reconnection |
 | Connect failing Firewalla `eth2` directly to a macOS laptop's 1G adapter | Laptop received one LACP frame, proving transmission to an independent receiver at 1G |
+| Enable WAN `bond1` on `eth0`+`eth1` through QNAP ports 1+2 | After reseating a possibly loose cable, both WAN members synchronize and collect/distribute; LAN failure remains |
 
 These experiments weaken an isolated cable or single physical-port defect.
 They do not establish a specific firmware defect. Whether the user fully
@@ -180,19 +187,76 @@ Private evidence is in `backups/lacp-direct-laptop-20260905T042034Z/`:
 `laptop.pcap` and `summary.json`. The user-provided original
 `firewalla-ingress.pcap` remains ignored in the checkout.
 
+## WAN LAG succeeds after the physical connection recovers
+
+The user enabled WAN LACP on Firewalla `bond1` (`eth0`+`eth1`), connected
+both members to QNAP LAG 1, and moved the ONT to QNAP port 9. PVIDs remained
+3999 for ports 1, 2, and 9, and 10 for LAN ports 3–7 and 10.
+
+Initial reads showed `eth0` / QNAP port 2 up and forwarding, with `eth1` /
+QNAP port 1 physically down on both devices. The latter's cached LACP
+information already identified QNAP port 1, but its down state prevented
+any claim of current forwarding. Kernel events subsequently recorded
+physical link changes. The user reported a possibly loose connection.
+
+After reseating, the router reported:
+
+| WAN member | QNAP partner port | Link | Actor/partner states | Forwarding |
+|---|---:|---|---|---|
+| `eth0` | 2 | 2500 Mb/s full duplex | 61/63 | Collecting and distributing |
+| `eth1` | 1 | 2500 Mb/s full duplex | 61/63 | Collecting and distributing |
+
+Both belong to the same active aggregator, with Firewalla key 11 and QNAP
+key 1. QNAP ports 1 and 2 both have substantial packet counters and zero
+RX/TX bad packets. ONT port 9 negotiates 1G; this test does not demonstrate
+internet throughput above that link speed. The office uplink remains 2.5G.
+
+Monitoring recorded the principal switchover disruption around 04:26–04:27
+UTC, some later probe failures through 04:28, and a brief group of ICMP
+failures around 04:36 while link changes occurred. After recovery, all
+20 probes passed across a five-minute window and all three Firewalla
+collectors reported healthy. An earlier two-minute clean window therefore
+did not establish that all subsequent cable movement was interruption-free.
+
+This is a successful same-device comparison: there is no unconditional
+two-member LACP incompatibility between this Firewalla and this QNAP.
+LAN-specific group configuration, VLAN/bridge behavior, and port-path
+differences remain candidates. It does not by itself assign fault to either
+vendor. No switch configuration was changed by the assistant for this test.
+
+A 35-second LACP-only capture at 04:43:47–04:44:23 UTC confirmed the
+working states in packets: `eth0` captured 33 Firewalla and two QNAP
+LACPDUs; `eth1` captured 33 Firewalla and one QNAP LACPDU. All observed
+WAN actors/partners stayed at states 61/63. Raw PCAPs, tcpdump diagnostics,
+and decoded summaries are private under
+`backups/lacp-wan-working-20260905T044347Z/`.
+
+The final complete VLAN inventory matched the intended separation:
+VLAN 3999 untagged on 1, 2, 9; VLAN 10 untagged on 3–7, 10; VLAN 1
+untagged on rescue port 8. LAN ports 3 and 4 have identical membership
+and PVID 10. The captured LAN LACPDUs are untagged Ethernet control
+frames. No ordinary VLAN-membership mismatch was found; VLAN-specific
+firmware handling remains possible. Mirroring remains disabled.
+
+Two defective cables or an intermittent connector remain possible, but
+the prior cable/port swaps and zero reported receive-error counters
+weaken a simple bad-cable explanation. A controlled replacement of only
+the failing LAN cable with a cable already demonstrated to work on WAN
+would be stronger than trying an unverified spare. This has not been done;
+the working LAN member and at least one working WAN member should remain
+connected, and WAN/LAN endpoints must not be crossed during the swap.
+
 ## Remaining discriminating tests
 
 1. If a longer single-member test is needed, start recording before
    unplugging working port 3, leave port 4 connected for about 90 seconds,
    then reconnect port 3. The shorter test above has already shown loss
    of LAN connectivity; repeating it is deferred.
-2. Test the separate WAN LAG using the remaining Firewalla interfaces
-   `eth0`+`eth1` and QNAP ports 1+2 after the latest LAN-port restoration. LACP negotiation can be checked before
-   attaching the ONT to QNAP port 9; doing so interrupts internet service.
-   The current LAN members `eth2`+`eth3` must not be reused. Rollback means
-   restoring WAN to `eth0` alone and reconnecting the ONT directly to it.
-   User reports Bluetooth recovery is available. This tests a different
-   group and port pair, but still uses the same two implementations.
+2. Compare the failing LAN group with the now-working WAN group, including
+   a native-QSS-UI-only LAN reapply or recreation and, separately, a brief
+   loop-protection toggle with restoration. Neither has yet been performed.
+   Any group recreation must account for the live redundant cables before
+   temporarily removing aggregation.
 3. Ask QNAP to explain mirroring and control-frame handling on an unsynchronized
    LAG member. The ingress test above found packets only on the working-port
    control. A tap or a validated pre-filter capture point would better establish
