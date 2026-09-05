@@ -1,0 +1,36 @@
+schema_version: 1
+
+# Companion to laptop-lag-ports-1-7.yaml: retain port 7, the same peer, VLAN,
+# group number, and timeout, but make port 2 the lowest member instead of port 1.
+# Preconditions: WAN direct to Firewalla; remove the laptop's test cables before
+# applying. Existing LAN LAG 4 on ports 3+4 is preserved.
+# Procedure and restore: docs/lacp-review-20260905.md
+
+device:
+  models: [QSW-L2110-10T]
+  firmware: ["2.2.3.20260713"]
+  port_count: 10
+
+link_aggregation:
+  system_priority: 32768
+  managed_ports: [1, 2, 7]
+  groups:
+    - id: 1
+      mode: lacp
+      members: [2, 7]
+      port_priority: 128
+      timeout: short
+
+vlans:
+  - id: 1
+    name: default
+    untagged: [8]
+    tagged: []
+  - id: 10
+    name: lan
+    untagged: [3, 4, 5, 6, 10]
+    tagged: []
+  - id: 3999
+    name: wan-transit
+    untagged: [1, 2, 7, 9]
+    tagged: []

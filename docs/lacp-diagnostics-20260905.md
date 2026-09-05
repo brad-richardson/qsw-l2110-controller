@@ -3,6 +3,10 @@
 Draft support report, 2026-09-05. Not submitted. Root cause and vendor
 responsibility remain unconfirmed.
 
+The later [experiment review](lacp-review-20260905.md) covers the evening
+single-member, dummy-group, and loop-protection experiments, rechecks the
+reboot captures, and proposes laptop tests using spare ports.
+
 Update at 15:18 UTC: both WAN members are again at 2.5G, synchronized,
 collecting, and distributing (61/63). QNAP reports zero RX/TX bad packets
 on both ports. WAN `eth1` last dropped at 15:16:39 and came up at 15:16:42;

@@ -1,5 +1,13 @@
 # Runbook: second LACP peer from a laptop with two USB Ethernet adapters
 
+For the current MacBook baseline on the existing spare ports 1+2, use the
+[MacBook agent handoff](macbook-lacp-agent-handoff-20260905.md). It includes
+the post-recovery constraints and supersedes this runbook's test sequence.
+
+Before running, see the later [experiment review](lacp-review-20260905.md) for
+adapter checks, limits of the harness's cached sync verdict, the missing
+ports-7+8 YAML, and spare-port alternatives that preserve the production LAN.
+
 Purpose: take the Firewalla out of the picture. A laptop bond that syncs both members
 on ports where the Firewalla could not points at the router; a laptop bond that hits
 the same wall confirms the switch with no router involved. The same harness then maps
