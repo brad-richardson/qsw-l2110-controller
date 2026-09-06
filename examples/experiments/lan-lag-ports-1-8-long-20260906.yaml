@@ -1,0 +1,39 @@
+schema_version: 1
+
+# FIRST apply lan-lag-ports-1-8-rescue-stage-20260906.yaml in either direction.
+
+# Controlled LAN move 1+2 -> 1+8, retaining group 4 and Long timeout.
+# Preconditions: QNAP ports 3 and 8 empty; observer management on port 10.
+# Move rescue VLAN 1 from port 8 to port 3; port 8 becomes LAN VLAN/PVID 10.
+# After verified apply, move only the QNAP cable end 2 -> 8 (Firewalla eth3).
+# No Firewalla changes. Restore with lan-lag-ports-1-2-restore-from-1-8-20260906.yaml
+# and coordinated cable move 8 -> 2; that restore also returns rescue VLAN to 8.
+
+device:
+  models: [QSW-L2110-10T]
+  firmware: ["2.2.3.20260713"]
+  port_count: 10
+
+link_aggregation:
+  system_priority: 32768
+  managed_ports: [1, 2, 3, 4, 8]
+  groups:
+    - id: 4
+      mode: lacp
+      members: [1, 8]
+      port_priority: 128
+      timeout: long
+
+vlans:
+  - id: 1
+    name: default
+    untagged: [3]
+    tagged: []
+  - id: 10
+    name: lan
+    untagged: [1, 2, 4, 5, 6, 7, 8, 10]
+    tagged: []
+  - id: 3999
+    name: wan-transit
+    untagged: [9]
+    tagged: []

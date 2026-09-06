@@ -1,8 +1,9 @@
 # LAN ports 1+4 experiment — September 6, 2026
 
 **Failed: port 4 never synchronized in the recorded post-move interval.**
-The switch configuration was restored to 1+2 at 16:01 UTC; the cable was still
-on port 4 at the restoration check. Physical restoration is not yet confirmed.
+The switch configuration was restored to 1+2 at 16:01 UTC. After the user moved
+the cable back, a **16:04:58 UTC** read confirmed both members recovered at
+61/61, 2.5 Gb/s, key 1, with eth3 identifying QNAP port 2.
 The user authorized the separated-pair control after reviewing the proposal.
 
 Preflight confirmed that QNAP port 4 had no carrier, the current dated 1+2
@@ -72,7 +73,7 @@ test, but changes both members at once. Neither new target is applied. Port 8
 currently belongs to VLAN 1; plan LAN membership and a replacement rescue port
 before using it. The Tenda's own uplink port 8 is unrelated.
 
-## Fallback applied; physical return pending
+## Fallback and physical return confirmed
 
 After collecting the failure, the controller backed up and restored only the
 two membership fields to the known-working 1+2 target. Save and independent
@@ -80,7 +81,11 @@ readback verified it at **16:01:22 UTC**, with port/mirror settings preserved.
 Port 2 had no carrier before restoring. Port 1 remained 61/61 afterward;
 the cable was still on port 4 and its retained failed partner record is not
 evidence of a restored two-member bond. No Firewalla setting was changed.
-No new recorder, iperf server, or timed restoration is running.
+At **16:04:58 UTC**, after the physical return, both members were 61/61 at
+2.5 Gb/s with key 1. eth3 identified QNAP port 2 and its link-failure count was
+11, reflecting the return cable move; eth2 remained at 9. Recovery occurred
+without a switch reboot or Firewalla configuration change. A subsequent 1+8
+experiment is tracked separately; check the latest handoff for active jobs.
 
 Restore with the [current 1+2 target](../examples/experiments/lan-lag-ports-1-2-long-20260906.yaml)
 and a coordinated cable move **4 → 2**. Observer management stays on QNAP
@@ -88,6 +93,6 @@ port 10 and the rescue VLAN stays on QNAP port 8 throughout.
 
 Private evidence and recorder manifest:
 `backups/lan-ports-1-4-20260906T153606Z/`; raw captures and backups are excluded
-from Git. The old 1+2 report describes the prior completed healthy test. The same
-configuration is restored, but physical placement and two-member recovery need
-confirmation before claiming that baseline is re-established.
+from Git. The old 1+2 report describes the prior completed healthy test. The later
+16:04:58 read confirms recovery after this experiment, as a snapshot rather
+than a new sustained reliability measurement.

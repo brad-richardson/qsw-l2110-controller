@@ -1,0 +1,85 @@
+{
+  "experiment": "QNAP LAN LAG 1+8 control",
+  "status": "configuration applied; physical move and test result pending",
+  "configured_group": 4,
+  "qnap_timeout": "Long",
+  "firewalla_timeout": "Slow",
+  "firewalla_configuration_changed": false,
+  "pre_move_recovery": {
+    "verified_utc": "2026-09-06T16:04:58.176098+00:00",
+    "mapping": {
+      "eth2": 1,
+      "eth3": 2
+    },
+    "native_states": {
+      "eth2": [
+        61,
+        61
+      ],
+      "eth3": [
+        61,
+        61
+      ]
+    },
+    "speed_mbps": 2500,
+    "advertised_key": 1,
+    "link_failure_counts": {
+      "eth2": 9,
+      "eth3": 11
+    },
+    "fresh_reciprocal_evaluation": {
+      "pass": false,
+      "longest_joint_clean_seconds": 128.0480968952179,
+      "current_joint_clean_seconds": 128.0480968952179,
+      "joint_clean_events": 286,
+      "evaluated_events": 341,
+      "native_samples": 153,
+      "packet_counts": {
+        "eth2": 10,
+        "eth3": 10
+      },
+      "packet_max_age_seconds": 35,
+      "native_max_age_seconds": 2.5,
+      "window_start_epoch": 1788710746.145,
+      "window_end_epoch": 1788710901.583938,
+      "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+    }
+  },
+  "target_verified_utc": "2026-09-06T16:10:33.722792+00:00",
+  "target_mapping_pending_cable_move": {
+    "eth2": 1,
+    "eth3": 8
+  },
+  "vlans": {
+    "1": [
+      3
+    ],
+    "10": [
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      10
+    ],
+    "3999": [
+      9
+    ]
+  },
+  "staged_apply": true,
+  "vlan_post_read_timeouts": 2,
+  "repeated_vlan_writes": false,
+  "fresh_readback_matched_after_each_timeout": true,
+  "save_and_independent_readback_verified_each_stage": true,
+  "port_settings_mirrors_and_unrelated_lags_preserved": true,
+  "recorder": {
+    "started_utc": "2026-09-06T16:05:46.129078+00:00",
+    "duration_seconds": 1800,
+    "running_at_handoff": true,
+    "promiscuous_mode": false
+  },
+  "iperf_server_started": false,
+  "automatic_restoration_armed": false
+}
