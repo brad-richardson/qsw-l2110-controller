@@ -5,6 +5,12 @@ Port 10 stays connected to the unmanaged switch for management. Ports 9 and 10
 are outside this experiment. This is an initial negotiation map, not a throughput
 or long-term reliability test.
 
+## Later 1+7 repeat — 19:32 UTC
+
+The six-minute 1+7 control never synchronized both members. See the
+[repeat report](linux-usb-1-7-repeat-20260906.md); QNAP remains configured for
+1+7 group 4 Long after successful USB host cleanup.
+
 ## Full sweep complete — 19:19 UTC
 
 All 28 pairs are recorded. **1+2, 1+3, 1+7, and 2+3 negotiated**; the other

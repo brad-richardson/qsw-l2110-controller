@@ -1,5 +1,20 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest, 19:32 UTC: 1+7 six-minute repeat FAILED.** Zero native-clean samples
+out of 430, port 1 synchronized, port 7 defaulted throughout. Physical links
+remained 1000/full without link failures. Switch settings match the earlier
+success, but actor identity and configuration-to-peer timing differ. Host cleanup
+verified; QNAP remains on 1+7 group 4 Long, USB NICs down. This supersedes the
+neutral-switch state below. Read the [repeat report](linux-usb-1-7-repeat-20260906.md).
+The [historical-pattern review](historical-lacp-patterns-20260906.md) and
+[public-code/firmware investigation](public-lacp-code-20260906.md) are complete.
+The exact firmware contains MaxLinear/Zephyr LACP and CTP/BP/Pmapper references;
+related public code exists, but the exact QNAP source and accessible diagnostics
+are not located. Leading next comparison: preserve actor identity and reproduce
+immediate LAG-apply→peer startup, then test 1+7→1+3→1+7 with matched timing.
+No further experiment has been applied. Prior 2+3-pair success is not a necessary
+precursor chronologically; prior good-member conditioning remains untested.
+
 **Latest, 19:19 UTC: independent USB sweep COMPLETE (28/28).** Only **1+2,
 1+3, 1+7, and 2+3 negotiated**. Other pairs did not establish in their windows;
 none recovered in the recorded post-window holds. Ports 9–10 were excluded.

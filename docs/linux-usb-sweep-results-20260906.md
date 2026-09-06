@@ -1,5 +1,9 @@
 # Linux USB port sweep — September 6, 2026
 
+**Later repeat:** 1+7 failed to synchronize throughout a six-minute control,
+despite matching switch settings. The earlier success remains valid, but is not
+a dependable workaround. See the [repeat report and remaining confounds](linux-usb-1-7-repeat-20260906.md).
+
 ## Result: 28/28 pairs completed; four negotiated
 
 **1+2, 1+3, 1+7, and 2+3 negotiated. The other 24 pairs did not establish in
