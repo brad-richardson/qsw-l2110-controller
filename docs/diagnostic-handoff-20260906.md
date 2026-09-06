@@ -1,5 +1,11 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest USB result:** Native `ax88179_178a` did not produce a usable AX88179B
+link: QNAP port 3 showed 1000/full while Linux reported NO-CARRIER throughout
+the 90-second 1+3 control. Realtek synchronized. Host cleanup passed; no switch
+writes. The official ASIX `ax_usb_nic` 4.1.0 module builds for this kernel but
+has not been loaded. A valid independent two-member control is still outstanding.
+
 **USB control update:** The first Linux sweep was invalidated by the ASIX's
 `cdc_ncm` mode (unknown speed/duplex, separate aggregator). The user switched it
 to native `ax88179_178a`; ethtool now reports 1000/full. A fresh 1+3 control is

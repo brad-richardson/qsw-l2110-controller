@@ -48,6 +48,31 @@ of current native and reciprocal packet evidence. Unsuccessful 15-second windows
 remain provisional; revisit them with longer controls. Native-clean cases can
 still use the Slow-PDU grace period. No quick pass claims long-term stability.
 
+## Native-driver 1+3 control result — 18:00 UTC
+
+The 90.305-second control in `usb-sweep-20260906T180022Z` completed with
+`NO_PEER_LACP_IN_WINDOW`. This is still an **invalid switch-pair comparison**:
+QNAP consistently reported ports 1 and 3 at 1000/full, but the ASIX was
+administratively UP with Linux NO-CARRIER, zero received bytes, and an empty
+capture. Its native speed/duplex fields reported 1000/full. The Realtek reached
+61/61 and exchanged reciprocal LACP normally. The host returned both NICs down
+with original MACs; capture processes exited normally. No switch writes occurred.
+
+The kernel logged a register read error (`0x0040: -32`) when binding
+`ax88179_178a` to this AX88179B, followed by repeated link-status-zero reports.
+Binding the older in-kernel driver and seeing PHY speed is therefore insufficient
+proof of a working AX88179B peer. A replacement adapter or a working B-specific
+driver is required before restarting the matrix.
+
+ASIX's [official ax_usb_nic driver](https://github.com/ASIXElectronics/asix-usb-nic-linux-driver)
+explicitly distinguishes AX88179B/A (`bcdDevice 0200`, matching this adapter) from
+AX88179 (`0100`). Version 4.1.0, upstream commit
+`42feb1252fe0669845a8d6714bcc77bfc19eea1d`, built successfully against the running
+7.0.0-31-generic headers in `/tmp/asix-usb-nic-control-20260906`. Only the kernel
+module target was built; no installation, module loading, blacklist, udev rule,
+or firmware/programming operation has been performed. Module dependency is `mii`.
+Runtime compatibility of this vendor driver remains untested.
+
 ## Initial bench readiness — September 6, 2026 (before first run)
 
 Read-only checks after the user removed the port-8 cable confirmed that **only
