@@ -613,6 +613,11 @@ class LinuxPeer:
             command(["ip", "link", "set", "dev", iface, "down"])
             command(["ip", "link", "set", "dev", iface, "netns", self.ns])
             self.moved.append(iface)
+        # libpcap can reject an administratively DOWN interface. Bring these
+        # unaddressed, isolated members up before starting captures; no LACP
+        # bond exists yet, so capture will precede the first bond negotiation.
+        for iface in self.interfaces:
+            self.inside("ip", "link", "set", "dev", iface, "up")
         for iface in self.interfaces:
             path = self.log.path / f"{iface}.pcap"
             self.spawn(
@@ -637,8 +642,9 @@ class LinuxPeer:
             )
             self.trackers[iface] = PcapTracker(path)
         self.spawn(["ip", "-ts", "monitor", "link"], "link-events.txt")
-        self.rebuild()
         time.sleep(1)
+        self.check_captures()
+        self.rebuild()
         self.check_captures()
         save(
             self.log.path / "peer.json",

@@ -22,7 +22,10 @@ been assigned a cause. Polling has since been reduced.
 
 The user loaded `ax88179_178a` and selected USB configuration 1 on device 3-1.
 Readback confirmed that native driver and **1000 Mb/s, full duplex** capabilities.
-The native driver control is the next test; success has not yet been established.
+The first native-driver control attempt stopped before measurement because
+tcpdump raced interface startup and reported that both devices were down. Host
+cleanup succeeded and the switch was untouched. Capture startup now waits for
+administratively UP interfaces before creating the bond. A retry is pending.
 The runner now rejects unknown/mismatched native speed/duplex, and driver changes
 require a fresh sweep rather than resuming the invalid earlier results.
 
@@ -198,4 +201,4 @@ the new directory preserves that boundary and takes a new original-state backup.
 The implementation has automated coverage for configuration/readback failures,
 retained PHY carrier, stale or mismatched packet evidence, Slow-PDU grace,
 interrupted results, full 28-pair scheduling, and automatic completion. The full
-repository test suite passed (245 tests). The native-driver control remains pending.
+repository test suite passed (246 tests). The native-driver control remains pending.

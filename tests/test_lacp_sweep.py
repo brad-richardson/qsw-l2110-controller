@@ -514,3 +514,30 @@ def test_early_success_and_invalid_peer_guard(tmp_path, monkeypatch, bad_peer):
         result = sweep.measure(bench, peer, (3, 4), 1, args)
         assert result["result"] == "NEGOTIATED"
         assert 2 <= result["seconds"] < 3.1
+
+
+def test_capture_startup_requires_up_interfaces_before_bond_creation(tmp_path, monkeypatch):
+    log = sweep.Artifacts(tmp_path / "run")
+    peer = sweep.LinuxPeer(["usbA", "usbB"], "eno1", "https://192.168.1.72", log)
+    operations = []
+    up = set()
+    monkeypatch.setattr(sweep, "command", lambda args: operations.append(tuple(args)))
+    monkeypatch.setattr(sweep.time, "sleep", lambda _: None)
+
+    def inside(*args):
+        if args[:4] == ("ip", "link", "set", "dev") and args[-1] == "up":
+            up.add(args[4])
+        operations.append(args)
+
+    def spawn(args, filename):
+        if args[0] == "tcpdump":
+            assert args[args.index("-i") + 1] in up
+        operations.append(("spawn", filename))
+
+    peer.inside = inside
+    peer.spawn = spawn
+    peer.check_captures = lambda: operations.append(("captures_verified",))
+    peer.rebuild = lambda: operations.append(("bond_created",))
+    peer.setup()
+    assert operations.index(("captures_verified",)) < operations.index(("bond_created",))
+    assert len([o for o in operations if o[0] == "spawn"]) == 3
