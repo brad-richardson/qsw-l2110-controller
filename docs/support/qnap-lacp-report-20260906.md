@@ -69,6 +69,14 @@ Could engineering provide:
 3. Guidance or a diagnostic build to distinguish ingress classification/CPU
    delivery from LACP state-machine behavior? Image paths include lag_update.c,
    lacp.c, pce_rule_mng.c and eth_mxl_virt.c.
+4. Supported access to the shipped Zephyr UART shell? The image includes
+   shell_uart_backend, UART_0 and a uart:~$ prompt; your hardware specification
+   lists an RJ45 console. Please confirm connector location, electrical standard,
+   pinout, serial settings, authentication and any production-firmware restriction.
+5. The mapping of the diagnostic page's USXGMII interfaces 0/1 to this model's
+   physical/internal ports, and a safe register list for XPCS/PHY status reads?
+   We have inspected the UI serialization but have not assumed those selectors
+   are front-panel port numbers or started the hidden cable/eye tests.
 
 I can supply the sanitized reports below and selected packet captures on request.
 Please advise which additional diagnostic collection would be most useful.
@@ -80,6 +88,7 @@ Please advise which additional diagnostic collection would be most useful.
 - [Historical review](../historical-lacp-patterns-20260906.md)
 - [Firmware/code investigation](../public-lacp-code-20260906.md)
 - [Current settings](../evidence/qss-settings-audit-20260906.json)
+- [Native diagnostics and console investigation](../native-diagnostics-console-20260906.md)
 
 Raw backups contain credential material and are not part of this draft. Packet
 captures remain local; review the selected files before attaching them. No
