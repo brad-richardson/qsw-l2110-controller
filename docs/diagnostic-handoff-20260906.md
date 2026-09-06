@@ -1,30 +1,37 @@
 # Diagnostic handoff — September 6, 2026
 
-**Latest update at 16:23 UTC: 1+3 is saved and verified; physical connection pending.**
-The user requested 1+3 and unplugged the QNAP cable from port 8 during preparation.
-The controller confirmed ports 2, 3, and 8 empty, staged the rescue-VLAN exchange,
-and independently verified the final 1+3 target at **16:23:02 UTC**. The user was
-told to plug the loose QNAP cable end into **port 3**. Port 1 remains healthy;
-eth3 was still physically down at the final read. Firewalla settings are unchanged.
+**Latest result: 1+3 passed and is left in production.** Both Firewalla members
+were clean at 2.5 Gb/s for **678.574 seconds** under the joint native-state
+and fresh-reciprocal-PDU criterion, including **2.35 Gb/s in each direction**
+during a bounded iperf test. Port 3 received and transmitted bulk traffic;
+upload exercised both members. No error-counter or post-convergence link-failure
+increases were observed during load. Firewalla configuration is unchanged.
 
-Current configuration: **group 4 Long on 1+3**; VLAN 10 on **1,2,3,4,5,6,7,10**;
-rescue VLAN 1 back on **8**; VLAN 3999 on **9**. A passive non-promiscuous recorder
-is running from **16:21:01 UTC** with a 30-minute bound. No iperf server,
-reboot, or automatic restoration is armed. Read the
-[current 1+3 report](lan-ports-1-3-results-20260906.md) and
-[evidence](evidence/lan-ports-1-3-20260906.json) first. Confirm actual port-3
-negotiation before starting load or claiming success.
+Current mapping: **eth2→QNAP1; eth3→QNAP3**, both 61/61, advertised key 1,
+group 4 Long, Firewalla Slow. VLAN 10 on **1,2,3,4,5,6,7,10**; rescue VLAN 1
+on **8**; VLAN 3999 on **9**. Final readback matched this target.
+Recorder, iperf server, and local watcher are stopped; cleanup verified at
+**2026-09-06T16:37:03.896263+00:00**. No reboot or automatic restoration is armed.
+Read the [completed 1+3 report](lan-ports-1-3-results-20260906.md) and
+[evidence](evidence/lan-ports-1-3-20260906.json) first.
 
-The dedicated **1+3→1+2 fallback is direct**, because its VLANs already match;
-use the 1+3 report's restore file and coordinate cable placement. The two-stage
-restore instructions in the older 1+8 report apply to that former configuration.
+The user is considering retiring the production LAG and taking QNAP out of
+production for an independent Linux/USB-NIC port sweep. No teardown or test-bond
+setup has occurred. See the [host readiness and staged sweep plan](linux-usb-port-sweep-plan-20260906.md).
+USB Ethernet adapters were not yet visible; the Linux bonding module is available,
+and local administrator access is required for setup/capture.
+
+The dedicated **1+3→1+2 fallback is direct**, because VLANs already match;
+use the 1+3 report's restore file and coordinate cable placement. The older
+1+8 report's two-stage restoration is for that former configuration.
 
 Both [1+4](lan-ports-1-4-results-20260906.md) and
-[1+8](lan-ports-1-8-results-20260906.md) failed to learn an LACP partner despite
-retaining key 1. Their recordings are collected and cleanup verified. Returning
-the same NIC/cable from port 4 to port 2 restored both members without rebooting
-either device. No reboot has been performed for the 1+3 control. The completed
-1+2 results below are historical, not the current configuration or cable placement.
+[1+8](lan-ports-1-8-results-20260906.md) failed to learn a partner despite key 1.
+The same NIC/cable recovered on 2 and now passed on 3 without rebooting either
+device. This favors QNAP port/state dependence but does not prove physical
+port damage or eliminate every Firewalla/peer interaction. Longer operation
+and a coordinated reboot remain untested. Earlier 1+2 results below are
+historical, not the current cable placement.
 
 **The preceding production LAN baseline used QNAP ports 1+2, group 4, Long timeout. Both
 Firewalla members remained clean at 2.5 Gb/s for 10 minutes 45 seconds under

@@ -1,6 +1,6 @@
 {
   "experiment": "QNAP LAN LAG 1+3 control",
-  "status": "configuration saved and verified; physical port3 connection pending",
+  "status": "passed bounded LACP and throughput test; configuration and cables left on 1+3",
   "target_verified_utc": "2026-09-06T16:23:02.680969+00:00",
   "configured_group": 4,
   "qnap_timeout": "Long",
@@ -12,10 +12,6 @@
     3,
     8
   ],
-  "target_mapping_pending_cable_connection": {
-    "eth2": 1,
-    "eth3": 3
-  },
   "vlans": {
     "1": [
       8
@@ -80,9 +76,286 @@
   "recorder": {
     "started_utc": "2026-09-06T16:21:01.107009+00:00",
     "duration_seconds": 1800,
-    "running_at_handoff": true,
+    "running_at_handoff": false,
     "promiscuous_mode": false
   },
-  "iperf_server_started": false,
-  "automatic_restoration_armed": false
+  "iperf_server_started": true,
+  "automatic_restoration_armed": false,
+  "observed_mapping": {
+    "eth2": 1,
+    "eth3": 3
+  },
+  "first_native_clean_utc": "2026-09-06T16:25:14.089000+00:00",
+  "last_native_utc": "2026-09-06T16:37:02.634000+00:00",
+  "native_observation_seconds": 708.545000076294,
+  "native_sample_count": 698,
+  "native_max_gap_seconds": 1.1030001640319824,
+  "all_post_convergence_native_states_clean": true,
+  "final_members": {
+    "eth2": {
+      "mii": "up",
+      "speed": 2500,
+      "link_failures": 9,
+      "aggregator_id": 1,
+      "partner_churned": 1,
+      "actor_port": 1,
+      "actor_state": 61,
+      "partner_system": "24:5e:be:77:e5:86",
+      "partner_key": 1,
+      "partner_port": 1,
+      "partner_state": 61
+    },
+    "eth3": {
+      "mii": "up",
+      "speed": 2500,
+      "link_failures": 13,
+      "aggregator_id": 1,
+      "partner_churned": 6,
+      "actor_port": 2,
+      "actor_state": 61,
+      "partner_system": "24:5e:be:77:e5:86",
+      "partner_key": 1,
+      "partner_port": 3,
+      "partner_state": 61
+    }
+  },
+  "link_failure_values_after_convergence": {
+    "eth2": [
+      9
+    ],
+    "eth3": [
+      13
+    ]
+  },
+  "evaluation": {
+    "pass": true,
+    "longest_joint_clean_seconds": 678.5738730430603,
+    "current_joint_clean_seconds": 678.5738730430603,
+    "joint_clean_events": 1510,
+    "evaluated_events": 1571,
+    "native_samples": 698,
+    "packet_counts": {
+      "eth2": 46,
+      "eth3": 45
+    },
+    "packet_max_age_seconds": 35,
+    "native_max_age_seconds": 2.5,
+    "window_start_epoch": 1788711914.089,
+    "window_end_epoch": 1788712622.634,
+    "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+  },
+  "throughput": [
+    {
+      "direction": "host-to-firewalla",
+      "received_gbps": 2.352757024409298,
+      "tcp_retransmits": 1,
+      "member_counter_deltas": {
+        "eth2": {
+          "rx_bytes": 4845726620,
+          "tx_bytes": 1041752,
+          "rx_packets": 3202669,
+          "tx_packets": 2143,
+          "rx_errors": 0,
+          "tx_errors": 0,
+          "rx_dropped": 0,
+          "tx_dropped": 0,
+          "rx_crc_errors": 0,
+          "rx_missed_errors": 0
+        },
+        "eth3": {
+          "rx_bytes": 14531399109,
+          "tx_bytes": 43350381,
+          "rx_packets": 9600687,
+          "tx_packets": 642463,
+          "rx_errors": 0,
+          "tx_errors": 0,
+          "rx_dropped": 0,
+          "tx_dropped": 0,
+          "rx_crc_errors": 0,
+          "rx_missed_errors": 0
+        }
+      },
+      "minimum_interval_gbps": 2.3225911331345386,
+      "maximum_interval_gbps": 2.38234791611785,
+      "zero_byte_intervals": 0
+    },
+    {
+      "direction": "firewalla-to-host",
+      "received_gbps": 2.3532406777812422,
+      "tcp_retransmits": 0,
+      "member_counter_deltas": {
+        "eth2": {
+          "rx_bytes": 11656315,
+          "tx_bytes": 1746735,
+          "rx_packets": 155103,
+          "tx_packets": 2874,
+          "rx_errors": 0,
+          "tx_errors": 0,
+          "rx_dropped": 0,
+          "tx_dropped": 0,
+          "rx_crc_errors": 0,
+          "rx_missed_errors": 0
+        },
+        "eth3": {
+          "rx_bytes": 22129292,
+          "tx_bytes": 19383806933,
+          "rx_packets": 311006,
+          "tx_packets": 12805329,
+          "rx_errors": 0,
+          "tx_errors": 0,
+          "rx_dropped": 0,
+          "tx_dropped": 0,
+          "rx_crc_errors": 0,
+          "rx_missed_errors": 0
+        }
+      },
+      "minimum_interval_gbps": 2.3498235207801472,
+      "maximum_interval_gbps": 2.356152659439919,
+      "zero_byte_intervals": 0
+    }
+  ],
+  "load_counter_deltas": {
+    "host": {
+      "rx_errors": 0,
+      "tx_errors": 0,
+      "rx_dropped": 0,
+      "tx_dropped": 0,
+      "rx_crc_errors": 0,
+      "rx_missed_errors": 0
+    },
+    "firewalla": {
+      "eth2": {
+        "rx_errors": 0,
+        "tx_errors": 0,
+        "rx_dropped": 0,
+        "tx_dropped": 0,
+        "rx_crc_errors": 0,
+        "rx_missed_errors": 0
+      },
+      "eth3": {
+        "rx_errors": 0,
+        "tx_errors": 0,
+        "rx_dropped": 0,
+        "tx_dropped": 0,
+        "rx_crc_errors": 0,
+        "rx_missed_errors": 0
+      }
+    },
+    "switch_bad_packets": {
+      "1": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      },
+      "2": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      },
+      "3": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      },
+      "4": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      },
+      "5": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      },
+      "6": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      },
+      "7": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      },
+      "8": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      },
+      "9": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      },
+      "10": {
+        "RxBadPkt": 0,
+        "TxBadPkt": 0
+      }
+    },
+    "host_carrier_changes_before": "10",
+    "host_carrier_changes_after": "10"
+  },
+  "firewalla_invariants_unchanged_during_load": true,
+  "capture_audit": {
+    "eth2": {
+      "captured": 1992,
+      "received_by_filter": 1992,
+      "dropped_by_kernel": 0,
+      "complete_pcap_frames": 1992
+    },
+    "eth3": {
+      "captured": 1474,
+      "received_by_filter": 1474,
+      "dropped_by_kernel": 0,
+      "complete_pcap_frames": 1474
+    }
+  },
+  "cleanup": {
+    "utc": "2026-09-06T16:37:03.896263+00:00",
+    "unit_states": {
+      "lag-recorder-lan-ports-1-3-20260906T162100Z": {
+        "MainPID": "0",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "iperf-lan-1-3-20260906T1626": {
+        "MainPID": "0",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      }
+    },
+    "owned_recorder_pids": [],
+    "iperf_port_closed": true,
+    "firewalla_invariants": {
+      "ifindex": "13",
+      "mac": "20:6d:31:31:0d:b1",
+      "slaves": "eth2 eth3",
+      "rate": "slow 0",
+      "hash": "layer2+3 2",
+      "mode": "802.3ad 4"
+    },
+    "firewalla_invariants_match_load_baseline": true
+  },
+  "final_switch_verification": {
+    "utc": "2026-09-06T16:36:57.468933+00:00",
+    "target_matches": true,
+    "port_settings_preserved": true,
+    "mirrors_preserved": true
+  },
+  "reachability_probes": {
+    "gateway": {
+      "passed": 2,
+      "total": 2
+    },
+    "switch": {
+      "passed": 2,
+      "total": 2
+    },
+    "internet": {
+      "passed": 2,
+      "total": 2
+    }
+  },
+  "limitations": [
+    "Bounded observation, not a long-term reliability guarantee.",
+    "No switch reboot or factory reset; persistent per-port state is not excluded.",
+    "The observer has a 2.5 Gb/s NIC, so this does not establish aggregate throughput above one member.",
+    "Upload exercised both members; reverse bulk traffic used eth3 under the existing layer2+3 hash."
+  ],
+  "iperf_server_running": false
 }
