@@ -76,7 +76,9 @@ Could engineering provide:
 5. The mapping of the diagnostic page's USXGMII interfaces 0/1 to this model's
    physical/internal ports, and a safe register list for XPCS/PHY status reads?
    We have inspected the UI serialization but have not assumed those selectors
-   are front-panel port numbers or started the hidden cable/eye tests.
+   are front-panel port numbers or started the hidden cable/eye tests. A live
+   check returns phy_eye_test=true and serves both diagnostic pages; cable-result
+   GET returns 0xF sentinel values. Register-read execution remains untested.
 
 I can supply the sanitized reports below and selected packet captures on request.
 Please advise which additional diagnostic collection would be most useful.

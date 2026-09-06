@@ -1,0 +1,80 @@
+{
+  "observation_utc": "2026-09-06T22:53:53Z",
+  "model": "QSW-L2110-10T",
+  "firmware": "2.2.3.20260713",
+  "switch_configuration_writes": false,
+  "active_diagnostic_tests_started": false,
+  "register_reads_or_writes": false,
+  "logout_http_status": 200,
+  "dynamic_tools_flags": {
+    "phy_eye_test": "true"
+  },
+  "cable_results": {
+    "http_status": 200,
+    "PortNum": 8,
+    "all_ports_1_through_8_all_pairs_result": 15,
+    "native_ui_display": "--",
+    "interpretation": "no completed diagnostic result; not a hardware-fault finding"
+  },
+  "running_lag": {
+    "group": 4,
+    "mode": "lacp",
+    "timeout": "long",
+    "members": [
+      1,
+      7
+    ]
+  },
+  "physical_links": {
+    "1": "1000MbpsFull",
+    "7": "1000MbpsFull",
+    "10": "2500MbpsFull"
+  },
+  "uptime_reported": "0 Days 0 Hours 2 Minutes",
+  "console_tcp_check": {
+    "utc": "2026-09-06T22:52:25Z",
+    "open": [
+      80,
+      443
+    ],
+    "connection_refused": [
+      22,
+      23,
+      2323,
+      8022,
+      8023
+    ],
+    "scope": "TCP connect only on these ports; no login or commands; other ports not checked"
+  },
+  "assets": [
+    {
+      "method": "GET",
+      "path": "/cable_test.html",
+      "status": 200,
+      "bytes": 1624,
+      "sha256": "adcf0959ea968e46226c45b4c4f448f427615485abf965f8404c2bd74f12eb82"
+    },
+    {
+      "method": "GET",
+      "path": "/js/cable.js",
+      "status": 200,
+      "bytes": 8829,
+      "sha256": "06803b640bbc9c5de9c0f8e68c5ad460d8b778dd11c01aaf7239c041976ee860"
+    },
+    {
+      "method": "GET",
+      "path": "/phy_eye_test.html",
+      "status": 200,
+      "bytes": 12136,
+      "sha256": "98fb58d4fbb3d72875d5f132340f724f2f081eb26fe7eef28a47ea3592f3d039"
+    },
+    {
+      "method": "GET",
+      "path": "/js/eye_test.js",
+      "status": 200,
+      "bytes": 16688,
+      "sha256": "407bd1410007b782bf8ed61061226b50a60bb50d8759f08943ccddf7bf351114"
+    }
+  ],
+  "private_artifacts": "backups/native-diagnostics-live-20260906T225349Z"
+}

@@ -6,9 +6,12 @@ for six minutes each, with no QNAP login, API polling, or switch writes. The
 operator applies group 1 / Long and moves the cables at READY; the tool manages
 only the isolated USB peer and logs. No hardware run is claimed by this update.
 
-**Current bench state: QNAP powered off.** Previous 1+7 switch preparation was
-unsaved: inspect its configuration after power-up before preparing any further
-experiment.
+**Current bench state, 22:53 UTC: QNAP powered on.** Authorized diagnostic reads
+found 1+7 group 4 Long still configured and links on 1/7/10. No factory reset is
+claimed. The eye-test visibility flag is true; cached cable-test values are
+uncompleted-result sentinels. Common SSH/Telnet ports refused connections.
+The diagnostic session was logged out; no configuration or active test changed.
+See the [live diagnostic results](native-diagnostics-console-20260906.md).
 
 **New preparation:** [Fixed-identity 1+7 recovery and offline observation](linux-usb-recovery-20260906.md)
 are implemented and tested in software; neither mode has run on hardware yet.

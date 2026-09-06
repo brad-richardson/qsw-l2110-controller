@@ -1,11 +1,48 @@
 # Native diagnostics and console investigation — September 6, 2026
 
-Offline review of saved QSS JavaScript and the exact firmware image
+Initial offline review of saved QSS JavaScript and the exact firmware image
 `QSW-L2110-FW.v2.2.3_S20260713_100043.img`, SHA-256
 `4c9282b57e6d497623a6700c65c5a75bb33b19e504bf813155a2ae0ccb19b12b`.
-No diagnostic endpoint, register read/write, TDR, eye test, console connection,
-or switch login was performed during this review. Live availability remains
-unverified. The manual-UI sweep still opens no QNAP session.
+The initial review made no switch connection. The later authorized live
+availability check below used one QSS session and logged out afterward. No
+register read/write, TDR start, or eye test has been performed. The manual-UI
+sweep still opens no QNAP session.
+
+## Live availability check — 22:53 UTC
+
+After the user powered the switch back on and authorized live investigation,
+identity matched the known unit and firmware 2.2.3.20260713. Results:
+
+- `dynamic_tools_opt_check.json`: HTTP 200, **`{"phy_eye_test":"true"}`**.
+  The production build does not report this feature as disabled.
+- `cable_test.json`: HTTP 200, `PortNum: "8"`; all A–D result fields on ports
+  1–8 are `"15"` (`0xF`). The native UI renders this as **`--`**. These are
+  unavailable/not-completed result sentinels, not evidence of physical damage.
+  The response also includes unused port-9/10 objects; `PortNum` remains 8.
+- `cable_test.html`, `js/cable.js`, `phy_eye_test.html`, `js/eye_test.js`: all
+  HTTP 200. These assets confirm the earlier offline interface interpretation.
+  Serving the pages and enabling a visibility flag does **not** prove that
+  register-read or eye-test start handlers execute successfully.
+- TCP connections to 22, 23, 2323, 8022 and 8023 were refused; 80/443 accepted.
+  This establishes no console listener on those five common ports at that time,
+  not the absence of every possible network console or physical UART.
+- The running LAG is **1+7, group 4, Long**, with physical links on 1/7 at
+  1000/full and 10 at 2500/full. Reported uptime was two minutes. This corrects
+  the expectation that the previous neutral configuration might return on
+  power-up: 1+7 was observed again, despite no explicit Save in its preparation.
+  Persistence semantics have not been independently established; do not infer
+  that a factory reset has occurred.
+- Native `/logout.json` returned HTTP 200. Its POST was session cleanup only;
+  no configuration or active diagnostic operation was issued.
+
+The session read identity, diagnostic flags/results, LAG/port settings, uptime,
+and the four assets. No browser JavaScript was executed. The downloaded eye page
+contains legacy menu calls, and the saved current UI only shows a declaration
+of `ajaxCheckDynamicToolsOption`, not a caller. A true flag therefore does not
+establish that the current normal menu exposes a usable page.
+
+[Sanitized evidence](evidence/native-diagnostics-live-20260906.json). Raw results
+and asset copies are private under `backups/native-diagnostics-live-20260906T225349Z/`.
 
 ## What the shipped UI actually does
 
@@ -64,9 +101,10 @@ but generic Zephyr defaults are not verified QNAP settings.
 
 ## Next bounded checks
 
-1. With the single QSS session available, verify switch identity, GET the dynamic
-   feature flags, and GET existing cable-test results. Record unsupported/error
-   responses as availability evidence; do not retry with a start/write operation.
+1. **Completed:** verified identity, read feature flags and cached cable results.
+   The next useful distinction is actual register-handler support, but it still
+   needs the interface/address knowledge in step 2. Do not infer it from HTTP
+   availability of the page or start a cable/eye test as an availability probe.
 2. Establish the USXGMII interface mapping and exact register semantics before
    issuing register reads. Reads may acknowledge/clear status on some hardware;
    “read” is not a blanket guarantee that an arbitrary address is observation-only.

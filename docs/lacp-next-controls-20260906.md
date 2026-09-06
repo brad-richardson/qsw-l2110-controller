@@ -83,8 +83,10 @@ The stronger tests distinguish three conditions:
 - **Switch boot with port 10 already disconnected:** additionally removes a
   possible trigger before the peer starts. This requires deliberately persisting
   the intended bench LAG before reboot, and a native/PCAP recorder that survives
-  switch unreachability. Current volatile 1+7 preparation must not be assumed to
-  survive reboot; the previous saved configuration was neutral.
+  switch unreachability. The 22:53 UTC live read found 1+7 group 4 Long after
+  power-up despite no explicit Save in its preparation. Persistence semantics
+  remain unverified; deliberately prepare and read back the intended state
+  instead of assuming either retention or neutralization.
 
 The existing sweep and existing-pair runner depend on switch API polling and
 will abort when that path is lost. Do not unplug port 10 during that runner.

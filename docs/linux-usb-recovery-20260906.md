@@ -5,9 +5,11 @@ keeps Linux Slow with actor **02:3f:6c:3a:ff:a7**, matching the failed six-minut
 repeat. It is a new experiment tool, not a demonstrated recovery workaround.
 It does not change Firewalla, VLANs, startup configuration, or ports 9–10.
 
-The preceding 1+7 configuration was not saved to startup. Re-read identity,
-configuration, cabling, and management reachability after any power cycle before
-using these commands. Neither mode has been run on hardware.
+The preceding preparation did not explicitly issue Save, but the 22:53 UTC
+read after power-up still found 1+7 group 4 Long. Persistence semantics remain
+unverified. Re-read identity, configuration, cabling, and management reachability
+after any power cycle before using these commands. Neither mode has been run
+on hardware.
 
 ## Staged recovery
 
@@ -66,7 +68,8 @@ reverified while offline; the log explicitly records that limitation.
 Use this as an attached-versus-disconnected control with identical actor, cables
 and startup timing. It is **not** a cold-switch-start test: previously established
 internal switch state can remain. A later isolated reboot needs deliberate saved
-configuration preparation; the preceding 1+7 preparation was not saved to startup.
+configuration preparation and readback; do not infer startup behavior merely
+from whether the preceding script explicitly issued Save.
 
 Do not unplug port 10 during ordinary recovery mode or the older sweep runner,
 which need their switch API connection. Offline observation cannot be combined
