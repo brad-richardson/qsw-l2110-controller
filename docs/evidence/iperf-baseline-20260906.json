@@ -1,0 +1,199 @@
+{
+  "experiment": "pre-SFP-swap throughput baseline",
+  "start_utc": "2026-09-06T14:31:12.664303+00:00",
+  "end_utc": "2026-09-06T14:33:28.270476+00:00",
+  "firewalla_configuration_unchanged": true,
+  "host_speed_mbps": 2500,
+  "qnap_host_port": 10,
+  "phases": [
+    {
+      "name": "host-to-firewalla",
+      "duration_seconds": 60.024344,
+      "parallel_streams": 4,
+      "receiver_gbps": 2.3534672489548574,
+      "tcp_retransmits": 172,
+      "min_interval_gbps": 2.3344477024392476,
+      "max_interval_gbps": 2.386558976,
+      "zero_byte_intervals": 0,
+      "member_counter_deltas": {
+        "eth2": {
+          "rx_bytes": 9692263241,
+          "tx_bytes": 2218731,
+          "rx_packets": 6405277,
+          "tx_packets": 3220,
+          "rx_errors": 0,
+          "tx_errors": 0,
+          "rx_dropped": 0,
+          "tx_dropped": 0,
+          "rx_crc_errors": 0,
+          "rx_missed_errors": 0
+        },
+        "eth3": {
+          "rx_bytes": 9692401691,
+          "tx_bytes": 47045140,
+          "rx_packets": 6404144,
+          "tx_packets": 686803,
+          "rx_errors": 0,
+          "tx_errors": 0,
+          "rx_dropped": 0,
+          "tx_dropped": 0,
+          "rx_crc_errors": 0,
+          "rx_missed_errors": 0
+        }
+      }
+    },
+    {
+      "name": "firewalla-to-host",
+      "duration_seconds": 59.999874,
+      "parallel_streams": 4,
+      "receiver_gbps": 2.3529395801064514,
+      "tcp_retransmits": 1,
+      "min_interval_gbps": 2.33832448,
+      "max_interval_gbps": 2.35521245708388,
+      "zero_byte_intervals": 0,
+      "member_counter_deltas": {
+        "eth2": {
+          "rx_bytes": 10000638,
+          "tx_bytes": 1489986,
+          "rx_packets": 123135,
+          "tx_packets": 2876,
+          "rx_errors": 0,
+          "tx_errors": 0,
+          "rx_dropped": 0,
+          "tx_dropped": 0,
+          "rx_crc_errors": 0,
+          "rx_missed_errors": 0
+        },
+        "eth3": {
+          "rx_bytes": 23283448,
+          "tx_bytes": 19382644595,
+          "rx_packets": 322200,
+          "tx_packets": 12805625,
+          "rx_errors": 0,
+          "tx_errors": 0,
+          "rx_dropped": 0,
+          "tx_dropped": 0,
+          "rx_crc_errors": 0,
+          "rx_missed_errors": 0
+        }
+      }
+    }
+  ],
+  "host_error_deltas": {
+    "rx_errors": 0,
+    "tx_errors": 0,
+    "rx_dropped": 0,
+    "tx_dropped": 0,
+    "rx_crc_errors": 0,
+    "rx_missed_errors": 0
+  },
+  "host_carrier_change_delta": 0,
+  "firewalla_error_deltas": {
+    "eth2": {
+      "rx_errors": 0,
+      "tx_errors": 0,
+      "rx_dropped": 0,
+      "tx_dropped": 0,
+      "rx_crc_errors": 0,
+      "rx_missed_errors": 0
+    },
+    "eth3": {
+      "rx_errors": 0,
+      "tx_errors": 0,
+      "rx_dropped": 0,
+      "tx_dropped": 0,
+      "rx_crc_errors": 0,
+      "rx_missed_errors": 0
+    }
+  },
+  "firewalla_link_failure_deltas": {
+    "eth2": 0,
+    "eth3": 0
+  },
+  "switch_bad_packet_deltas": {
+    "1": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "2": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "3": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "4": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "5": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "6": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "7": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "8": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "9": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "10": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    }
+  },
+  "native_lacp": {
+    "all_samples_clean": true,
+    "samples": 133,
+    "duration_seconds": 135.5939998626709,
+    "max_sample_gap_seconds": 2.0329999923706055
+  },
+  "joint_evaluation": {
+    "pass": false,
+    "longest_joint_clean_seconds": 108.40139102935791,
+    "current_joint_clean_seconds": 108.40139102935791,
+    "joint_clean_events": 239,
+    "evaluated_events": 294,
+    "native_samples": 133,
+    "packet_counts": {
+      "eth2": 9,
+      "eth3": 9
+    },
+    "packet_max_age_seconds": 35,
+    "native_max_age_seconds": 2.5,
+    "window_start_epoch": 1788705073.857,
+    "window_end_epoch": 1788705209.451,
+    "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+  },
+  "joint_evaluation_note": "The evaluator pass field requires five clean minutes; this baseline intentionally ran about two minutes. Inspect current freshness and all captured PDUs below.",
+  "capture_audit": {
+    "eth2": {
+      "captured_frames": 279,
+      "lacp_pdus": 9,
+      "all_lacp_actor_partner_states_clean": true,
+      "kernel_drops": 0
+    },
+    "eth3": {
+      "captured_frames": 279,
+      "lacp_pdus": 9,
+      "all_lacp_actor_partner_states_clean": true,
+      "kernel_drops": 0
+    }
+  },
+  "cleanup": {
+    "verified_utc": "2026-09-06T14:35:01.521195+00:00",
+    "server_and_recorder_inactive": true,
+    "test_listener_closed": true,
+    "owned_processes_remaining": 0
+  }
+}

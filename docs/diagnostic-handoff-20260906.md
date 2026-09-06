@@ -6,12 +6,21 @@ the joint native-state and fresh-packet criterion.** Firewalla's existing Slow
 bond configuration was unchanged. The earlier port-4 failure remains unexplained;
 ports 1+2 are the current working workaround, with longer observation still needed.
 
-Latest cleanup was verified at **14:16:30 UTC**: the passive recorder is stopped,
-with no owned process or restoration armed. Read the
+Latest cleanup was verified at **14:35:01 UTC** after a throughput baseline:
+the iperf server and passive recorder are stopped, with no owned process or
+restoration armed. Read the
 [ports-1+2 execution report](lan-ports-1-2-results-20260906.md) and its dated
 target/restore YAML before changing anything. This handoff supersedes the older
 MacBook baseline and preparation instructions. Refresh live state before another
 hardware test.
+
+**Subsequent throughput baseline:** four TCP streams sustained **2.35 Gb/s in
+each direction** for 60 seconds each, with no observed link/LACP regression or
+hardware error-counter increases. Upload used both Firewalla members; reverse
+traffic used eth3, consistent with the existing transmit hash. The user was
+then told they could make an SFP-related cable swap. Its endpoints and new path
+are not yet verified; refresh topology before the next test. See the
+[baseline and pending SFP test](iperf-sfp-reliability-20260906.md).
 
 ## Completed evidence
 
