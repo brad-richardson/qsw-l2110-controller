@@ -277,6 +277,7 @@ class RecordingPeer:
         pass
 
     def sample(self):
+        self.clock.sleep(0.001)  # Real command/clock samples never share an exact timestamp.
         elapsed = self.clock.now - EPOCH
         raw = native(elapsed)
         with (self.log.path / "bond-states.txt").open("a") as out:
@@ -288,7 +289,7 @@ class RecordingPeer:
                 data = bytearray(frame(port, outbound, state=state))
                 source = ROUTER if outbound else SWITCH
                 data[6:12] = bytes.fromhex(source.replace(":", ""))
-                self.records[iface].append((self.clock.now, bytes(data)))
+                self.records[iface].append((self.clock.now - 0.00001, bytes(data)))
             (self.log.path / f"{iface}.pcap").write_bytes(pcap(self.records[iface]))
             self.trackers[iface].update()
         return parse_linux_bond(raw), self.clock.now
@@ -308,7 +309,7 @@ def test_complete_measurement_with_real_decoder_and_slow_pdu_grace(
     bench = SimpleNamespace(client=client, log=log, switch=SWITCH)
     peer = RecordingPeer(clock, log, ready_at)
     result = sweep.measure(bench, peer, (3, 4), 1, options())
-    assert result["seconds"] == expected_seconds
+    assert expected_seconds <= result["seconds"] < expected_seconds + 1.1
     expected = "NATIVE_ONLY_NEEDS_MORE_TIME" if ready_at == 100 else "NEGOTIATED"
     assert result["result"] == expected
     assert result["mapping"] == MAPPING
@@ -466,3 +467,50 @@ def test_high_volume_samples_go_to_separate_files(tmp_path):
     assert '"links"' in (log.path / "linux-counters.jsonl").read_text()
     assert '"ports"' in (log.path / "switch-counters.jsonl").read_text()
     assert '"links"' not in (log.path / "events.jsonl").read_text()
+
+
+def test_existing_control_verifies_configuration_without_any_switch_write(tmp_path):
+    client, args, bench = prepared(tmp_path)
+    bench.apply(sweep.config_for(bench.expected, args, (1, 3)), "configure")
+    client.ports = ports(1, 3, 10)
+    client.writes.clear()
+    control = sweep.Bench(client, args, sweep.Artifacts(tmp_path / "control"))
+    control.use_existing((1, 3))
+    assert client.writes == []
+    assert not control.prepared  # Main must not perform switch cleanup writes.
+    with pytest.raises(RuntimeError, match="does not match"):
+        client.ports = ports(10)
+        control.use_existing((1, 2))
+    assert client.writes == []
+
+
+@pytest.mark.parametrize("bad_peer", [False, True])
+def test_early_success_and_invalid_peer_guard(tmp_path, monkeypatch, bad_peer):
+    clock = Clock()
+    monkeypatch.setattr(sweep.time, "time", clock.time)
+    monkeypatch.setattr(sweep.time, "monotonic", clock.time)
+    monkeypatch.setattr(sweep.time, "sleep", clock.sleep)
+    client = FakeSwitch()
+    client.ports = ports(3, 4, 10)
+    log = sweep.Artifacts(tmp_path / "run")
+    bench = SimpleNamespace(client=client, log=log, switch=SWITCH)
+    peer = RecordingPeer(clock, log)
+    sample = peer.sample
+
+    def changed_sample():
+        n, when = sample()
+        if bad_peer:
+            n["members"]["eth3"]["speed"] = None
+            n["members"]["eth3"]["duplex"] = "Unknown"
+        return n, when
+
+    peer.sample = changed_sample
+    args = options(seconds=15, early_success=True)
+    if bad_peer:
+        with pytest.raises(RuntimeError, match="check USB drivers"):
+            sweep.measure(bench, peer, (3, 4), 1, args)
+        assert 5 <= clock.now - EPOCH < 6.1
+    else:
+        result = sweep.measure(bench, peer, (3, 4), 1, args)
+        assert result["result"] == "NEGOTIATED"
+        assert 2 <= result["seconds"] < 3.1

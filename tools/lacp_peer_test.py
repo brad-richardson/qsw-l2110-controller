@@ -231,6 +231,7 @@ def parse_linux_bond(text: str) -> dict:
         result["members"][name] = {
             "mii": _field(block, r"MII Status: (\S+)", str),
             "speed": _field(block, r"Speed: (\d+)"),
+            "duplex": _field(block, r"Duplex: (\S+)", str),
             "link_failures": _field(block, r"Link Failure Count: (\d+)"),
             "aggregator_id": _field(block, r"Aggregator ID: (\d+)"),
             "partner_churned": _field(block, r"Partner Churned Count: (\d+)"),

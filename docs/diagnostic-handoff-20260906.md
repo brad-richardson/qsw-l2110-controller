@@ -1,5 +1,11 @@
 # Diagnostic handoff — September 6, 2026
 
+**USB control update:** The first Linux sweep was invalidated by the ASIX's
+`cdc_ncm` mode (unknown speed/duplex, separate aggregator). The user switched it
+to native `ax88179_178a`; ethtool now reports 1000/full. A fresh 1+3 control is
+pending. The QNAP still has group 4 Long on 1+3 after a failed cleanup readback;
+USB host cleanup succeeded. See the [runbook](linux-usb-port-sweep.md).
+
 **Bench preparation update:** Both USB NICs are attached to bradflix; QNAP port 10
 is the sole linked management port after removal of the port-8 test cable. The
 [guided 28-pair Linux sweep](linux-usb-port-sweep.md) is implemented and tested

@@ -5,7 +5,47 @@ Port 10 stays connected to the unmanaged switch for management. Ports 9 and 10
 are outside this experiment. This is an initial negotiation map, not a throughput
 or long-term reliability test.
 
-## Current bench readiness — September 6, 2026
+## First hardware run: invalid USB peer, then driver correction
+
+The first run (`usb-sweep-20260906T174211Z`) recorded 1+2 as not established
+and interrupted 1+3 when a statistics read failed. **Neither is valid negative
+evidence about the switch pairs.** The ASIX AX88179B was in USB configuration 2,
+bound to `cdc_ncm`; Linux reported unknown speed/duplex, actor key 0, and a
+separate aggregator. The Realtek reported 1000/full and synchronized. Captures
+contained switch-origin LACP on the ASIX but no decoded outgoing Linux LACP;
+both tcpdump logs reported zero kernel drops.
+
+Host cleanup succeeded: both USB NICs returned down with original MACs, no
+remaining owned namespace. Switch cleanup did not verify; a fresh read confirmed
+that group 4 Long remained on 1+3. The statistics/cleanup API failures have not
+been assigned a cause. Polling has since been reduced.
+
+The user loaded `ax88179_178a` and selected USB configuration 1 on device 3-1.
+Readback confirmed that native driver and **1000 Mb/s, full duplex** capabilities.
+The native driver control is the next test; success has not yet been established.
+The runner now rejects unknown/mismatched native speed/duplex, and driver changes
+require a fresh sweep rather than resuming the invalid earlier results.
+
+With the test Ethernet cables still on 1+3, run this isolated 90-second control:
+
+```bash
+sudo .venv/bin/python -m tools.lacp_sweep run \
+  --bench-isolated --insecure --existing-pair 1,3 --seconds 90 \
+  --interfaces enx5c857e38d8d1 enxc8a362f421b0
+```
+
+This verifies the existing QNAP configuration and performs **no switch writes**.
+It creates only the temporary USB namespace/bond, records evidence, then returns
+the NICs down. It leaves the existing 1+3 QNAP LAG configured.
+
+After a successful control, start a fresh full sweep using the command below,
+replacing `--seconds 30` with **`--seconds 15 --early-success`**. Start with test
+Ethernet cables unplugged as usual. Early success requires at least two seconds
+of current native and reciprocal packet evidence. Unsuccessful 15-second windows
+remain provisional; revisit them with longer controls. Native-clean cases can
+still use the Slow-PDU grace period. No quick pass claims long-term stability.
+
+## Initial bench readiness — September 6, 2026 (before first run)
 
 Read-only checks after the user removed the port-8 cable confirmed that **only
 QNAP port 10 has carrier**, at 2500 Mbps full duplex. The switch at 192.168.1.72
@@ -119,7 +159,8 @@ On normal exit or Ctrl-C, cleanup disables the bench LAG if the observed
 configuration still matches the runner's expectations, stops its captures, returns
 the two USB NICs to the host with their original MACs and leaves them down. The
 prepared bench VLAN is retained; production configuration is **not restored**.
-Artifacts are handed back to the invoking sudo user when cleanup finishes. Check
+Artifacts are handed back to the invoking sudo user during sampling and cleanup,
+so live inspection works without making the files public. Check
 `host-cleanup.json` if the tool reports an error. A killed process, USB removal,
 lost management path, or external switch edits can prevent complete cleanup;
 inspect recorded state before any recovery operation.
@@ -157,5 +198,4 @@ the new directory preserves that boundary and takes a new original-state backup.
 The implementation has automated coverage for configuration/readback failures,
 retained PHY carrier, stale or mismatched packet evidence, Slow-PDU grace,
 interrupted results, full 28-pair scheduling, and automatic completion. The full
-repository test suite passed (242 tests); the new runner has not yet been exercised
-with a real root-owned USB bond.
+repository test suite passed (245 tests). The native-driver control remains pending.

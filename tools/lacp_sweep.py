@@ -129,6 +129,10 @@ def completed_pairs(results, pool):
 
 def load_resume(path, args, interfaces):
     settings = json.loads((path / "settings.json").read_text())
+    if settings.get("existing_pair"):
+        raise ValueError("a single-pair control is not a resumable sweep")
+    if bool(settings.get("early_success")) != bool(getattr(args, "early_success", False)):
+        raise ValueError("resume setting differs: early_success")
     for key in (
         "host",
         "ports",
@@ -153,6 +157,8 @@ def load_resume(path, args, interfaces):
     devices = {v["interface"]: v for v in usb_inventory()}
     if any(devices.get(i, {}).get("mac") != original[i]["mac"] for i in interfaces):
         raise ValueError("USB MAC differs from original; clean up the previous run before resuming")
+    if any(devices[i].get("driver") != original[i].get("driver") for i in interfaces):
+        raise ValueError("USB driver changed; start a fresh sweep with a new baseline")
     results_path = path / "summary.json"
     results = json.loads(results_path.read_text()) if results_path.exists() else []
     completed = completed_pairs(results, args.ports)
@@ -323,6 +329,7 @@ def native_clean(native: dict, mapping: dict, switch: str) -> bool:
         speeds.add(m.get("speed"))
         if (
             m.get("mii") != "up"
+            or (m.get("duplex") or "").lower() != "full"
             or m.get("partner_port") != port
             or m.get("aggregator_id") != agg.get("id")
             or m.get("partner_key") != agg.get("partner_key")
@@ -422,6 +429,21 @@ class Bench:
             "ports": self.client.get_port_settings(),
             "mirror": self.client.get_json("/port_mirror.json"),
         }
+
+    def use_existing(self, pair):
+        state = self.read()
+        detect_pair(state["ports"], self.args.ports, self.args.management_port)
+        if (active_ports(state["ports"]) & set(self.args.ports)) - set(pair):
+            raise RuntimeError("existing control has other test-pool cables connected")
+        desired = config_for(state, self.args, pair)
+        identity = self.client.get_identity()
+        verify_identity(desired, identity)
+        if not build_plan(desired, state["lags"], state["vlans"], state["pvids"]).empty:
+            raise RuntimeError("existing switch configuration does not match the requested control")
+        self.expected = state
+        self.switch = identity["status"]["sys_macaddr"].lower()
+        save(self.log.path / "original-state.json", {"identity": identity, **state})
+        self.log.event("existing_control_verified", pair=pair, switch_writes=False)
 
     def check_drift(self, state):
         if self.expected is None:
@@ -702,6 +724,7 @@ class LinuxPeer:
         self.log.event("linux_state", epoch=when, links=links)
         for tracker in self.trackers.values():
             tracker.update()
+        return_artifact_ownership(self.log.path)
         return parse_linux_bond(raw), when
 
     def carriers(self):
@@ -782,17 +805,46 @@ def measure(bench, peer, pair, trial, args, stop_at=float("inf")):
     mapping, native, evidence = {}, {}, {}
     end = start
     announced_grace = False
+    ports = None
+    next_ports = next_stats = 0
+    invalid_since = None
     say(
         bench.log,
         f"HOLD: testing ports {pair[0]}+{pair[1]} for {args.seconds:g}s. Keep cables still.",
     )
     while True:
+        tick = time.monotonic()
         peer.check_management()
-        ports = bench.client.get_port_settings()
+        if ports is None or tick >= min(next_ports, next_stats):
+            # Bracket HTTP work with native samples instead of adding HTTP latency
+            # to the native freshness interval used by the evidence evaluator.
+            peer.sample()
+        if ports is None or tick >= next_ports:
+            ports = bench.client.get_port_settings()
+            next_ports = time.monotonic() + 5
+            bench.log.event("switch_sample", trial=trial, ports=ports)
         current_pair = detect_pair(ports, args.ports, args.management_port)
-        stats = bench.client.get_port_statistics()
+        if tick >= next_stats:
+            stats = bench.client.get_port_statistics()
+            next_stats = time.monotonic() + 15
+            bench.log.event("switch_sample", trial=trial, counters=stats)
         native, end = peer.sample()
-        bench.log.event("switch_sample", trial=trial, ports=ports, counters=stats)
+        members = native.get("members", {})
+        if len(members) == 2 and all(m.get("mii") == "up" for m in members.values()):
+            speeds = {m.get("speed") for m in members.values()}
+            invalid = (
+                None in speeds
+                or len(speeds) != 1
+                or any((m.get("duplex") or "").lower() != "full" for m in members.values())
+            )
+            invalid_since = (end if invalid_since is None else invalid_since) if invalid else None
+            if invalid_since is not None and end - invalid_since >= 5:
+                raise RuntimeError(
+                    "USB peer cannot form 802.3ad: unknown/mismatched speed or duplex; "
+                    "check USB drivers before interpreting switch port results"
+                )
+        else:
+            invalid_since = None
         links = active_ports(ports) & set(args.ports)
         if not links <= set(pair) or (seen_full and current_pair != pair):
             interrupted = True
@@ -808,14 +860,18 @@ def measure(bench, peer, pair, trial, args, stop_at=float("inf")):
             first_joint = end - start
         joint_since = (end if joint_since is None else joint_since) if joint else None
         now = time.monotonic()
+        confirmed = joint_since is not None and end - joint_since >= 2
+        if getattr(args, "early_success", False) and confirmed:
+            evidence = evaluate(bench.log.path, peer.bond, mapping, bench.switch, start, end)
+            if evidence.get("current_joint_clean_seconds", 0) >= 2:
+                break
         if now >= deadline:
-            confirmed = joint_since is not None and end - joint_since >= 2
             if not (current_native and not confirmed and now < grace_end):
                 break
             if not announced_grace:
                 say(bench.log, "HOLD: allowing extra time for packet confirmation.")
                 announced_grace = True
-        time.sleep(args.poll)
+        time.sleep(max(0, args.poll - (time.monotonic() - tick)))
     if mapping:
         evidence = evaluate(bench.log.path, peer.bond, mapping, bench.switch, start, end)
     peer_seen = all(
@@ -971,6 +1027,16 @@ def main(argv=None):
     run.add_argument("--firmware", default="2.2.3.20260713")
     run.add_argument("--group", type=int, default=4)
     run.add_argument("--seconds", type=float, default=30)
+    run.add_argument(
+        "--early-success",
+        action="store_true",
+        help="finish a pair once reciprocal/native clean evidence lasts two seconds",
+    )
+    run.add_argument(
+        "--existing-pair",
+        type=port_list,
+        help="single control on an already configured pair, with no switch writes",
+    )
     run.add_argument("--pdu-grace", type=float, default=35)
     run.add_argument("--poll", type=float, default=1)
     run.add_argument("--debounce", type=float, default=2)
@@ -1013,6 +1079,13 @@ def main(argv=None):
         parser.error(
             "attach exactly two dedicated USB NICs or specify --interfaces IFACE_A IFACE_B"
         )
+    if args.existing_pair and (
+        len(args.existing_pair) != 2
+        or not set(args.existing_pair) <= set(args.ports)
+        or args.prepare_vlan is not None
+        or args.resume
+    ):
+        parser.error("existing-pair needs two pool ports and cannot prepare VLANs or resume")
     resume = None
     if args.resume:
         args.resume = args.resume.resolve()
@@ -1036,7 +1109,12 @@ def main(argv=None):
         for row in resume["results"]:
             log.result(row)
         save(log.path / "resume.json", {"previous_run": str(args.resume), "actor": peer.actor})
-    say(log, f"Logs: {log.path}\nPREPARING: leave test Ethernet cables unplugged until READY.")
+    instruction = (
+        "keep the existing control pair connected"
+        if args.existing_pair
+        else "leave test Ethernet cables unplugged until READY"
+    )
+    say(log, f"Logs: {log.path}\nPREPARING: {instruction}.")
     bench = None
     code = 0
     old_handler = signal.signal(
@@ -1049,9 +1127,29 @@ def main(argv=None):
             client.authenticate(username, password)
             bench = Bench(client, args, log)
             try:
-                bench.prepare()
+                if args.existing_pair:
+                    bench.use_existing(args.existing_pair)
+                else:
+                    bench.prepare()
                 peer.setup()
-                sweep(bench, peer, args)
+                if args.existing_pair:
+                    try:
+                        result = measure(bench, peer, args.existing_pair, 1, args)
+                        bench.check_drift(bench.read())
+                        log.result(result)
+                        say(log, f"RESULT: {result['pair']} -> {result['result']}")
+                    except BaseException as exc:
+                        log.result(
+                            {
+                                "trial": 1,
+                                "pair": "+".join(map(str, args.existing_pair)),
+                                "result": "INCOMPLETE_ERROR_OR_INTERRUPTED",
+                                "detail": str(exc) or type(exc).__name__,
+                            }
+                        )
+                        raise
+                else:
+                    sweep(bench, peer, args)
             finally:
                 # USB links down first. Never restore production cabling/config by inference.
                 if peer.created:
@@ -1088,7 +1186,8 @@ def main(argv=None):
         signal.signal(signal.SIGTERM, old_handler)
         return_artifact_ownership(log.path)
     print(
-        f"Results: {log.path}\nUSB interfaces are left down. Original QSS backup is private.",
+        f"Results: {log.path}\n"
+        "USB interfaces are left down. Switch snapshots and logs are private.",
         flush=True,
     )
     return code

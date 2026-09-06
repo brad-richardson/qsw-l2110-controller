@@ -29,6 +29,7 @@ Active Aggregator Info:
 Slave Interface: {iface}
 MII Status: up
 Speed: 2500 Mbps
+Duplex: full
 Aggregator ID: 1
 details actor lacp pdu:
     port number: {actor_port}
