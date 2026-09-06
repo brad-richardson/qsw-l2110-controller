@@ -1,12 +1,22 @@
 # Diagnostic handoff — September 6, 2026
 
-**Update at 15:38 UTC: the authorized 1+4 target is applied, saved, and verified.**
-The user was told to move the QNAP cable end **2 → 4**; confirmation and measured
-port-4 negotiation are pending. Firewalla settings are unchanged. A passive
-recorder is running with a 30-minute bound from 15:37:31 UTC. No iperf server
-or automatic restoration is armed. Read the
-[current 1+4 execution report](lan-ports-1-4-results-20260906.md) first.
-The 1+2 state and completed results below describe the preceding baseline.
+**Latest update at 16:01 UTC: 1+4 failed; switch configuration restored to 1+2.**
+Port 4 came up at 2.5 Gb/s but never synchronized in roughly 103 seconds of
+recorded post-move traffic: all 103 QNAP PDUs were defaulted with zero partner,
+while Firewalla recorded outgoing LACPDUs. Key 1 was retained. Port 1 stayed
+healthy. No throughput test was run. The recorder was stopped/fetched and
+cleanup verified at 15:59:54 UTC.
+
+The fallback 1+2 configuration was saved and independently verified at
+**16:01:22 UTC**, but the cable was still on port 4. A physical **4 → 2** move
+and fresh bond read would be needed to restore both members. The user has
+since proposed another test; **1+8 followed by 7+8** is recommended to change
+one member at a time. Neither is configured, and port 8's rescue VLAN must be
+handled before either move. Firewalla settings remain unchanged. No recorder,
+iperf server, or automatic restoration is running. Read the
+[1+4 execution report](lan-ports-1-4-results-20260906.md) and
+[evidence](evidence/lan-ports-1-4-20260906.json) first. The completed 1+2 results
+below describe the preceding healthy baseline, not current cable placement.
 
 **The preceding production LAN baseline used QNAP ports 1+2, group 4, Long timeout. Both
 Firewalla members remained clean at 2.5 Gb/s for 10 minutes 45 seconds under
@@ -92,7 +102,7 @@ mirroring do not conclusively locate the fault on the physical wire, Firewalla,
 or inside QNAP. All captures in the completed isolation and mirror tests ended
 with zero kernel drops; switch-side loss remains outside that measurement.
 
-## Final verified state
+## Prior completed 1+2 baseline state (see latest update above)
 
 - QNAP QSW-L2110-10T, QSS **2.2.3.20260713**. Only LACP group 4 on ports
   **1+2**, Long timeout; Firewalla bond0 still uses Slow LACP.

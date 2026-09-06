@@ -1,0 +1,257 @@
+{
+  "experiment": "QNAP LAN LAG 1+4 separated-port control",
+  "configured_group": 4,
+  "qnap_timeout": "Long",
+  "firewalla_timeout": "Slow",
+  "firewalla_configuration_changed": false,
+  "mapping": {
+    "eth2": 1,
+    "eth3": 4
+  },
+  "result": "failed: port 4 never synchronized during the recorded post-move interval",
+  "native_transitions": [
+    {
+      "utc": "2026-09-06T15:37:31.881+00:00",
+      "epoch": 1788709051.881,
+      "state": {
+        "eth2": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 61,
+          "partner_state": 61,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 9
+        },
+        "eth3": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 61,
+          "partner_state": 61,
+          "partner_port": 2,
+          "partner_key": 1,
+          "link_failures": 9
+        }
+      }
+    },
+    {
+      "utc": "2026-09-06T15:39:15.423+00:00",
+      "epoch": 1788709155.423,
+      "state": {
+        "eth2": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 61,
+          "partner_state": 61,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 9
+        },
+        "eth3": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 141,
+          "partner_state": 55,
+          "partner_port": 2,
+          "partner_key": 1,
+          "link_failures": 9
+        }
+      }
+    },
+    {
+      "utc": "2026-09-06T15:39:18.470+00:00",
+      "epoch": 1788709158.47,
+      "state": {
+        "eth2": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 61,
+          "partner_state": 61,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 9
+        },
+        "eth3": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 69,
+          "partner_state": 1,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 9
+        }
+      }
+    },
+    {
+      "utc": "2026-09-06T15:57:14.825+00:00",
+      "epoch": 1788710234.825,
+      "state": {
+        "eth2": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 61,
+          "partner_state": 61,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 9
+        },
+        "eth3": {
+          "mii": "down",
+          "speed": null,
+          "actor_state": 69,
+          "partner_state": 1,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 10
+        }
+      }
+    },
+    {
+      "utc": "2026-09-06T15:57:21.960+00:00",
+      "epoch": 1788710241.96,
+      "state": {
+        "eth2": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 61,
+          "partner_state": 61,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 9
+        },
+        "eth3": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 197,
+          "partner_state": 3,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 10
+        }
+      }
+    },
+    {
+      "utc": "2026-09-06T15:57:23.007+00:00",
+      "epoch": 1788710243.007,
+      "state": {
+        "eth2": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 61,
+          "partner_state": 61,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 9
+        },
+        "eth3": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 5,
+          "partner_state": 69,
+          "partner_port": 4,
+          "partner_key": 1,
+          "link_failures": 10
+        }
+      }
+    },
+    {
+      "utc": "2026-09-06T15:57:24.022+00:00",
+      "epoch": 1788710244.022,
+      "state": {
+        "eth2": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 61,
+          "partner_state": 61,
+          "partner_port": 1,
+          "partner_key": 1,
+          "link_failures": 9
+        },
+        "eth3": {
+          "mii": "up",
+          "speed": 2500,
+          "actor_state": 13,
+          "partner_state": 69,
+          "partner_port": 4,
+          "partner_key": 1,
+          "link_failures": 10
+        }
+      }
+    }
+  ],
+  "evaluation": {
+    "pass": false,
+    "longest_joint_clean_seconds": 0.0,
+    "current_joint_clean_seconds": 0.0,
+    "joint_clean_events": 0,
+    "evaluated_events": 552,
+    "native_samples": 101,
+    "packet_counts": {
+      "eth2": 7,
+      "eth3": 205
+    },
+    "packet_max_age_seconds": 35,
+    "native_max_age_seconds": 2.5,
+    "window_start_epoch": 1788710243.007,
+    "window_end_epoch": 1788710344.657,
+    "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+  },
+  "last_native_utc": "2026-09-06T15:59:04.657+00:00",
+  "post_move_port1_clean_all_native_samples": true,
+  "port4_first_pdu_utc": "2026-09-06T15:57:21.260910+00:00",
+  "port4_pdu_count": 103,
+  "port4_all_pdus_defaulted_with_zero_partner": true,
+  "firewalla_outgoing_pdus_on_eth3_after_first_port4_pdu": 106,
+  "advertised_key_observed": [
+    1
+  ],
+  "capture_audit": {
+    "eth2": {
+      "captured": 2673,
+      "received_by_filter": 2674,
+      "dropped_by_kernel": 0,
+      "complete_pcap_frames": 2673
+    },
+    "eth3": {
+      "captured": 2821,
+      "received_by_filter": 2826,
+      "dropped_by_kernel": 0,
+      "complete_pcap_frames": 2821
+    }
+  },
+  "cleanup": {
+    "utc": "2026-09-06T15:59:54.209273+00:00",
+    "unit": "MainPID=0\nControlGroup=\nLoadState=not-found\nActiveState=inactive\nSubState=dead\n",
+    "owned_pids": []
+  },
+  "iperf_run": false,
+  "reachability_probes": {
+    "gateway": {
+      "passed": 2,
+      "total": 2
+    },
+    "switch": {
+      "passed": 2,
+      "total": 2
+    },
+    "internet": {
+      "passed": 2,
+      "total": 2
+    }
+  },
+  "limitations": [
+    "No reboot or factory reset; persistent switch state remains a confounder.",
+    "Sender-side capture does not establish that Firewalla frames reached QNAP ingress.",
+    "Post-move observation about 103 seconds; no throughput test because negotiation failed."
+  ],
+  "fallback": {
+    "configuration": "group 4 on ports 1+2, Long",
+    "verified_utc": "2026-09-06T16:01:22.071763+00:00",
+    "physical_return_confirmed": false,
+    "last_observed_cable_mapping": {
+      "eth2": 1,
+      "eth3": 4
+    },
+    "firewalla_configuration_changed": false
+  }
+}
