@@ -1,5 +1,11 @@
 # Diagnostic handoff — September 6, 2026
 
+**Next planned experiment: factory reset and manual QSS-only configuration.**
+The [manual-UI observer](linux-usb-ui-sweep.md) tests all six pairs among 1–4
+for six minutes each, with no QNAP login, API polling, or switch writes. The
+operator applies group 1 / Long and moves the cables at READY; the tool manages
+only the isolated USB peer and logs. No hardware run is claimed by this update.
+
 **Current bench state: QNAP powered off.** Previous 1+7 switch preparation was
 unsaved: inspect its configuration after power-up before preparing any further
 experiment.

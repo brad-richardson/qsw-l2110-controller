@@ -30,6 +30,8 @@ This project currently provides:
 
 For the independent Linux USB-NIC experiment, see the
 [guided 28-pair LACP sweep](docs/linux-usb-port-sweep.md).
+For a factory-reset experiment configured entirely through QSS, use the
+[manual-UI six-pair observer](docs/linux-usb-ui-sweep.md), which opens no switch session.
 For controlled 1+7 resets and capture without switch polling, see the
 [fixed-identity recovery runner](docs/linux-usb-recovery-20260906.md).
 
