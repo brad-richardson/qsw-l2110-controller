@@ -28,6 +28,9 @@ This project currently provides:
 - an optional Firewalla double-LACP policy that enforces exact WAN-transit
   membership, LAN/office trunk parity, and a dedicated rescue port.
 
+For the independent Linux USB-NIC experiment, see the
+[guided 28-pair LACP sweep](docs/linux-usb-port-sweep.md).
+
 The main configuration CLI deliberately does **not** restore backups, update firmware, or
 change the management address.
 

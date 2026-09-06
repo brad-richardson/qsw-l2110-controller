@@ -1,5 +1,9 @@
 # Independent Linux USB-NIC port sweep — proposed September 6, 2026
 
+**Update:** The USB NICs and separate port-10 management path are now present.
+Use the [implemented runner and current instructions](linux-usb-port-sweep.md).
+The preparation notes below describe the earlier topology.
+
 **Preparation only. No production teardown, Firewalla change, Linux test bond,
 or new sweep has been performed.** The user is considering removing QNAP from
 production, temporarily retiring the production LAG, and using the two USB NICs

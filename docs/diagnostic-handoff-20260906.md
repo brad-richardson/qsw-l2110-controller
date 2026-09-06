@@ -1,5 +1,11 @@
 # Diagnostic handoff — September 6, 2026
 
+**Bench preparation update:** Both USB NICs are attached to bradflix; QNAP port 10
+is the sole linked management port after removal of the port-8 test cable. The
+[guided 28-pair Linux sweep](linux-usb-port-sweep.md) is implemented and tested
+automatically, but has not yet run on hardware. Ports 9–10 are excluded.
+Earlier production-topology descriptions below predate the physical teardown.
+
 **Latest result: 1+3 passed and is left in production.** Both Firewalla members
 were clean at 2.5 Gb/s for **678.574 seconds** under the joint native-state
 and fresh-reciprocal-PDU criterion, including **2.35 Gb/s in each direction**
