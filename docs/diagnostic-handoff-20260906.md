@@ -1,5 +1,13 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest checkpoint, 18:59 UTC:** The independent two-Realtek sweep recorded
+16/28 pairs: 1+2, 1+3, 1+7, and 2+3 negotiated. Other measured pairs did not
+establish in their windows. A management API read failed during the move toward
+3+7, before that trial started. Switch and host cleanup verified. Read the
+[partial matrix and exact resume command](linux-usb-sweep-results-20260906.md).
+The updates below are historical; production topology has been dismantled for
+the isolated bench, and the earlier USB-control preparation is complete.
+
 **Latest: two-Realtek control PASSED negotiation.** On existing QNAP 1+3,
 `enx5c857e38d8d1` + `enxa0cec8597422` reached native 61/61 at 1000/full in one
 aggregator after 2.65 seconds and held a final 59.02-second reciprocal evidence

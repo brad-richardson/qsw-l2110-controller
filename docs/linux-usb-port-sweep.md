@@ -5,6 +5,11 @@ Port 10 stays connected to the unmanaged switch for management. Ports 9 and 10
 are outside this experiment. This is an initial negotiation map, not a throughput
 or long-term reliability test.
 
+## Latest sweep checkpoint
+
+The full sweep recorded 16/28 pairs before a management API read failed during
+the move toward 3+7. Cleanup verified. See the [results and exact resume command](linux-usb-sweep-results-20260906.md).
+
 ## Two-Realtek control passed — 18:12 UTC
 
 The run `usb-sweep-20260906T181235Z` completed a 90.296-second control on existing
@@ -261,8 +266,8 @@ the same command with the previous directory appended, for example:
 sudo .venv/bin/python -m tools.lacp_sweep run \
   --bench-isolated --insecure --prepare-vlan 1 \
   --management-interface eno1 --management-port 10 \
-  --interfaces enx5c857e38d8d1 enxc8a362f421b0 \
-  --ports 1-8 --seconds 30 \
+  --interfaces enx5c857e38d8d1 enxa0cec8597422 \
+  --ports 1-8 --seconds 15 --early-success \
   --resume backups/usb-sweep-YYYYMMDDTHHMMSSZ
 ```
 
