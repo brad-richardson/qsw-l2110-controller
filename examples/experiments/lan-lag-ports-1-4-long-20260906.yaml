@@ -1,0 +1,36 @@
+schema_version: 1
+
+# Controlled move from current LAN ports 1+2 to 1+4; group 4 stays Long.
+# Preconditions: port 4 empty; observer management remains on port 10.
+# After verified apply, move only the QNAP cable end 2 -> 4 (Firewalla eth3).
+# Firewalla configuration and the cable on QNAP port 1 stay unchanged.
+# Restore using lan-lag-ports-1-2-long-20260906.yaml and move cable 4 -> 2.
+
+device:
+  models: [QSW-L2110-10T]
+  firmware: ["2.2.3.20260713"]
+  port_count: 10
+
+link_aggregation:
+  system_priority: 32768
+  managed_ports: [1, 2, 3, 4]
+  groups:
+    - id: 4
+      mode: lacp
+      members: [1, 4]
+      port_priority: 128
+      timeout: long
+
+vlans:
+  - id: 1
+    name: default
+    untagged: [8]
+    tagged: []
+  - id: 10
+    name: lan
+    untagged: [1, 2, 3, 4, 5, 6, 7, 10]
+    tagged: []
+  - id: 3999
+    name: wan-transit
+    untagged: [9]
+    tagged: []

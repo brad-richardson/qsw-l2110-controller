@@ -1,6 +1,14 @@
 # Diagnostic handoff — September 6, 2026
 
-**The production LAN now uses QNAP ports 1+2, group 4, Long timeout. Both
+**Update at 15:38 UTC: the authorized 1+4 target is applied, saved, and verified.**
+The user was told to move the QNAP cable end **2 → 4**; confirmation and measured
+port-4 negotiation are pending. Firewalla settings are unchanged. A passive
+recorder is running with a 30-minute bound from 15:37:31 UTC. No iperf server
+or automatic restoration is armed. Read the
+[current 1+4 execution report](lan-ports-1-4-results-20260906.md) first.
+The 1+2 state and completed results below describe the preceding baseline.
+
+**The preceding production LAN baseline used QNAP ports 1+2, group 4, Long timeout. Both
 Firewalla members remained clean at 2.5 Gb/s for 10 minutes 45 seconds under
 the joint native-state and fresh-packet criterion.** Firewalla's existing Slow
 bond configuration was unchanged. The earlier port-4 failure remains unexplained;
@@ -43,7 +51,7 @@ aggregator 1, partner key 1, and link-failure counts still 9 each. This is a
 later healthy snapshot, not continuous capture covering the intervening period.
 No device network configuration was changed.
 
-**Proposed, not applied:** test QNAP **1+4** before 7+8. Preserve group 4,
+**Original proposal, subsequently applied at 15:38 UTC:** test QNAP **1+4** before 7+8. Preserve group 4,
 Long timeout, VLAN 10, and all Firewalla settings; after coordinated switch
 configuration, move only the QNAP end of the eth3 cable **2 → 4**. Retaining
 lowest member 1 is expected to retain advertised key 1, which must be verified
