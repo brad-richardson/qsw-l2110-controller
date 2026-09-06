@@ -1,9 +1,10 @@
 # LAN ports 1+8 experiment — September 6, 2026
 
-**Configuration saved and verified at 16:10:33 UTC; physical move and reliability
-result pending.** The user was told to move only the QNAP cable end **2 → 8**,
-keeping Firewalla eth3 attached and the eth2 cable on QNAP port 1 unchanged.
-Firewalla network settings have not been modified.
+**Failed: port 8 never synchronized during roughly 103 seconds of recorded
+post-link traffic.** Port 1 remains healthy and the network reachable. The
+configuration and cables are **left on 1+8**, group 4 Long, rescue VLAN on port 3.
+Firewalla settings are unchanged. No reboot or restoration was performed after
+this failure. The passive recorder is stopped and cleanup verified.
 
 ## Recovered baseline before applying
 
@@ -44,23 +45,62 @@ followed by another matching readback. Reboot persistence is untested.
 Both staged forward and reverse plans were validated against snapshots derived
 from the live baseline. The final applied state was independently verified.
 
-## Monitoring and next actions
+## Recorded move and result
 
-A non-promiscuous passive recorder started at **16:05:46 UTC**, bounded to
-**1,800 seconds** (roughly **16:35:46 UTC**). It records bond state, link counters,
-kernel events, and LACPDUs on eth2/eth3. It remains running at this handoff.
-No iperf server or automatic configuration restoration is armed.
+| UTC | Observation |
+|---|---|
+| 16:10:05–08 | Port 1 briefly changed to 13/69 during configuration apply, then recovered to 61/61 before the physical move. |
+| 16:11:18–21 | The old port-2 partner record expired after removing that port from the LAG, before moving its cable. |
+| 16:11:56.033 | eth3 carrier down during the physical move; link-failure count 11→12. |
+| 16:12:00.340 | First QNAP port-8 PDU: advertised key 1, actor state 69, zero partner. |
+| 16:12:01.101 | Native eth3 carrier back at 2.5 Gb/s. |
+| 16:12:03.131 | eth3 settled at 13/69, identifying QNAP port 8/key 1. |
+| 16:13:43.768 | Final recorded sample: port 8 still 13/69; port 1 clean at 61/61. |
 
-Confirm the physical move using fresh reciprocal PDUs identifying eth2→QNAP1
-and eth3→QNAP8, both clean in one aggregator with key 1. Do not count the retained
-port-2 partner record immediately after configuration as port-8 negotiation.
-If both converge, observe 10–15 minutes including a bounded bidirectional
-throughput test; if negotiation fails, collect evidence before deciding the next
-move. Stop/fetch owned jobs and audit cleanup when measurement finishes.
+All **104 captured QNAP port-8 LACPDUs** advertised state 69 with a zero partner
+identity. Firewalla recorded **107 outgoing eth3 LACPDUs** after the first port-8
+PDU. There were **zero clean seconds** under the joint native/fresh-packet
+criterion. Port 8 never synchronized, rather than first passing and later
+regressing. Observation from the first port-8 PDU to the final native sample was
+**103.428 seconds**. Port 1 was clean in every post-move native sample.
+Link-failure counts remained eth2=9 and eth3=12 after the cable move.
 
-The user discussed **7+8** as a preferred eventual layout. It is not configured.
-A successful 1+8 control would allow the subsequent test to replace only port 1
-with port 7 while retaining a tested port 8.
+The target configuration still matched fresh live readback at **16:13:17 UTC**;
+ports 1+8 and management port 10 had 2.5 Gb/s carrier, ports 2+3 had none.
+No iperf server was started because LACP negotiation had already failed.
+Gateway, switch, and internet probes each passed 2/2 after capture cleanup.
+
+A non-promiscuous recorder ran from **16:05:46 UTC** until explicit stop/fetch
+at **16:13:44 UTC**, before its 1,800-second bound. Both captures had zero
+kernel drops; complete PCAP frame counts matched tcpdump's captured counts.
+Cleanup at **16:14:38 UTC** confirmed the unit collected/inactive, MainPID 0,
+and no owned processes. There is no natural-expiry marker for this explicit stop.
+
+An initial attempt to fetch over the earlier baseline directory refused with
+`FileExistsError`. The recorder was then stopped, the owned baseline copy was
+renamed and preserved, and the final capture fetched successfully. No evidence
+was overwritten or discarded to resolve that local collection error.
+
+## Interpretation and remaining control
+
+Physical separation and retaining lowest member/key 1 did not make port 8
+work. Alongside the same NIC/cable failing on port 4 and recovering on port 2,
+this favors a QNAP port/state-dependent issue over a general Firewalla bond
+configuration error. It does not identify the physical fault location: Firewalla
+sender-side captures do not prove delivery to QNAP ingress, and no switch reboot
+or factory reset was performed between these port moves.
+
+**A reboot with the current 1+8 configuration saved is the proposed next control,
+not performed or scheduled.** It would distinguish immediate startup behavior
+from persistent state left by earlier experiments. If port 8 initially converges
+and later fails, that would resemble the earlier 3+4 reboot results. It could
+interrupt the whole LAN and must be coordinated with the user.
+
+The user's preferred **7+8** layout remains untested and is not configured.
+The intended 1+8-then-7+8 comparison no longer starts with a healthy port-8
+control, so another immediate move would be harder to interpret. No timed
+restoration is armed. Leave cable placement unchanged until coordinating either
+the next test or the staged restoration below.
 
 ## Restoration
 

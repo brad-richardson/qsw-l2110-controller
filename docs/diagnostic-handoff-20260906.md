@@ -1,25 +1,32 @@
 # Diagnostic handoff — September 6, 2026
 
-**Latest update at 16:10 UTC: the 1+8 target is saved and verified; cable move pending.**
-The user returned the cable to port 2 first. Both members recovered to 61/61
-at 2.5 Gb/s, key 1; fresh reciprocal packets also confirmed a 128-second clean
-recovery interval. The authorized 1+8 configuration was then applied in two
-stages, moving the rescue VLAN from QNAP port 8 to unused port 3. The user was
-told to move only the QNAP cable end **2 → 8**. Firewalla settings are unchanged.
+**Latest update at 16:14 UTC: 1+8 also failed; configuration and cables remain on 1+8.**
+Port 8 has 2.5 Gb/s carrier but never synchronized during roughly 103 seconds
+of recorded post-link traffic. All 104 QNAP port-8 PDUs reported actor state 69
+and a zero partner, while Firewalla recorded 107 outgoing eth3 LACPDUs. Key 1
+was retained. Port 1 stayed clean after the physical move and gateway, switch,
+and internet probes pass. Firewalla configuration is unchanged.
 
-Current configuration: group 4 Long on **1+8**; VLAN 10 on **1,2,4,5,6,7,8,10**;
-VLAN 1 on **3**; VLAN 3999 on **9**. Physical port-8 negotiation is not yet
-confirmed. The recorder is running from **16:05:46 UTC** with a 30-minute bound.
-No iperf server or automatic restoration is armed. Read the
-[current 1+8 report](lan-ports-1-8-results-20260906.md) and its staged target/restore
-files before making further changes. The old 1+2 target alone cannot restore
-this experiment because it does not manage port 8.
+Current state: **eth2→QNAP1 clean 61/61; eth3→QNAP8 failed 13/69**. Group 4 Long;
+VLAN 10 on **1,2,4,5,6,7,8,10**; rescue VLAN 1 on **3**; VLAN 3999 on **9**.
+The passive recorder was stopped/fetched at 16:13:44 UTC, with cleanup verified
+at 16:14:38 UTC. No recorder, iperf server, reboot, or timed restoration is
+running or scheduled. Read the [1+8 report](lan-ports-1-8-results-20260906.md)
+and [evidence](evidence/lan-ports-1-8-20260906.json).
 
-The [1+4 control](lan-ports-1-4-results-20260906.md) failed: port 4 never learned
-a partner despite key 1 and recorded Firewalla transmissions. Its recorder was
-stopped and cleanup verified. Returning the same cable to port 2 restored LACP
-without rebooting either device. The completed 1+2 results below describe the
-preceding baseline, not the currently applied switch configuration.
+A **reboot on the saved 1+8 configuration** is proposed to test fresh startup
+versus persistent switch state. It is not authorized or performed yet. The
+user's preferred 7+8 pair remains untested, but port 8 is not a healthy control
+for that comparison. Coordinate the next action before moving cables. To
+restore 1+2, use the report's **two-stage** restoration; the old 1+2 target alone
+does not manage port 8.
+
+The [1+4 control](lan-ports-1-4-results-20260906.md) likewise failed with key 1.
+Returning that same NIC/cable to port 2 restored both members, confirmed by a
+native snapshot and 128 seconds of fresh reciprocal LACP evidence before the
+1+8 test. Neither switch nor Firewalla was rebooted for these port moves.
+The completed 1+2 results below describe the preceding healthy baseline,
+not current configuration or cable placement.
 
 **The preceding production LAN baseline used QNAP ports 1+2, group 4, Long timeout. Both
 Firewalla members remained clean at 2.5 Gb/s for 10 minutes 45 seconds under
