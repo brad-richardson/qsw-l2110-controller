@@ -1,7 +1,7 @@
 schema_version: 1
 
 # Intermediate state for either direction of the 1+2 <-> 1+8 experiment.
-# Group 4 Long on 1+2; rescue VLAN 1 on BOTH empty ports 3 and 8.
+# Group 4 Long on 1+2; rescue VLAN 1 on ports 3 and 8.
 # Forward: apply this first, then lan-lag-ports-1-8-long-20260906.yaml.
 # Restore: apply this first, then lan-lag-ports-1-2-restore-from-1-8-20260906.yaml.
 # Staging avoids a cyclic untagged VLAN swap; preserve management port 10.
