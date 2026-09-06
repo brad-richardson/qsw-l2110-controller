@@ -1,10 +1,20 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest, 23:10 UTC: 1+7 negotiated, then failed without switch API polling.**
+The existing group 4 Long setup and same actor as the earlier failed repeat
+reached reciprocal synchronization, then QNAP port 7 defaulted 189.063 seconds
+after peer setup. It stayed failed through six minutes; port 1 remained clean,
+both physical links stayed up, and Linux TX continued. No console/debug tests
+or switch requests occurred during observation. Capture integrity and host
+cleanup passed; USB NICs are down and QNAP configuration is unchanged.
+Read the [no-API observation](linux-usb-1-7-no-api-20260906.md).
+
 **Next planned experiment: factory reset and manual QSS-only configuration.**
 The [manual-UI observer](linux-usb-ui-sweep.md) tests all six pairs among 1–4
 for six minutes each, with no QNAP login, API polling, or switch writes. The
 operator applies group 1 / Long and moves the cables at READY; the tool manages
-only the isolated USB peer and logs. No hardware run is claimed by this update.
+only the isolated USB peer and logs. The observer has now run on existing 1+7;
+the factory-reset six-pair experiment remains unperformed.
 
 **Current bench state, 22:53 UTC: QNAP powered on.** Authorized diagnostic reads
 found 1+7 group 4 Long still configured and links on 1/7/10. No factory reset is

@@ -43,6 +43,13 @@ Key observations:
   but the Linux actor identity and configuration-to-peer startup interval differ.
   We are investigating state/history dependence rather than assuming a fixed
   unsupported port set.
+- After a later switch power cycle, a six-minute 1+7 observation using the same
+  actor as the failed repeat initially synchronized, then QNAP port 7 defaulted
+  189.063 seconds after peer setup and stayed failed. Port 1 remained clean;
+  neither physical link failed, and Linux TX continued on port 7. No switch API
+  polling or console/debug operations occurred during this observation. This
+  excludes ongoing management polling as a necessary trigger, but not earlier
+  state/history effects. See the [capture findings](../linux-usb-1-7-no-api-20260906.md).
 - Loop protection off plus reboot did not eliminate earlier failures. STP, EEE,
   storm limits, ingress/egress rate limits, IGMP snooping, DHCP snooping and ACL
   filters are disabled/empty in inspected settings. Current loop protection was

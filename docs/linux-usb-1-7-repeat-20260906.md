@@ -1,5 +1,9 @@
 # Linux USB 1+7 repeat — September 6, 2026
 
+Later follow-up: the [23:04 observation without switch API polling](linux-usb-1-7-no-api-20260906.md)
+used this repeat's actor identity after a switch power cycle, synchronized
+briefly, then lost port 7 after 189 seconds. It did not sustain recovery.
+
 ## Result: no two-member synchronization in six minutes
 
 Run `usb-sweep-20260906T192611Z` measured **360.030 seconds** on QNAP 1+7.
