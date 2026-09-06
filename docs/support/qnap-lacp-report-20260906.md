@@ -55,8 +55,18 @@ Key observations:
   filters are disabled/empty in inspected settings. Current loop protection was
   restored on and reports zero violations. Flow control remains on.
 - Brief downstream cuts, including ports 10+5+6 together, did not clear an
-  already-established failure. Fresh isolated startup with port 10 disconnected
-  has not yet been tested. No factory reset has been used as a controlled test.
+  already-established failure. A later port-10 disconnection and peer restart
+  also did not recover within a deliberately shortened 289-second observation.
+  An isolated power cycle restored initial reciprocal negotiation, but that run
+  stopped at 77 seconds and does not establish stability. No factory reset has
+  been used as a controlled test.
+- A second full six-minute observation after reboot with port 10 connected
+  reproduced port-7 defaulting at 189.025 seconds after peer setup, versus
+  189.063 seconds in the earlier connected no-API run. Measured from the first
+  QNAP port-7 PDU advertising 61/61, both intervals are 156.596 seconds. This
+  suggests a repeatable timer/state sequence worth investigating; it does not
+  identify the initiating event or component. See the [uplink controls and
+  timing comparison](../linux-usb-uplink-controls-20260906.md).
 
 A useful reproduction environment is an isolated two-NIC Linux 802.3ad peer,
 untagged matching VLANs, group 4 Long, and at least six minutes of simultaneous

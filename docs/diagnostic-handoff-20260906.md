@@ -1,5 +1,16 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest, 23:39 UTC: connected reboot reproduced the delayed failure.**
+The full six-minute 1+7 observation lost port 7 at 189.025 seconds after setup,
+versus 189.063 seconds in the earlier connected no-API run. In both captures,
+the interval from the first QNAP port-7 61/61 PDU to default was 156.596 seconds.
+Port 1 stayed clean; physical links did not fail. Captures and cleanup passed,
+USB NICs are down, and no switch/Firewalla configuration was changed.
+The intervening disconnected/no-reboot run did not recover in 289 seconds;
+an isolated power cycle restored initial negotiation, but that run was stopped
+at 77 seconds. A full isolated-boot observation remains the useful missing
+comparison. See [uplink/power-cycle controls](linux-usb-uplink-controls-20260906.md).
+
 **Latest, 23:10 UTC: 1+7 negotiated, then failed without switch API polling.**
 The existing group 4 Long setup and same actor as the earlier failed repeat
 reached reciprocal synchronization, then QNAP port 7 defaulted 189.063 seconds

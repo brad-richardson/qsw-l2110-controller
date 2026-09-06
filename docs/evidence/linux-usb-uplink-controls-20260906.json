@@ -1,0 +1,768 @@
+[
+  {
+    "source_run": "usb-ui-sweep-20260906T232409Z/trial-001-1-7",
+    "operator_report": {
+      "port10_connected": false,
+      "power_cycled_before_run": false,
+      "power_off_seconds_approximate": null
+    },
+    "result": {
+      "trial": 1,
+      "pair": "1+7",
+      "source_run": "usb-ui-sweep-20260906T232409Z/trial-001-1-7",
+      "result": "INCOMPLETE",
+      "detail": "KeyboardInterrupt",
+      "stable_300_seconds_at_end": false
+    },
+    "host_cleanup": {
+      "utc": "2026-09-06T23:29:19.633125+00:00",
+      "errors": [],
+      "capture_exit_codes": [
+        0,
+        0,
+        -2
+      ],
+      "returned_interfaces_left_down": [
+        "enx5c857e38d8d1",
+        "enxa0cec8597422"
+      ]
+    },
+    "observed_through_seconds": 289.1880576610565,
+    "native_final": {
+      "time": 1788737358.553069,
+      "system": "02:3f:6c:3a:ff:a7",
+      "members": {
+        "enx5c857e38d8d1": {
+          "mii": "up",
+          "speed": 1000,
+          "duplex": "full",
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 0,
+          "actor_port": 1,
+          "actor_state": 61,
+          "partner_system": "24:5e:be:77:e5:86",
+          "partner_key": 1,
+          "partner_port": 1,
+          "partner_state": 61
+        },
+        "enxa0cec8597422": {
+          "mii": "up",
+          "speed": 1000,
+          "duplex": "full",
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 1,
+          "actor_port": 2,
+          "actor_state": 13,
+          "partner_system": "24:5e:be:77:e5:86",
+          "partner_key": 1,
+          "partner_port": 7,
+          "partner_state": 69
+        }
+      },
+      "aggregator": {
+        "id": 1,
+        "ports": 2,
+        "actor_key": 9,
+        "partner_key": 1,
+        "partner_mac": "24:5e:be:77:e5:86"
+      }
+    },
+    "evaluation_through_last_native_sample": {
+      "pass": false,
+      "longest_joint_clean_seconds": 0.0,
+      "current_joint_clean_seconds": 0.0,
+      "joint_clean_events": 0,
+      "evaluated_events": 687,
+      "native_samples": 289,
+      "packet_counts": {
+        "enx5c857e38d8d1": 24,
+        "enxa0cec8597422": 34
+      },
+      "packet_max_age_seconds": 35,
+      "native_max_age_seconds": 2.5,
+      "window_start_epoch": 1788737069.3650115,
+      "window_end_epoch": 1788737358.553069,
+      "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+    },
+    "posthoc_capture_integrity": {
+      "enx5c857e38d8d1": {
+        "complete": true,
+        "kernel_drops": 0
+      },
+      "enxa0cec8597422": {
+        "complete": true,
+        "kernel_drops": 0
+      }
+    },
+    "pdu_summary": {
+      "enx5c857e38d8d1": {
+        "qnap_count": 11,
+        "qnap_actor_partner_states": [
+          [
+            61,
+            61
+          ],
+          [
+            61,
+            69
+          ],
+          [
+            61,
+            197
+          ]
+        ],
+        "qnap_transitions": [
+          {
+            "epoch": 1788737070.756935,
+            "seconds_after_setup": 1.391923427581787,
+            "actor_state": 61,
+            "partner_state": 69,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737071.756966,
+            "seconds_after_setup": 2.3919546604156494,
+            "actor_state": 61,
+            "partner_state": 197,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737101.756181,
+            "seconds_after_setup": 32.39116954803467,
+            "actor_state": 61,
+            "partner_state": 61,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          }
+        ],
+        "linux_tx_count": 13
+      },
+      "enxa0cec8597422": {
+        "qnap_count": 10,
+        "qnap_actor_partner_states": [
+          [
+            69,
+            0
+          ]
+        ],
+        "qnap_transitions": [
+          {
+            "epoch": 1788737078.656737,
+            "seconds_after_setup": 9.291725635528564,
+            "actor_state": 69,
+            "partner_state": 0,
+            "partner_system": "00:00:00:00:00:00"
+          }
+        ],
+        "linux_tx_count": 24
+      }
+    }
+  },
+  {
+    "source_run": "usb-ui-sweep-20260906T233017Z/trial-001-1-7",
+    "operator_report": {
+      "port10_connected": false,
+      "power_cycled_before_run": true,
+      "power_off_seconds_approximate": 20
+    },
+    "result": {
+      "trial": 1,
+      "pair": "1+7",
+      "source_run": "usb-ui-sweep-20260906T233017Z/trial-001-1-7",
+      "result": "INCOMPLETE",
+      "detail": "KeyboardInterrupt",
+      "stable_300_seconds_at_end": false
+    },
+    "host_cleanup": {
+      "utc": "2026-09-06T23:31:46.151921+00:00",
+      "errors": [],
+      "capture_exit_codes": [
+        0,
+        0,
+        -2
+      ],
+      "returned_interfaces_left_down": [
+        "enx5c857e38d8d1",
+        "enxa0cec8597422"
+      ]
+    },
+    "observed_through_seconds": 77.13252067565918,
+    "native_final": {
+      "time": 1788737505.236329,
+      "system": "02:3f:6c:3a:ff:a7",
+      "members": {
+        "enx5c857e38d8d1": {
+          "mii": "up",
+          "speed": 1000,
+          "duplex": "full",
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 0,
+          "actor_port": 1,
+          "actor_state": 61,
+          "partner_system": "24:5e:be:77:e5:86",
+          "partner_key": 1,
+          "partner_port": 1,
+          "partner_state": 61
+        },
+        "enxa0cec8597422": {
+          "mii": "up",
+          "speed": 1000,
+          "duplex": "full",
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 0,
+          "actor_port": 2,
+          "actor_state": 61,
+          "partner_system": "24:5e:be:77:e5:86",
+          "partner_key": 1,
+          "partner_port": 7,
+          "partner_state": 61
+        }
+      },
+      "aggregator": {
+        "id": 1,
+        "ports": 2,
+        "actor_key": 9,
+        "partner_key": 1,
+        "partner_mac": "24:5e:be:77:e5:86"
+      }
+    },
+    "evaluation_through_last_native_sample": {
+      "pass": false,
+      "longest_joint_clean_seconds": 44.73887801170349,
+      "current_joint_clean_seconds": 44.73887801170349,
+      "joint_clean_events": 112,
+      "evaluated_events": 187,
+      "native_samples": 77,
+      "packet_counts": {
+        "enx5c857e38d8d1": 10,
+        "enxa0cec8597422": 10
+      },
+      "packet_max_age_seconds": 35,
+      "native_max_age_seconds": 2.5,
+      "window_start_epoch": 1788737428.1038084,
+      "window_end_epoch": 1788737505.236329,
+      "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+    },
+    "posthoc_capture_integrity": {
+      "enx5c857e38d8d1": {
+        "complete": true,
+        "kernel_drops": 0
+      },
+      "enxa0cec8597422": {
+        "complete": true,
+        "kernel_drops": 0
+      }
+    },
+    "pdu_summary": {
+      "enx5c857e38d8d1": {
+        "qnap_count": 4,
+        "qnap_actor_partner_states": [
+          [
+            61,
+            61
+          ],
+          [
+            61,
+            69
+          ],
+          [
+            61,
+            197
+          ]
+        ],
+        "qnap_transitions": [
+          {
+            "epoch": 1788737429.498323,
+            "seconds_after_setup": 1.394514560699463,
+            "actor_state": 61,
+            "partner_state": 69,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737430.498054,
+            "seconds_after_setup": 2.3942456245422363,
+            "actor_state": 61,
+            "partner_state": 197,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737460.497431,
+            "seconds_after_setup": 32.393622636795044,
+            "actor_state": 61,
+            "partner_state": 61,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          }
+        ],
+        "linux_tx_count": 6
+      },
+      "enxa0cec8597422": {
+        "qnap_count": 4,
+        "qnap_actor_partner_states": [
+          [
+            61,
+            61
+          ],
+          [
+            61,
+            69
+          ],
+          [
+            61,
+            197
+          ]
+        ],
+        "qnap_transitions": [
+          {
+            "epoch": 1788737429.498356,
+            "seconds_after_setup": 1.394547700881958,
+            "actor_state": 61,
+            "partner_state": 69,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737430.498198,
+            "seconds_after_setup": 2.3943896293640137,
+            "actor_state": 61,
+            "partner_state": 197,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737460.497451,
+            "seconds_after_setup": 32.39364266395569,
+            "actor_state": 61,
+            "partner_state": 61,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          }
+        ],
+        "linux_tx_count": 6
+      }
+    }
+  },
+  {
+    "source_run": "usb-ui-sweep-20260906T233202Z/trial-001-1-7",
+    "operator_report": {
+      "port10_connected": true,
+      "power_cycled_before_run": false,
+      "power_off_seconds_approximate": null
+    },
+    "result": {
+      "trial": 1,
+      "pair": "1+7",
+      "source_run": "usb-ui-sweep-20260906T233202Z/trial-001-1-7",
+      "result": "INCOMPLETE",
+      "detail": "KeyboardInterrupt",
+      "stable_300_seconds_at_end": false
+    },
+    "host_cleanup": {
+      "utc": "2026-09-06T23:33:27.436421+00:00",
+      "errors": [],
+      "capture_exit_codes": [
+        0,
+        0,
+        -2
+      ],
+      "returned_interfaces_left_down": [
+        "enx5c857e38d8d1",
+        "enxa0cec8597422"
+      ]
+    },
+    "observed_through_seconds": 81.14443826675415,
+    "native_final": {
+      "time": 1788737606.416154,
+      "system": "02:3f:6c:3a:ff:a7",
+      "members": {
+        "enx5c857e38d8d1": {
+          "mii": "up",
+          "speed": 1000,
+          "duplex": "full",
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 0,
+          "actor_port": 1,
+          "actor_state": 61,
+          "partner_system": "24:5e:be:77:e5:86",
+          "partner_key": 1,
+          "partner_port": 1,
+          "partner_state": 61
+        },
+        "enxa0cec8597422": {
+          "mii": "up",
+          "speed": 1000,
+          "duplex": "full",
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 0,
+          "actor_port": 2,
+          "actor_state": 61,
+          "partner_system": "24:5e:be:77:e5:86",
+          "partner_key": 1,
+          "partner_port": 7,
+          "partner_state": 61
+        }
+      },
+      "aggregator": {
+        "id": 1,
+        "ports": 2,
+        "actor_key": 9,
+        "partner_key": 1,
+        "partner_mac": "24:5e:be:77:e5:86"
+      }
+    },
+    "evaluation_through_last_native_sample": {
+      "pass": false,
+      "longest_joint_clean_seconds": 0.0,
+      "current_joint_clean_seconds": 0.0,
+      "joint_clean_events": 0,
+      "evaluated_events": 195,
+      "native_samples": 81,
+      "packet_counts": {
+        "enx5c857e38d8d1": 8,
+        "enxa0cec8597422": 12
+      },
+      "packet_max_age_seconds": 35,
+      "native_max_age_seconds": 2.5,
+      "window_start_epoch": 1788737525.2717156,
+      "window_end_epoch": 1788737606.416154,
+      "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+    },
+    "posthoc_capture_integrity": {
+      "enx5c857e38d8d1": {
+        "complete": true,
+        "kernel_drops": 0
+      },
+      "enxa0cec8597422": {
+        "complete": true,
+        "kernel_drops": 0
+      }
+    },
+    "pdu_summary": {
+      "enx5c857e38d8d1": {
+        "qnap_count": 3,
+        "qnap_actor_partner_states": [
+          [
+            61,
+            61
+          ],
+          [
+            61,
+            197
+          ]
+        ],
+        "qnap_transitions": [
+          {
+            "epoch": 1788737526.595809,
+            "seconds_after_setup": 1.3240933418273926,
+            "actor_state": 61,
+            "partner_state": 197,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737556.59508,
+            "seconds_after_setup": 31.3233642578125,
+            "actor_state": 61,
+            "partner_state": 61,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          }
+        ],
+        "linux_tx_count": 5
+      },
+      "enxa0cec8597422": {
+        "qnap_count": 3,
+        "qnap_actor_partner_states": [
+          [
+            61,
+            69
+          ]
+        ],
+        "qnap_transitions": [
+          {
+            "epoch": 1788737526.595959,
+            "seconds_after_setup": 1.3242433071136475,
+            "actor_state": 61,
+            "partner_state": 69,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          }
+        ],
+        "linux_tx_count": 9
+      }
+    }
+  },
+  {
+    "source_run": "usb-ui-sweep-20260906T233349Z/trial-001-1-7",
+    "operator_report": {
+      "port10_connected": true,
+      "power_cycled_before_run": true,
+      "power_off_seconds_approximate": null
+    },
+    "result": {
+      "trial": 1,
+      "pair": "1+7",
+      "source_run": "usb-ui-sweep-20260906T233349Z/trial-001-1-7",
+      "result": "NEGOTIATED_THEN_LOST_OR_INCOMPLETE",
+      "start_epoch": 1788737631.0622137,
+      "end_epoch": 1788737992.195432,
+      "seconds": 361.13321828842163,
+      "observation_seconds": 360.0159885819994,
+      "first_native_seconds": 4.141380071640015,
+      "first_reciprocal_seconds": 33.14692425727844,
+      "current_joint_clean_seconds": 0.0,
+      "stable_300_seconds_at_end": false,
+      "expected_mapping": {
+        "enx5c857e38d8d1": 1,
+        "enxa0cec8597422": 7
+      },
+      "observed_mapping": {
+        "enx5c857e38d8d1": 1,
+        "enxa0cec8597422": 7
+      },
+      "mapping_verified": true,
+      "peer_tx_seen": {
+        "enx5c857e38d8d1": true,
+        "enxa0cec8597422": true
+      },
+      "link_failure_baseline": {
+        "enx5c857e38d8d1": 0,
+        "enxa0cec8597422": 0
+      },
+      "max_native_sample_gap_seconds": 1.0104310512542725,
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 61,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 1,
+            "partner_port": 1,
+            "partner_state": 61
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 1,
+            "partner_port": 7,
+            "partner_state": 69
+          }
+        },
+        "aggregator": {
+          "id": 1,
+          "ports": 2,
+          "actor_key": 9,
+          "partner_key": 1,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 156.25093579292297,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 364,
+        "evaluated_events": 841,
+        "native_samples": 361,
+        "packet_counts": {
+          "enx5c857e38d8d1": 28,
+          "enxa0cec8597422": 35
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788737631.0622137,
+        "window_end_epoch": 1788737992.195432,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "switch_configuration_verified": false,
+      "measurement": "LACP observation only; no forwarding/throughput test or switch API access"
+    },
+    "host_cleanup": {
+      "utc": "2026-09-06T23:39:52.405335+00:00",
+      "errors": [],
+      "capture_exit_codes": [
+        0,
+        0,
+        -2
+      ],
+      "returned_interfaces_left_down": [
+        "enx5c857e38d8d1",
+        "enxa0cec8597422"
+      ]
+    },
+    "observed_through_seconds": 361.13321828842163,
+    "native_final": {
+      "time": 1788737992.195432,
+      "system": "02:3f:6c:3a:ff:a7",
+      "members": {
+        "enx5c857e38d8d1": {
+          "mii": "up",
+          "speed": 1000,
+          "duplex": "full",
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 0,
+          "actor_port": 1,
+          "actor_state": 61,
+          "partner_system": "24:5e:be:77:e5:86",
+          "partner_key": 1,
+          "partner_port": 1,
+          "partner_state": 61
+        },
+        "enxa0cec8597422": {
+          "mii": "up",
+          "speed": 1000,
+          "duplex": "full",
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 0,
+          "actor_port": 2,
+          "actor_state": 13,
+          "partner_system": "24:5e:be:77:e5:86",
+          "partner_key": 1,
+          "partner_port": 7,
+          "partner_state": 69
+        }
+      },
+      "aggregator": {
+        "id": 1,
+        "ports": 2,
+        "actor_key": 9,
+        "partner_key": 1,
+        "partner_mac": "24:5e:be:77:e5:86"
+      }
+    },
+    "evaluation_through_last_native_sample": {
+      "pass": false,
+      "longest_joint_clean_seconds": 156.25093579292297,
+      "current_joint_clean_seconds": 0.0,
+      "joint_clean_events": 364,
+      "evaluated_events": 841,
+      "native_samples": 361,
+      "packet_counts": {
+        "enx5c857e38d8d1": 28,
+        "enxa0cec8597422": 35
+      },
+      "packet_max_age_seconds": 35,
+      "native_max_age_seconds": 2.5,
+      "window_start_epoch": 1788737631.0622137,
+      "window_end_epoch": 1788737992.195432,
+      "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+    },
+    "posthoc_capture_integrity": {
+      "enx5c857e38d8d1": {
+        "complete": true,
+        "kernel_drops": 0
+      },
+      "enxa0cec8597422": {
+        "complete": true,
+        "kernel_drops": 0
+      }
+    },
+    "pdu_summary": {
+      "enx5c857e38d8d1": {
+        "qnap_count": 13,
+        "qnap_actor_partner_states": [
+          [
+            61,
+            61
+          ],
+          [
+            61,
+            69
+          ],
+          [
+            61,
+            197
+          ]
+        ],
+        "qnap_transitions": [
+          {
+            "epoch": 1788737632.492614,
+            "seconds_after_setup": 1.4304003715515137,
+            "actor_state": 61,
+            "partner_state": 69,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737633.492623,
+            "seconds_after_setup": 2.4304094314575195,
+            "actor_state": 61,
+            "partner_state": 197,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737663.491748,
+            "seconds_after_setup": 32.42953443527222,
+            "actor_state": 61,
+            "partner_state": 61,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          }
+        ],
+        "linux_tx_count": 15
+      },
+      "enxa0cec8597422": {
+        "qnap_count": 14,
+        "qnap_actor_partner_states": [
+          [
+            61,
+            61
+          ],
+          [
+            61,
+            69
+          ],
+          [
+            61,
+            197
+          ],
+          [
+            69,
+            0
+          ]
+        ],
+        "qnap_transitions": [
+          {
+            "epoch": 1788737632.492655,
+            "seconds_after_setup": 1.4304413795471191,
+            "actor_state": 61,
+            "partner_state": 69,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737633.492656,
+            "seconds_after_setup": 2.4304423332214355,
+            "actor_state": 61,
+            "partner_state": 197,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737663.491794,
+            "seconds_after_setup": 32.42958045005798,
+            "actor_state": 61,
+            "partner_state": 61,
+            "partner_system": "02:3f:6c:3a:ff:a7"
+          },
+          {
+            "epoch": 1788737820.087424,
+            "seconds_after_setup": 189.0252103805542,
+            "actor_state": 69,
+            "partner_state": 0,
+            "partner_system": "00:00:00:00:00:00"
+          }
+        ],
+        "linux_tx_count": 21
+      }
+    }
+  }
+]

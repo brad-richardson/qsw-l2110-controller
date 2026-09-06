@@ -73,6 +73,12 @@ They did not recover it. That weakens an ongoing downstream-traffic explanation
 but cannot exclude a prior external trigger leaving persistent switch state.
 See the [completed branch-cut report](port-isolation-results-20260905.md).
 
+Update at 23:39 UTC: [live uplink controls](linux-usb-uplink-controls-20260906.md)
+now include two full connected/no-API runs with matching delayed failures,
+a shortened disconnected run without recovery, and a short successful isolated
+boot. The isolated success ended before the connected failure point; a full
+isolated-boot observation is still needed.
+
 The stronger tests distinguish three conditions:
 
 - **No API polling, port 10 retained:** tests whether our management requests or
