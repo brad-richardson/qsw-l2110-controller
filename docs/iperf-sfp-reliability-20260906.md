@@ -1,4 +1,4 @@
-# Throughput baseline and pending SFP reliability test — September 6, 2026
+# Throughput baseline and reported SFP-swap outage — September 6, 2026
 
 The pre-swap baseline measured **2.35 Gb/s in both directions**, with four TCP
 streams for 60 measured seconds per direction after three seconds of warm-up.
@@ -6,10 +6,13 @@ Both LAN LAG members remained healthy during load. The temporary iperf server
 and passive recorder were stopped and audited at **14:35:01 UTC**. The user was
 told the baseline was complete and the cable swap could proceed.
 
-**The SFP path has not been tested yet.** The specific cable endpoints and SFP+
-module/adapter are awaiting clarification. Refresh the live path after the user
-reports the move; this report's topology describes the baseline only. No router
-or switch network configuration was changed for this benchmark.
+**The user reported that attempting the SFP swap took down the network. No
+post-swap iperf or longer reliability test was run.** The specific cable endpoints,
+SFP+ module/adapter, and physical reversion to the original path are awaiting
+clarification. Reachability had recovered by the first post-report check.
+This report's benchmark topology describes the baseline only. No router or
+switch network configuration was changed by the agent for either the benchmark
+or the post-outage checks.
 
 ## Baseline path and method
 
@@ -74,11 +77,44 @@ See [sanitized evidence](evidence/iperf-baseline-20260906.json). Raw iperf JSON,
 snapshots, captures, temporary client packages, and the private launcher remain
 under `backups/iperf-baseline-20260906T142620Z/` on the Linux observer.
 
-## Resume after the cable swap
+## Reported outage and subsequent checks
 
-1. Confirm the user has completed the intended cable swap and identify both
-   endpoints, their ports, and the SFP+ module/adapter. The QSW-L2110-10T itself
-   has copper ports; do not infer which external SFP segment is involved.
+The user reported the outage after attempting the SFP cable swap and suspected
+the module was dead. The exact time, duration, and failed segment were not
+established. The baseline's test traffic and recorders had already stopped.
+
+- At **14:44:50 UTC**, gateway, QNAP, and internet probes each received 2/2
+  replies. The observer's link was up at 2.5 Gb/s full duplex, with carrier-change
+  count **10**, unchanged from the baseline.
+- At **14:46:16 UTC**, both Firewalla members were clean at **61/61**, 2.5 Gb/s,
+  in the same two-member aggregator. Both link-failure counts remained **9**.
+  Bond identity/settings and NIC error/drop/CRC/missed-packet counters were
+  unchanged from the end of the baseline.
+- Available kernel logs from 14:33:30 through that read contained no relevant
+  bond/NIC link events after excluding ordinary firewall traffic logs.
+- QNAP still reported 2.5 Gb/s links on **1, 2, 5, 6, and 10**, the observer
+  learned on port 10/VLAN 10, and no increase in any port's RxBadPkt or TxBadPkt.
+
+These checks show a healthy LAN bond and reachable network afterwards. They do
+not prove continuous LACP health during the unrecorded swap, establish that the
+old physical path was restored, or diagnose a dead transceiver. Investigate the
+SFP path independently before attempting another loaded run. Module/port
+compatibility and matching supported link speeds are standard checks; see
+[Cisco's interface troubleshooting guidance](https://www.cisco.com/c/en/us/support/docs/routers/asr-1000-series-aggregation-services-routers/200633-Troubleshooting-interface-down-issues.html).
+That general guidance does not establish compatibility for the unidentified hardware.
+
+The [sanitized post-outage evidence](evidence/sfp-swap-outage-20260906.json)
+separates the user's report from the later observations. Private readbacks are
+under `backups/sfp-outage-check-20260906T144609Z/`. No new test server or recorder
+was started, and the agent made no network configuration changes.
+
+## Resume the SFP investigation
+
+1. Establish which physical path is currently connected, then identify both
+   endpoints, their ports, and the SFP+ module/adapter involved in the outage.
+   Check that combination's supported speeds and port configuration before
+   proposing another swap. The QSW-L2110-10T itself has copper ports; do not
+   infer which external SFP segment is involved.
 2. Refresh the host route, switch MAC table, relevant negotiated link speeds,
    bond membership/state, and starting error counters. Verify traffic actually
    traverses the intended new segment before interpreting the result.

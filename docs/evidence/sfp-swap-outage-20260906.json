@@ -1,0 +1,141 @@
+{
+  "event": "User-reported network outage after attempting the SFP cable swap",
+  "outage_observed_by": "user",
+  "exact_outage_time_and_duration": "not established",
+  "module_and_cable_endpoints": "not yet identified",
+  "physical_reversion_confirmed": false,
+  "post_event_checks_utc": {
+    "reachability": "2026-09-06T14:44:50.770396+00:00",
+    "firewalla": "2026-09-06T14:46:16.376006+00:00",
+    "switch": "2026-09-06T14:46:14.130252+00:00"
+  },
+  "post_event_reachability": {
+    "gateway": {
+      "replies": 2,
+      "sent": 2
+    },
+    "switch": {
+      "replies": 2,
+      "sent": 2
+    },
+    "internet": {
+      "replies": 2,
+      "sent": 2
+    }
+  },
+  "observer_link": {
+    "interface": "eno1",
+    "speed_mbps": 2500,
+    "duplex": "full",
+    "carrier_changes": 10,
+    "carrier_change_delta_from_baseline": 0,
+    "qnap_learned_port": 10
+  },
+  "firewalla_invariants_unchanged": true,
+  "firewalla_members": {
+    "eth2": {
+      "mii": "up",
+      "speed": 2500,
+      "link_failures": 9,
+      "aggregator_id": 1,
+      "actor_state": 61,
+      "partner_port": 1,
+      "partner_state": 61
+    },
+    "eth3": {
+      "mii": "up",
+      "speed": 2500,
+      "link_failures": 9,
+      "aggregator_id": 1,
+      "actor_state": 61,
+      "partner_port": 2,
+      "partner_state": 61
+    }
+  },
+  "firewalla_link_failure_deltas": {
+    "eth2": 0,
+    "eth3": 0
+  },
+  "firewalla_error_counter_deltas": {
+    "eth2": {
+      "rx_errors": 0,
+      "tx_errors": 0,
+      "rx_crc_errors": 0,
+      "rx_dropped": 0,
+      "tx_dropped": 0,
+      "rx_missed_errors": 0
+    },
+    "eth3": {
+      "rx_errors": 0,
+      "tx_errors": 0,
+      "rx_crc_errors": 0,
+      "rx_dropped": 0,
+      "tx_dropped": 0,
+      "rx_missed_errors": 0
+    }
+  },
+  "switch_links": {
+    "1": "2500MbpsFull",
+    "2": "2500MbpsFull",
+    "3": "Link Down",
+    "4": "Link Down",
+    "5": "2500MbpsFull",
+    "6": "2500MbpsFull",
+    "7": "Link Down",
+    "8": "Link Down",
+    "9": "Link Down",
+    "10": "2500MbpsFull"
+  },
+  "switch_bad_packet_deltas": {
+    "1": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "2": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "3": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "4": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "5": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "6": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "7": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "8": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "9": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    },
+    "10": {
+      "RxBadPkt": 0,
+      "TxBadPkt": 0
+    }
+  },
+  "relevant_non_firewall_kernel_events_since_baseline": 0,
+  "post_swap_iperf_run": false,
+  "new_server_or_recorder_started": false,
+  "network_configuration_changed_by_agent": false,
+  "limits": [
+    "No continuous capture was running during the physical swap",
+    "A healthy later snapshot and unchanged physical link counters do not exclude every transient LACP issue",
+    "No SFP diagnostics or supported-speed/compatibility information available without identifying the module and host ports",
+    "Reachability recovered before the first check; physical rollback is not independently established"
+  ]
+}

@@ -18,9 +18,13 @@ hardware test.
 each direction** for 60 seconds each, with no observed link/LACP regression or
 hardware error-counter increases. Upload used both Firewalla members; reverse
 traffic used eth3, consistent with the existing transmit hash. The user was
-then told they could make an SFP-related cable swap. Its endpoints and new path
-are not yet verified; refresh topology before the next test. See the
-[baseline and pending SFP test](iperf-sfp-reliability-20260906.md).
+then told they could make an SFP-related cable swap and subsequently reported
+that it took down the network. By **14:44–14:46 UTC**, the gateway, QNAP, and
+internet were reachable again, both LACP members were clean, and host/Firewalla
+link-failure and hardware-error counters were unchanged. The module, endpoints,
+and any physical rollback remain unconfirmed. No post-swap load test ran and
+no new server/recorder was started. See the
+[baseline and SFP-swap outage report](iperf-sfp-reliability-20260906.md).
 
 ## Completed evidence
 
