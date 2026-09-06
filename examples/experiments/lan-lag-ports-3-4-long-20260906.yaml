@@ -1,0 +1,36 @@
+schema_version: 1
+
+# Restore the September 6 baseline after the ports-1+2 LAN experiment.
+# Only production group 4 on 3+4 is enabled, with Long timeout.
+# Ports 1+2 return to standalone VLAN 3999, not the older spare LAG 1.
+# Coordinate restoration with moving the QNAP-end LAN cables back to 3+4.
+# No automatic configuration rollback: its timing must match cable placement.
+
+device:
+  models: [QSW-L2110-10T]
+  firmware: ["2.2.3.20260713"]
+  port_count: 10
+
+link_aggregation:
+  system_priority: 32768
+  managed_ports: [1, 2, 3, 4]
+  groups:
+    - id: 4
+      mode: lacp
+      members: [3, 4]
+      port_priority: 128
+      timeout: long
+
+vlans:
+  - id: 1
+    name: default
+    untagged: [8]
+    tagged: []
+  - id: 10
+    name: lan
+    untagged: [3, 4, 5, 6, 7, 10]
+    tagged: []
+  - id: 3999
+    name: wan-transit
+    untagged: [1, 2, 9]
+    tagged: []

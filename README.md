@@ -5,7 +5,9 @@ Experimental, declarative control of the QNAP QSW-L2110 switch family.
 > **Pre-alpha:** the HTTP interface was derived from QNAP's QSS 2.2.3 firmware and
 > has been exercised on a QSW-L2110-10T, including VLAN transitions and saved
 > configuration. Two-member LACP forwarding with Firewalla remains unresolved;
-> see the [current diagnostic handoff](docs/diagnostic-handoff-20260906.md).
+> moving the LAN to ports 1+2 sustained clean negotiation for over ten minutes,
+> with longer-term and forwarding validation still needed. See the
+> [current diagnostic handoff](docs/diagnostic-handoff-20260906.md).
 
 The QSW-L2110 does not use the Linux-based `/api/v1` or `/api/v2` interface found
 on many QSW-M switches. Its QSS 2.2.x firmware exposes a smaller, undocumented
@@ -174,6 +176,9 @@ documents the bounded Mac receiver and the observation sequence.
 The [completed mirror/reboot experiment](docs/mirror-reboot-results-20260906.md)
 reproduced the failure with one LAG and observed port-4 LACP disappear from the
 mirror approximately 93 seconds before QNAP defaulted its partner.
+The [production LAN move to ports 1+2](docs/lan-ports-1-2-results-20260906.md)
+kept the existing Firewalla bond unchanged and sustained clean LACP on both
+2.5 Gb/s members beyond that failure window. The LAN is currently left on 1+2.
 
 ```console
 uv run ruff check .

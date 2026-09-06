@@ -1,0 +1,37 @@
+schema_version: 1
+
+# Move the September 6 production LAN pair from ports 3+4 to 1+2.
+# Preserve group 4 and Long timeout; Firewalla configuration is unchanged.
+# Preconditions: remove the Mac Ethernet cables from 1+2; port 9 stays empty;
+# ONT remains direct to Firewalla. Management must enter an unaffected LAN port.
+# After verified apply, move the existing QNAP-end cables 3->1 and 4->2.
+# Restore: lan-lag-ports-3-4-long-20260906.yaml, coordinated with cable placement.
+
+device:
+  models: [QSW-L2110-10T]
+  firmware: ["2.2.3.20260713"]
+  port_count: 10
+
+link_aggregation:
+  system_priority: 32768
+  managed_ports: [1, 2, 3, 4]
+  groups:
+    - id: 4
+      mode: lacp
+      members: [1, 2]
+      port_priority: 128
+      timeout: long
+
+vlans:
+  - id: 1
+    name: default
+    untagged: [8]
+    tagged: []
+  - id: 10
+    name: lan
+    untagged: [1, 2, 3, 4, 5, 6, 7, 10]
+    tagged: []
+  - id: 3999
+    name: wan-transit
+    untagged: [9]
+    tagged: []

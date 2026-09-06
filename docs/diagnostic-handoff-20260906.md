@@ -1,10 +1,17 @@
 # Diagnostic handoff — September 6, 2026
 
-**The experiments are complete; port-4 LACP remains unresolved. Nothing is armed
-or waiting for a password.** The latest cleanup finished at approximately
-12:38 UTC (08:38 EDT). This handoff supersedes the older MacBook baseline and
-preparation instructions. State below records the final verified observations;
-refresh it before another hardware test.
+**The production LAN now uses QNAP ports 1+2, group 4, Long timeout. Both
+Firewalla members remained clean at 2.5 Gb/s for 10 minutes 45 seconds under
+the joint native-state and fresh-packet criterion.** Firewalla's existing Slow
+bond configuration was unchanged. The earlier port-4 failure remains unexplained;
+ports 1+2 are the current working workaround, with longer observation still needed.
+
+Latest cleanup was verified at **14:16:30 UTC**: the passive recorder is stopped,
+with no owned process or restoration armed. Read the
+[ports-1+2 execution report](lan-ports-1-2-results-20260906.md) and its dated
+target/restore YAML before changing anything. This handoff supersedes the older
+MacBook baseline and preparation instructions. Refresh live state before another
+hardware test.
 
 ## Completed evidence
 
@@ -14,6 +21,7 @@ refresh it before another hardware test.
 | Disable the unused LAG; isolate IoT Wi-Fi | Neither cleared the existing failure. [Single-LAG report](lacp-single-group-and-events-20260905.md), [Wi-Fi report](lacp-iot-wifi-isolation-20260905.md) |
 | Disable downstream ports 10, 5, and 6 individually, then together | No recovery during roughly 60-second individual cuts or the roughly 120-second combined cut. All ports restored. Early port-10 aborts were harness bugs; completed trials followed the fixes. [Report](port-isolation-results-20260905.md) |
 | Ordinary reboot with only one LAG, ingress mirror to the Mac | Port 4 failed about 220 seconds after clean negotiation. Its LACP disappeared from the mirror about 93 seconds before QNAP defaulted its partner, while Firewalla continued recording outgoing PDUs. Both working-port controls passed; the final control used a separate capture after a cleanup error. [Report](mirror-reboot-results-20260906.md) |
+| Move the existing LAN bond from QNAP 3+4 to 1+2 | Both members clean at 2.5 Gb/s for 644.570 seconds with native state and fresh reciprocal packets; 672.812 seconds of clean native state. Same Firewalla bond/NICs/cables, Slow timeout, and downstream branches. Port 1 came up first. Left on 1+2. [Report](lan-ports-1-2-results-20260906.md) |
 
 The second configured LAG is not necessary for this failure. The branch cuts
 tested whether removing ongoing downstream traffic clears an existing failure;
@@ -26,23 +34,28 @@ with zero kernel drops; switch-side loss remains outside that measurement.
 ## Final verified state
 
 - QNAP QSW-L2110-10T, QSS **2.2.3.20260713**. Only LACP group 4 on ports
-  **3+4**, Long timeout; Firewalla bond0 uses Slow LACP.
-- Firewalla eth2 → QNAP 3 is clean, native actor/partner **61/61**.
-  Firewalla eth3 → QNAP 4 remains failed, **13/69**. Both have 2.5 Gb/s carrier.
+  **1+2**, Long timeout; Firewalla bond0 still uses Slow LACP.
+- Firewalla **eth2 → QNAP 1; eth3 → QNAP 2**. Both clean at native
+  actor/partner **61/61**, 2.5 Gb/s, in the same two-member aggregator at the
+  last recorded sample, **14:15:55.657 UTC**.
+- VLAN 10 untagged/PVID 10 on **1, 2, 3, 4, 5, 6, 7, 10**. VLAN 1 on
+  **8**; VLAN 3999 only on **9**. No tagged members. Ports 3+4 are now ordinary
+  LAN access ports with no cable.
 - Downstream ports **5, 6, and 10 are enabled**, with 2.5 Gb/s carrier.
   Ports 7, 8, and 9 have no carrier; the ONT connects directly to Firewalla.
-- Mac en8 → port 1 at 100 Mb/s; en9 (AX88179B) → port 2 at 1 Gb/s.
-  Both switch ports are standalone on VLAN 3999. Neither adapter is in a Mac
-  bond or bridge. Wi-Fi en0 supplies the Mac's management/default route.
+- The Mac Ethernet cables were removed from ports 1+2 before the LAN move.
+  Those ports are now occupied by Firewalla; do not reconnect Mac NICs there.
+  Mac software settings were not revisited in this run.
 - **All mirror ingress and egress sources are off**; the inactive destination
-  selector is restored to port 7. Mac en9 DHCP with a blank client ID and
-  automatic IPv6 are restored.
+  selector remains port 7. The prior Mac agent reported restoring en9 DHCP
+  with a blank client ID and automatic IPv6 at its 12:38 UTC checkpoint.
 - Owned capture/coordinator/cleanup jobs have stopped. Owned temporary router
   credential copies were removed. No pending timer or receiver needs resuming.
 
-The final supported configuration matched SHA-256
+The **earlier 12:38 UTC configuration, before the move**, matched SHA-256
 `095e9b619f7d91c3a3a998906f9d812e538c0342660f0a79c365b0895f433c9c`.
-This hash covers exposed configuration, not hidden runtime state. The user
+That hash is historical and is not the current ports-1+2 configuration. The
+dated target YAML now produces an empty plan against fresh readback. The user
 reported restoring IoT Wi-Fi and using wired AP backhaul; those AP settings were
 not independently verified.
 
@@ -59,7 +72,7 @@ uv run ruff format --check .
 uv run pytest -q
 ```
 
-At this checkpoint, all **208 tests passed**, along with lint and formatting
+At the earlier Mac-agent checkpoint, all **208 tests passed**, along with lint and formatting
 checks using the locked development environment. The tests use a local HTTP
 emulator and fixtures; they do not operate the switch.
 Git contains the reusable tools, tests, reports, and sanitized JSON evidence in
@@ -67,7 +80,11 @@ Git contains the reusable tools, tests, reports, and sanitized JSON evidence in
 host files under private run directories, configuration backups, firmware,
 packet captures, local launchers, and the prior Codex session history.
 
-Raw artifacts remain on the original Mac under ignored directories:
+The new ports-1+2 raw artifacts are on the Linux observer under ignored
+`backups/lan-ports-1-2-20260906T135419Z/`. Its sanitized evaluation is committed
+in `docs/evidence/lan-ports-1-2-20260906.json`.
+
+Earlier raw artifacts remain on the original Mac under ignored directories:
 
 - `backups/port-isolation-run-20260906T030616Z/`: completed branch cuts.
 - `backups/mirror-reboot-run-20260906T121056Z/`: main mirror/reboot run;

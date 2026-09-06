@@ -1,0 +1,118 @@
+{
+  "experiment": "production LAN LAG moved from QNAP 3+4 to 1+2",
+  "date": "2026-09-06",
+  "model": "QSW-L2110-10T",
+  "firmware": "2.2.3.20260713",
+  "configured_lag_group": 4,
+  "qnap_timeout": "Long",
+  "firewalla_timeout": "Slow",
+  "mapping": {
+    "eth2": 1,
+    "eth3": 2
+  },
+  "firewalla_configuration_changed": false,
+  "firewalla_identity_and_settings_verified_unchanged": true,
+  "saved_target_and_protected_switch_settings_verified": true,
+  "bring_up_order_observed": [
+    1,
+    2
+  ],
+  "first_native_clean_utc": "2026-09-06T14:04:42.845Z",
+  "last_native_sample_utc": "2026-09-06T14:15:55.657Z",
+  "continuous_native_clean_seconds": 672.812,
+  "continuous_native_clean_samples": 663,
+  "joint_clean_start_utc": "2026-09-06T14:05:11.086Z",
+  "evaluation": {
+    "pass": true,
+    "longest_joint_clean_seconds": 644.5700869560242,
+    "current_joint_clean_seconds": 644.5700869560242,
+    "joint_clean_events": 1443,
+    "evaluated_events": 1654,
+    "native_samples": 730,
+    "packet_counts": {
+      "eth2": 48,
+      "eth3": 52
+    },
+    "packet_max_age_seconds": 35,
+    "native_max_age_seconds": 2.5,
+    "window_start_epoch": 1788703414.034472,
+    "window_end_epoch": 1788704155.657,
+    "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+  },
+  "final_members": {
+    "eth2": {
+      "mii": "up",
+      "speed": 2500,
+      "aggregator_id": 1,
+      "actor_port": 1,
+      "actor_state": 61,
+      "partner_key": 1,
+      "partner_port": 1,
+      "partner_state": 61,
+      "link_failures": 9
+    },
+    "eth3": {
+      "mii": "up",
+      "speed": 2500,
+      "aggregator_id": 1,
+      "actor_port": 2,
+      "actor_state": 61,
+      "partner_key": 1,
+      "partner_port": 2,
+      "partner_state": 61,
+      "link_failures": 9
+    }
+  },
+  "link_failures_before_move": {
+    "eth2": 8,
+    "eth3": 8
+  },
+  "link_failure_counts_constant_after_first_clean": true,
+  "probe_window_utc": [
+    "2026-09-06T14:10:47.273734+00:00",
+    "2026-09-06T14:14:47.279293+00:00"
+  ],
+  "reachability_probes": {
+    "gateway": {
+      "passed": 9,
+      "total": 9
+    },
+    "internet": {
+      "passed": 9,
+      "total": 9
+    },
+    "switch": {
+      "passed": 9,
+      "total": 9
+    }
+  },
+  "capture_audit": {
+    "eth2": {
+      "captured": 2247,
+      "received_by_filter": 2248,
+      "dropped_by_kernel": 0
+    },
+    "eth3": {
+      "captured": 2254,
+      "received_by_filter": 2255,
+      "dropped_by_kernel": 0
+    }
+  },
+  "cleanup": {
+    "verified_utc": "2026-09-06T14:16:30.701678+00:00",
+    "unit_state": {
+      "MainPID": "0",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "owned_processes": []
+  },
+  "limitations": [
+    "Bounded observation, not a long-term reliability guarantee",
+    "LACP plus basic reachability, not aggregate throughput or per-member forwarding",
+    "Physical port pair, advertised partner key, and reset negotiation state changed together",
+    "One observed bring-up order; no reboot on the new pair"
+  ]
+}

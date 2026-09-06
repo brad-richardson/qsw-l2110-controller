@@ -1,5 +1,12 @@
 # Runbook: LAN LAG on switch ports 1+2, both bring-up orders
 
+**Historical September 5 procedure:** the production LAN was moved to 1+2 on
+September 6 using group 4 and **Long** timeout. See the
+[execution report and current configuration](lan-ports-1-2-results-20260906.md).
+That report links the dated target and restore YAML. The Short-timeout files,
+baseline, expected plan, and three-minute observation windows below do not
+describe the September 6 run; later failures took up to roughly four minutes.
+
 Purpose: decide whether the one-member LAN LAG failure follows the switch ports or the
 bring-up order. Ports 1+2 carried a working two-member WAN LAG on 2026-09-05, but both
 times the higher port came up first. Ports 3+4 have only ever come up lowest-first.
