@@ -14,6 +14,14 @@ This report's benchmark topology describes the baseline only. No router or
 switch network configuration was changed by the agent for either the benchmark
 or the post-outage checks.
 
+The user subsequently identified the intermediate switch as a **Tenda TEM2010X**,
+with a physical Standard / VLAN / Static Aggregation selector. The user confirmed
+**Standard mode** and the current copper uplink on **Tenda port 8**; the server
+port remains unknown. They ordered a **10Gtek ASF-10G2-T**,
+expected later this week, for a replacement-module test. The failed module model
+and exact SFP slot remain unconfirmed. See the inspection findings below before
+another cable change.
+
 ## Baseline path and method
 
 - Linux observer `eno1`, **2.5 Gb/s**, MTU 1500. The switch learned its MAC on
@@ -108,10 +116,53 @@ separates the user's report from the later observations. Private readbacks are
 under `backups/sfp-outage-check-20260906T144609Z/`. No new test server or recorder
 was started, and the agent made no network configuration changes.
 
+## Intermediate switch inspection: Tenda TEM2010X
+
+The user identified this model after the outage. Tenda describes its unmanaged
+switches as having no software configuration interface. The TEM2010X support
+page documents a physical selector and does not document a web UI, SSH, SNMP,
+remote log retrieval, or transceiver diagnostic API. No supported remote
+configuration/log-reading interface was found. Sources:
+[Tenda's unmanaged-switch FAQ](https://www.tendacn.com/faq/2003678) and
+[TEM2010X specifications/support](https://www.tendacn.com/product/support/TEM2010X).
+
+The model-specific presets are:
+
+| Selector | Documented port behavior |
+|---|---|
+| Standard | No isolation between ports. |
+| VLAN | Ports 1–6 cannot communicate with one another; each can reach ports 7–10. |
+| Static Aggregation | One static group on copper ports **7+8**, intended for a dual-port NAS. |
+
+The SFP+ slots are **9+10**, advertised as 10 Gb/s. They are not the static group.
+The Tenda's static mode is distinct from the existing Firewalla↔QNAP LACP group
+on QNAP ports 1+2. Standard is the appropriate preset for an ordinary single-uplink
+test, and the user has confirmed that Standard is selected. The current uplink
+is on Tenda copper port 8; the server port is unknown. These are Tenda port
+numbers, separate from the QNAP port numbering.
+In particular, the documented VLAN preset permits the SFP uplink ports to reach
+all of the copper ports, so that preset alone would not explain a failed SFP uplink.
+
+Read-only inspection of the observer's existing LLDP and neighbor tables did not
+identify a Tenda management endpoint. The sole LLDP cache entry has chassis label
+`BYTESIZE` and an ASUSTek MAC prefix; it does not establish the Tenda's identity or
+configuration. A link-local neighbor was identified by the local OUI database as
+Philips Lighting, not a candidate Tenda management address. No subnet port scan,
+authentication guessing, or undocumented switch-write probe was performed.
+
+Local tcpdump has no file capabilities, and noninteractive local sudo requires
+a password, so no new host capture was started. The existing discovery table,
+QNAP-side speed/error counters, and Firewalla bond/NIC observations remain available.
+SFP module identity, temperature, optical diagnostics, and Tenda-side logs were
+not obtained. Lack of a discovered management endpoint does not prove that no
+undocumented chipset diagnostic protocol could exist.
+
 ## Resume the SFP investigation
 
-1. Establish which physical path is currently connected, then identify both
-   endpoints, their ports, and the SFP+ module/adapter involved in the outage.
+1. Keep the confirmed Standard preset. Before testing the ordered 10Gtek
+   ASF-10G2-T, identify the intended SFP slot (9 or 10), the far-end QNAP port,
+   cable, and the old module involved in the outage. The current copper uplink
+   is Tenda port 8; the server port remains unknown.
    Check that combination's supported speeds and port configuration before
    proposing another swap. The QSW-L2110-10T itself has copper ports; do not
    infer which external SFP segment is involved.

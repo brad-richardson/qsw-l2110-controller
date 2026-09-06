@@ -26,6 +26,46 @@ and any physical rollback remain unconfirmed. No post-swap load test ran and
 no new server/recorder was started. See the
 [baseline and SFP-swap outage report](iperf-sfp-reliability-20260906.md).
 
+The user has now identified the intermediate switch as a **Tenda TEM2010X**.
+The user confirmed **Standard mode**, with the copper uplink on **Tenda port 8**
+and the server port unknown. They ordered a **10Gtek ASF-10G2-T**, arriving later
+this week; the failed module and exact SFP slot remain unidentified. No supported
+remote management/logging interface was found. Its Static Aggregation preset
+groups **Tenda copper ports 7+8**, not SFP+ 9+10; read the model-specific
+inspection findings in that report before changing its mode or cabling.
+
+## Latest read-only check and proposed next control
+
+At **15:18:12 UTC**, the current dated 1+2 target still produced an empty plan.
+QNAP ports 1, 2, and 10 were up at 2.5 Gb/s; 4, 7, and 8 had no carrier.
+A fresh privileged Firewalla read showed both members at 61/61, 2.5 Gb/s,
+aggregator 1, partner key 1, and link-failure counts still 9 each. This is a
+later healthy snapshot, not continuous capture covering the intervening period.
+No device network configuration was changed.
+
+**Proposed, not applied:** test QNAP **1+4** before 7+8. Preserve group 4,
+Long timeout, VLAN 10, and all Firewalla settings; after coordinated switch
+configuration, move only the QNAP end of the eth3 cable **2 → 4**. Retaining
+lowest member 1 is expected to retain advertised key 1, which must be verified
+in live PDUs. This retests previously failing port 4 while controlling the
+lowest-member/key difference between successful 1+2 and failed 3+4. It also
+separates the cables physically, although there is no evidence that proximity
+or heat caused the LACP failure.
+
+Record native state and reciprocal LACPDUs for at least 10–15 minutes after
+convergence, including a bounded bidirectional throughput test and error/link
+counters. Restore the current dated 1+2 target and cable placement if it fails;
+do not modify Firewalla networking. A pass would argue against a universally
+broken port 4 and support dependence on group composition/lowest member; a
+failure would leave both port-specific behavior and persistent switch state
+as possibilities. Neither outcome by itself proves the hardware fault location.
+
+QNAP 7+8 remains a useful later pair comparison, but changes both members and
+likely the advertised key, and requires repurposing **QNAP port 8 from VLAN 1**.
+Preserve a rescue-port alternative if scheduling it. This is separate from the
+**Tenda uplink on its own port 8**. Earlier port-7/dummy-group tests were not a
+controlled live 7+8 production test.
+
 ## Completed evidence
 
 | Experiment | Result and report |
