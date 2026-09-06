@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from copy import deepcopy
 
 import pytest
@@ -74,3 +75,20 @@ def test_ingress_mirror_rejects_existing_mirror_or_bond_receiver(active, lag_typ
 def test_mirror_rejects_source_destination_overlap():
     with pytest.raises(ValueError, match="also be a source"):
         mirror_payloads([4, 7], 7)
+
+
+def test_fresh_cleanup_session_survives_an_expired_observation_session():
+    switch = Switch()
+    used_fresh = []
+
+    @contextmanager
+    def fresh_session():
+        used_fresh.append(True)
+        # Represent a new login to the same hardware after the old session expired.
+        switch.fail_once = False
+        yield switch
+
+    with ingress_mirror(switch, [4], 7, cleanup_session=fresh_session):
+        switch.fail_once = True
+    assert used_fresh == [True]
+    assert not any(any(v) for v in mirror_state(switch.data)[1].values())

@@ -8,7 +8,7 @@ import json
 import os
 import signal
 import time
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -55,11 +55,12 @@ def mirror_payloads(sources: list[int], destination: int) -> list[dict]:
 
 
 @contextmanager
-def ingress_mirror(client, sources: list[int], destination: int):
+def ingress_mirror(client, sources: list[int], destination: int, *, cleanup_session=None):
     """Require no existing mirror and an unaggregated destination; clean up even on failure.
 
     An originally unset destination may remain selected after cleanup, matching
     the native UI's all-sources-unchecked behavior. No configuration is saved.
+    Long observations should supply a fresh authenticated cleanup_session factory.
     """
     payloads = mirror_payloads(sources, destination)
     if not sources:
@@ -84,10 +85,11 @@ def ingress_mirror(client, sources: list[int], destination: int):
     finally:
         # A timed-out enable may still have reached hardware. Always disable.
         cleanup_destination = previous_destination or destination
-        client.post_json("/port_mirror.json", mirror_payloads([], cleanup_destination)[1])
-        _, restored_ports = mirror_state(client.get_json("/port_mirror.json"))
-        if any(any(flags) for flags in restored_ports.values()):
-            raise ApiError("mirror cleanup failed; disable all sources in QSS")
+        with cleanup_session() if cleanup_session is not None else nullcontext(client) as cleanup:
+            cleanup.post_json("/port_mirror.json", mirror_payloads([], cleanup_destination)[1])
+            _, restored_ports = mirror_state(cleanup.get_json("/port_mirror.json"))
+            if any(any(flags) for flags in restored_ports.values()):
+                raise ApiError("mirror cleanup failed; disable all sources in QSS")
 
 
 def main(argv: list[str] | None = None) -> int:

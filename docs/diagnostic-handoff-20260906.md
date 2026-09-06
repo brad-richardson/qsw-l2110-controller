@@ -1,0 +1,112 @@
+# Diagnostic handoff — September 6, 2026
+
+**The experiments are complete; port-4 LACP remains unresolved. Nothing is armed
+or waiting for a password.** The latest cleanup finished at approximately
+12:38 UTC (08:38 EDT). This handoff supersedes the older MacBook baseline and
+preparation instructions. State below records the final verified observations;
+refresh it before another hardware test.
+
+## Completed evidence
+
+| Experiment | Result and report |
+|---|---|
+| Firmware comparison: 2.2.2, 2.2.1, restored 2.2.3 | Port 4 failed about 237 seconds after clean negotiation on every build, with two LAGs configured at boot. [Report](firmware-comparison-results-20260905.md) |
+| Disable the unused LAG; isolate IoT Wi-Fi | Neither cleared the existing failure. [Single-LAG report](lacp-single-group-and-events-20260905.md), [Wi-Fi report](lacp-iot-wifi-isolation-20260905.md) |
+| Disable downstream ports 10, 5, and 6 individually, then together | No recovery during roughly 60-second individual cuts or the roughly 120-second combined cut. All ports restored. Early port-10 aborts were harness bugs; completed trials followed the fixes. [Report](port-isolation-results-20260905.md) |
+| Ordinary reboot with only one LAG, ingress mirror to the Mac | Port 4 failed about 220 seconds after clean negotiation. Its LACP disappeared from the mirror about 93 seconds before QNAP defaulted its partner, while Firewalla continued recording outgoing PDUs. Both working-port controls passed; the final control used a separate capture after a cleanup error. [Report](mirror-reboot-results-20260906.md) |
+
+The second configured LAG is not necessary for this failure. The branch cuts
+tested whether removing ongoing downstream traffic clears an existing failure;
+they do not exclude an earlier device trigger leaving persistent state. Branches
+were connected during the reboot. Sender-side capture and switch ingress
+mirroring do not conclusively locate the fault on the physical wire, Firewalla,
+or inside QNAP. All captures in the completed isolation and mirror tests ended
+with zero kernel drops; switch-side loss remains outside that measurement.
+
+## Final verified state
+
+- QNAP QSW-L2110-10T, QSS **2.2.3.20260713**. Only LACP group 4 on ports
+  **3+4**, Long timeout; Firewalla bond0 uses Slow LACP.
+- Firewalla eth2 → QNAP 3 is clean, native actor/partner **61/61**.
+  Firewalla eth3 → QNAP 4 remains failed, **13/69**. Both have 2.5 Gb/s carrier.
+- Downstream ports **5, 6, and 10 are enabled**, with 2.5 Gb/s carrier.
+  Ports 7, 8, and 9 have no carrier; the ONT connects directly to Firewalla.
+- Mac en8 → port 1 at 100 Mb/s; en9 (AX88179B) → port 2 at 1 Gb/s.
+  Both switch ports are standalone on VLAN 3999. Neither adapter is in a Mac
+  bond or bridge. Wi-Fi en0 supplies the Mac's management/default route.
+- **All mirror ingress and egress sources are off**; the inactive destination
+  selector is restored to port 7. Mac en9 DHCP with a blank client ID and
+  automatic IPv6 are restored.
+- Owned capture/coordinator/cleanup jobs have stopped. Owned temporary router
+  credential copies were removed. No pending timer or receiver needs resuming.
+
+The final supported configuration matched SHA-256
+`095e9b619f7d91c3a3a998906f9d812e538c0342660f0a79c365b0895f433c9c`.
+This hash covers exposed configuration, not hidden runtime state. The user
+reported restoring IoT Wi-Fi and using wired AP backhaul; those AP settings were
+not independently verified.
+
+## Resume on another machine
+
+Update an existing checkout with `git pull --ff-only`, preserving local changes,
+or clone the repository. From its root, install and check the code:
+
+```console
+uv venv --python 3.14
+uv sync --locked --extra dev
+uv run ruff check .
+uv run ruff format --check .
+uv run pytest -q
+```
+
+At this checkpoint, all **208 tests passed**, along with lint and formatting
+checks using the locked development environment. The tests use a local HTTP
+emulator and fixtures; they do not operate the switch.
+Git contains the reusable tools, tests, reports, and sanitized JSON evidence in
+`docs/evidence/`. It deliberately excludes `.env`, SSH private keys and pinned
+host files under private run directories, configuration backups, firmware,
+packet captures, local launchers, and the prior Codex session history.
+
+Raw artifacts remain on the original Mac under ignored directories:
+
+- `backups/port-isolation-run-20260906T030616Z/`: completed branch cuts.
+- `backups/mirror-reboot-run-20260906T121056Z/`: main mirror/reboot run;
+  `combined-analysis.json` joins its evidence to the completed final control.
+- `backups/mirror-final-control-20260906/`: separate final control and cleanup.
+- `backups/mirror-reboot-prep-20260906/`: completed preparation, local launcher,
+  and receivers; `COMPLETE.json` records completion. Receiver 3 holds the main
+  capture and receiver 4 the final control.
+
+Further raw-packet analysis needs a separate private transfer of those files.
+Live access needs local switch credentials and verified router SSH credentials
+and host identity; recreate or privately transfer them rather than adding them
+to Git. Read the existing evidence before starting another experiment.
+
+Old plans and launchers describe the original machine and completed runs. They
+are not an armed handoff. Refresh device identity, exact configuration, adapter
+names/MACs, port mapping, independent management route, and restoration readiness
+before preparing a new run. The mirror coordinator still targets en9 → port 2
+and the documented firmware/topology. Its private plan now requires
+`receiver_mac`, matching the receiver helper's `--expected-mac` and fresh
+MAC-table evidence; a different machine needs its own verified preparation.
+The Mac receiver helper runs on stock Python 3.9+ and still requires local sudo
+for packet capture and temporary addressing changes.
+
+## Code included with these results
+
+- `tools/lan_lacp_watch.py` reports the current clean interval, so an earlier
+  five-minute success cannot mask a later failure.
+- `tools/port_isolation.py` and `tools/port_isolation_agent.py` provide scoped
+  individual/combined branch cuts with independent router-side restoration.
+  Their fixes separate runtime LAG flags from configuration, accept a successful
+  empty write response, and avoid the post-result journal argument collision.
+- `tools/mirror_receiver_macos.py`, `tools/mirror_reboot.py`, and
+  `tools/mirror_cleanup_agent.py` provide bounded capture, a controlled reboot
+  sequence, and independent mirror cleanup. Fixes verify actual IP removal,
+  preserve full process command lines during readiness checks, use fresh
+  authentication for mirror cleanup, and verify inactive transient units before
+  removing temporary credentials.
+
+The main run's original cleanup errors remain in its evidence. Fresh cleanup
+and a separate final control resolved them without another reboot; see the
+[full execution and cleanup record](mirror-reboot-results-20260906.md).

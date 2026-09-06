@@ -170,6 +170,7 @@ def evaluate(
     return {
         "pass": longest >= 300,
         "longest_joint_clean_seconds": longest,
+        "current_joint_clean_seconds": end - run_start if run_start is not None else 0.0,
         "joint_clean_events": good,
         "evaluated_events": total,
         "native_samples": len(native),

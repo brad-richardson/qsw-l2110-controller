@@ -1,0 +1,361 @@
+{
+  "date": "2026-09-06",
+  "firmware": "2.2.3.20260713",
+  "reboot_intents": 1,
+  "reboot_intent_utc": "2026-09-06T12:17:03.371842+00:00",
+  "sequence_errors": [
+    {
+      "type": "ApiError",
+      "message": "POST /port_mirror.json returned invalid JSON"
+    },
+    {
+      "cleanup": "RouterUnavailable",
+      "message": "Router SSH command failed (exit 5)"
+    }
+  ],
+  "phases": [
+    {
+      "name": "working-before",
+      "source": 3,
+      "requested_seconds": 75,
+      "enable_intent_epoch": 1788696853.192768,
+      "start": 1788696859.6384609,
+      "end": 1788696934.68418,
+      "mirror_disabled_epoch": 1788696936.446483,
+      "matching_packets": 2,
+      "start_utc": "2026-09-06T12:14:19.638461+00:00",
+      "end_utc": "2026-09-06T12:15:34.684180+00:00",
+      "mirrored_lacp_count": 2,
+      "mirrored_states": {
+        "(61, 61)": 2
+      },
+      "router_outbound_lacp_count": 2,
+      "router_outbound_states": {
+        "(61, 61)": 2
+      },
+      "matched_router_outbound_frames": 2,
+      "matched_receiver_minus_router_seconds": [
+        -0.004637002944946289,
+        -0.004790067672729492
+      ],
+      "first_mirrored": {
+        "epoch": 1788696871.947442,
+        "utc": "2026-09-06T12:14:31.947442+00:00",
+        "actor_port": 1,
+        "actor_state": 61,
+        "partner_port": 3,
+        "partner_state": 61
+      },
+      "last_mirrored": {
+        "epoch": 1788696903.311254,
+        "utc": "2026-09-06T12:15:03.311254+00:00",
+        "actor_port": 1,
+        "actor_state": 61,
+        "partner_port": 3,
+        "partner_state": 61
+      },
+      "native_packet_evaluation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 165,
+        "native_samples": 74,
+        "packet_counts": {
+          "eth2": 5,
+          "eth3": 6
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788696859.6384609,
+        "window_end_epoch": 1788696934.68418,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      }
+    },
+    {
+      "name": "failed-before",
+      "source": 4,
+      "requested_seconds": 75,
+      "enable_intent_epoch": 1788696936.468628,
+      "start": 1788696943.305516,
+      "end": 1788697018.3443048,
+      "mirror_disabled_epoch": 1788697020.107784,
+      "matching_packets": 0,
+      "start_utc": "2026-09-06T12:15:43.305516+00:00",
+      "end_utc": "2026-09-06T12:16:58.344305+00:00",
+      "mirrored_lacp_count": 0,
+      "mirrored_states": {},
+      "router_outbound_lacp_count": 5,
+      "router_outbound_states": {
+        "(13, 69)": 5
+      },
+      "matched_router_outbound_frames": 0,
+      "matched_receiver_minus_router_seconds": [],
+      "first_mirrored": null,
+      "last_mirrored": null,
+      "native_packet_evaluation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 167,
+        "native_samples": 73,
+        "packet_counts": {
+          "eth2": 5,
+          "eth3": 8
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788696943.305516,
+        "window_end_epoch": 1788697018.3443048,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      }
+    },
+    {
+      "name": "port4-after-reboot",
+      "source": 4,
+      "requested_seconds": 450,
+      "enable_intent_epoch": 1788697082.1150599,
+      "start": 1788697088.840213,
+      "end": 1788697538.987884,
+      "start_utc": "2026-09-06T12:18:08.840213+00:00",
+      "end_utc": "2026-09-06T12:25:38.987884+00:00",
+      "mirrored_lacp_count": 4,
+      "mirrored_states": {
+        "(61, 61)": 4
+      },
+      "router_outbound_lacp_count": 23,
+      "router_outbound_states": {
+        "(61, 61)": 6,
+        "(13, 69)": 17
+      },
+      "matched_router_outbound_frames": 4,
+      "matched_receiver_minus_router_seconds": [
+        -0.0039288997650146484,
+        -0.003991842269897461,
+        -0.0039899349212646484,
+        -0.0038819313049316406
+      ],
+      "first_mirrored": {
+        "epoch": 1788697099.796262,
+        "utc": "2026-09-06T12:18:19.796262+00:00",
+        "actor_port": 2,
+        "actor_state": 61,
+        "partner_port": 4,
+        "partner_state": 61
+      },
+      "last_mirrored": {
+        "epoch": 1788697193.956185,
+        "utc": "2026-09-06T12:19:53.956185+00:00",
+        "actor_port": 2,
+        "actor_state": 61,
+        "partner_port": 4,
+        "partner_state": 61
+      },
+      "native_packet_evaluation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 186.84180903434753,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 413,
+        "evaluated_events": 1016,
+        "native_samples": 443,
+        "packet_counts": {
+          "eth2": 29,
+          "eth3": 39
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788697088.840213,
+        "window_end_epoch": 1788697538.987884,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      }
+    }
+  ],
+  "port4_first_clean_after_reboot": {
+    "epoch": 1788697067.115952,
+    "utc": "2026-09-06T12:17:47.115952+00:00",
+    "actor_port": 4,
+    "actor_state": 61,
+    "partner_port": 2,
+    "partner_state": 61
+  },
+  "port4_first_default_after_clean": {
+    "epoch": 1788697287.010857,
+    "utc": "2026-09-06T12:21:27.010857+00:00",
+    "actor_port": 4,
+    "actor_state": 69,
+    "partner_port": 0,
+    "partner_state": 0
+  },
+  "router_first_bad_after_clean": {
+    "epoch": 1788697287.116127,
+    "utc": "2026-09-06T12:21:27.116127+00:00",
+    "actor_port": 2,
+    "actor_state": 13,
+    "partner_port": 4,
+    "partner_state": 69
+  },
+  "clean_to_default_seconds": 219.89490509033203,
+  "mirror_enabled_after_first_clean_seconds": 21.724261045455933,
+  "max_gap_between_received_lacpdus_seconds": 31.444008111953735,
+  "postboot_silence_after_last_mirrored_seconds": 345.03169894218445,
+  "last_mirrored_to_default_seconds": 93.05467200279236,
+  "router_outbound_after_default_in_mirror_window": 17,
+  "mirrored_after_default_in_mirror_window": 0,
+  "capture_kernel_drops": {
+    "receiver": 0,
+    "eth2": 0,
+    "eth3": 0
+  },
+  "configuration_matches_baseline": true,
+  "configuration_sha256": "095e9b619f7d91c3a3a998906f9d812e538c0342660f0a79c365b0895f433c9c",
+  "receiver_restored": {
+    "epoch": 1788697562.064594,
+    "ok": true,
+    "errors": []
+  },
+  "native_final_states": {
+    "eth2": [
+      61,
+      61
+    ],
+    "eth3": [
+      13,
+      69
+    ]
+  },
+  "private_directory": "backups/mirror-reboot-run-20260906T121056Z",
+  "measurement": "LACP negotiation and ingress-mirror observation; not wire-level delivery or throughput proof",
+  "artifact_sha256": {
+    "backups/mirror-reboot-run-20260906T121056Z/result.json": "4c04cf476813621753046bf9587f4a95816b7825a434ffe8c67a90f7c0c15562",
+    "backups/mirror-reboot-run-20260906T121056Z/before.json": "c801c7453d365da502eb7f266062102d26de3e2bb72bd0bb9a7cba85c25ff60d",
+    "backups/mirror-reboot-run-20260906T121056Z/final.json": "596aa5abdadee2892527b0df2e4a57e1b3e7558a279718aa789a464f003fc352",
+    "backups/mirror-reboot-prep-20260906/receiver-3/en9.pcap": "8922590b29b294034f721551ee5f961ef9dff969d33f33af2981bf8e2617668e",
+    "backups/mirror-reboot-run-20260906T121056Z/final-recorder/eth2.pcap": "0cde9f426946002d1197a2bfe85e66fd6eaef3febdda70382cd241df9a8e09ba",
+    "backups/mirror-reboot-run-20260906T121056Z/final-recorder/eth3.pcap": "7a703e8dc4905131ef2b5f28541d13618d902276aa635a9b6e3a1bfe0fcb38f9",
+    "backups/mirror-reboot-run-20260906T121056Z/final-recorder/bond-states.txt": "c3e6d115963c0a8d6bec95ba4d934f253924dd4e8d7e30721b94a6af05b3940b",
+    "backups/mirror-final-control-20260906/result.json": "c6715c63d1b9444995b3fc3fff81288dd0773cadda7946a3346b127cdea3d024",
+    "backups/mirror-final-control-20260906/final.json": "f836eac2dc431606c7393777e9d8c72cb3d6ba9f4727b713df9ea52e500df42c",
+    "backups/mirror-final-control-20260906/guard-retired.json": "04070258c98209b78f2461cf605356849220dfa0c32a56811b7e95b2ae137d58",
+    "backups/mirror-reboot-prep-20260906/receiver-4/en9.pcap": "33063441234f76b1fcaff9eade8613496dd4b667b591416ed640589b5c8b403b",
+    "backups/mirror-final-control-20260906/final-recorder/eth2.pcap": "8785eeee7d31dfb7f6c26e3a60b05e92af004a066f5a1ec3ac6e3ad9e918507d",
+    "backups/mirror-final-control-20260906/final-recorder/eth3.pcap": "5864361280249e9b215d74e33dc2ee7b4fb74510603310c6cb37f28e89675a02",
+    "backups/mirror-reboot-run-20260906T121056Z/final-recorder-extra/link-stats.txt": "499ee294959fd6b66aea02a3d7ba4d32746bb3643018f91e897d2be94f868b4a",
+    "backups/mirror-reboot-run-20260906T121056Z/final-recorder-extra/kernel-events.txt": "6d23c12b753b2a1e20f16f8ebbaac568006f8407b2a7ae1e5f0844fb4695d3ae"
+  },
+  "final_control": {
+    "name": "working-after",
+    "source": 3,
+    "requested_seconds": 75,
+    "enable_intent_epoch": 1788698178.9529989,
+    "start": 1788698185.392917,
+    "end": 1788698260.4571571,
+    "mirror_disabled_epoch": 1788698264.691026,
+    "matching_packets": 2,
+    "separate_capture": true,
+    "mirrored_lacp_count": 2,
+    "mirrored_states": {
+      "(61, 61)": 2
+    },
+    "native_packet_evaluation": {
+      "pass": false,
+      "longest_joint_clean_seconds": 0.0,
+      "current_joint_clean_seconds": 0.0,
+      "joint_clean_events": 0,
+      "evaluated_events": 165,
+      "native_samples": 73,
+      "packet_counts": {
+        "eth2": 4,
+        "eth3": 8
+      },
+      "packet_max_age_seconds": 35,
+      "native_max_age_seconds": 2.5,
+      "window_start_epoch": 1788698185.392917,
+      "window_end_epoch": 1788698260.4571571,
+      "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+    },
+    "capture_kernel_drops": {
+      "receiver": 0,
+      "eth2": 0,
+      "eth3": 0
+    },
+    "guard_retired": {
+      "epoch": 1788698285.915957,
+      "states": {
+        "qsw-mirror-cleanup-0a15d0366211.timer": "inactive",
+        "qsw-mirror-cleanup-0a15d0366211.service": "inactive"
+      },
+      "credentials_removed": true
+    },
+    "receiver_restored": {
+      "epoch": 1788698287.279131,
+      "ok": true,
+      "errors": []
+    },
+    "errors": []
+  },
+  "main_cleanup_recovered": {
+    "credentials_removed": true,
+    "epoch": 1788697837.0856931
+  },
+  "physical_link_evidence": {
+    "native_link_failure_counts_after_initial_clean": {
+      "eth2": {
+        "8": 465
+      },
+      "eth3": {
+        "8": 465
+      }
+    },
+    "kernel_link_events_after_initial_clean": []
+  },
+  "source_traffic_evidence": {
+    "window_start_epoch": 1788697088.840213,
+    "window_end_epoch": 1788697538.987884,
+    "samples": 442,
+    "max_one_second_tx_mbps": 6.212710433129932,
+    "max_one_second_rx_mbps": 2.2506845042201915,
+    "average_tx_mbps": 0.11137696876402195,
+    "counter_resets": 0
+  },
+  "completed_with_separate_final_control": true,
+  "final_configuration_matches_baseline": true,
+  "final_configuration_sha256": "095e9b619f7d91c3a3a998906f9d812e538c0342660f0a79c365b0895f433c9c",
+  "final_ports": {
+    "2": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "1000MbpsFull"
+    },
+    "3": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    },
+    "4": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    },
+    "5": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    },
+    "6": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    },
+    "10": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    }
+  },
+  "final_native_states": {
+    "eth2": [
+      61,
+      61
+    ],
+    "eth3": [
+      13,
+      69
+    ]
+  },
+  "followup_private_directory": "backups/mirror-final-control-20260906"
+}

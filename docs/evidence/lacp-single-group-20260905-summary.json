@@ -1,0 +1,292 @@
+{
+  "local_date": "2026-09-05",
+  "firmware": "2.2.3.20260713",
+  "active_lag": {
+    "id": 4,
+    "ports": [
+      3,
+      4
+    ],
+    "timeout": "long"
+  },
+  "disabled_lag": {
+    "id": 1,
+    "ports": [
+      1,
+      2
+    ]
+  },
+  "changes": {
+    "portTypeId_1": [
+      "2",
+      "0"
+    ],
+    "portTypeId_2": [
+      "2",
+      "0"
+    ]
+  },
+  "final_configuration_sha256": "095e9b619f7d91c3a3a998906f9d812e538c0342660f0a79c365b0895f433c9c",
+  "finalized_result": {
+    "pass": false,
+    "longest_joint_clean_seconds": 0.0,
+    "joint_clean_events": 0,
+    "evaluated_events": 1027,
+    "native_samples": 444,
+    "packet_counts": {
+      "eth2": 29,
+      "eth3": 43
+    },
+    "packet_max_age_seconds": 35,
+    "native_max_age_seconds": 2.5,
+    "window_start_epoch": 1788655589.4968343,
+    "window_end_epoch": 1788656040.7117171,
+    "measurement": "LACP negotiation, not a throughput or per-member forwarding test",
+    "provisional": false,
+    "final_capture_kernel_drops": {
+      "eth2": 0,
+      "eth3": 0
+    }
+  },
+  "events": {
+    "start_epoch": 1788655455.7753327,
+    "end_epoch": 1788656162.3133957,
+    "line_counts": {
+      "neighbor-link": 1663,
+      "arp-dhcp-capture": 0,
+      "conn": 2851,
+      "dhcp": 25,
+      "firerouter": 0,
+      "conn-long": 5082,
+      "firemain": 0,
+      "conntrack": 74184
+    },
+    "arp_dhcp_pcap_packets": 3651,
+    "arp_dhcp_kernel_drops": 0,
+    "conntrack_reported_overflow": false,
+    "historical_correlation": [
+      {
+        "fault_utc": "2026-09-06T00:00:44.549364+00:00",
+        "symmetric_windows_seconds": {
+          "2": {
+            "flow_start_records": 20,
+            "protocols": {
+              "tcp": 5,
+              "udp": 15
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "5": {
+            "flow_start_records": 106,
+            "protocols": {
+              "tcp": 76,
+              "udp": 30
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "15": {
+            "flow_start_records": 265,
+            "protocols": {
+              "tcp": 160,
+              "udp": 105
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "30": {
+            "flow_start_records": 689,
+            "protocols": {
+              "tcp": 526,
+              "udp": 163
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "60": {
+            "flow_start_records": 1137,
+            "protocols": {
+              "tcp": 916,
+              "udp": 217,
+              "icmp": 4
+            },
+            "dhcp_exchange_records": 1,
+            "firemain_device_event_lines": 0
+          }
+        },
+        "nearest_dhcp_offset_seconds": 43.523295879364014,
+        "nearest_dhcp_messages": [
+          "REQUEST",
+          "ACK"
+        ],
+        "nearest_firemain_device_event_offset_seconds": -233.54936408996582,
+        "nearest_firemain_device_event_kind": "discovery"
+      },
+      {
+        "fault_utc": "2026-09-06T00:18:40.419069+00:00",
+        "symmetric_windows_seconds": {
+          "2": {
+            "flow_start_records": 7,
+            "protocols": {
+              "tcp": 3,
+              "udp": 4
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "5": {
+            "flow_start_records": 24,
+            "protocols": {
+              "tcp": 16,
+              "udp": 8
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "15": {
+            "flow_start_records": 78,
+            "protocols": {
+              "tcp": 52,
+              "udp": 26
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "30": {
+            "flow_start_records": 217,
+            "protocols": {
+              "tcp": 107,
+              "udp": 110
+            },
+            "dhcp_exchange_records": 1,
+            "firemain_device_event_lines": 0
+          },
+          "60": {
+            "flow_start_records": 410,
+            "protocols": {
+              "tcp": 203,
+              "udp": 203,
+              "icmp": 4
+            },
+            "dhcp_exchange_records": 1,
+            "firemain_device_event_lines": 0
+          }
+        },
+        "nearest_dhcp_offset_seconds": 17.64698600769043,
+        "nearest_dhcp_messages": [
+          "REQUEST",
+          "ACK"
+        ],
+        "nearest_firemain_device_event_offset_seconds": -231.41906905174255,
+        "nearest_firemain_device_event_kind": "discovery"
+      },
+      {
+        "fault_utc": "2026-09-06T00:36:48.796286+00:00",
+        "symmetric_windows_seconds": {
+          "2": {
+            "flow_start_records": 13,
+            "protocols": {
+              "udp": 6,
+              "tcp": 7
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "5": {
+            "flow_start_records": 21,
+            "protocols": {
+              "udp": 10,
+              "tcp": 11
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "15": {
+            "flow_start_records": 74,
+            "protocols": {
+              "udp": 23,
+              "tcp": 51
+            },
+            "dhcp_exchange_records": 0,
+            "firemain_device_event_lines": 0
+          },
+          "30": {
+            "flow_start_records": 187,
+            "protocols": {
+              "tcp": 98,
+              "udp": 89
+            },
+            "dhcp_exchange_records": 1,
+            "firemain_device_event_lines": 0
+          },
+          "60": {
+            "flow_start_records": 396,
+            "protocols": {
+              "tcp": 218,
+              "udp": 170,
+              "icmp": 8
+            },
+            "dhcp_exchange_records": 2,
+            "firemain_device_event_lines": 0
+          }
+        },
+        "nearest_dhcp_offset_seconds": -20.714100122451782,
+        "nearest_dhcp_messages": [
+          "REQUEST",
+          "ACK"
+        ],
+        "nearest_firemain_device_event_offset_seconds": -229.79628610610962,
+        "nearest_firemain_device_event_kind": "discovery"
+      }
+    ]
+  },
+  "private_directory": "backups/lacp-single-group-20260905",
+  "artifact_sha256": {
+    "after-watch-smoke.json": "92ab9d54ab5b04533c82e3d9d93969f064549eb44df792cf13f8b5f2481ddeba",
+    "before.json": "264051ea9a8b62dded7da5ebfff3dd2a6e81e9ac467fee2cce28010052dcd5e0",
+    "events/before-single-historical-logs.tar.gz": "2510de8a6357a675f7c4bdb02237fdd229bb9e10e55f7fe2f16734f92953440d",
+    "events/historical-correlation-summary.json": "8b8fed12075c7957e5fae1e825d8951431e5c693206c1f16cc93debafbe6f260",
+    "events/historical-logs.tar.gz": "10d3a0189d3ce94fe7bf35b0a0dd963715bcd61fca5365e83bcafa3dbdaa4ba6",
+    "events/recording.tar.gz": "608975f642e6f5c3f0995dfd287a43f87ea0da7f0190af1e5aecb99116121e3f",
+    "final-recorder/bond-states.txt": "2ff3f33b69becd30d1141002331c0120b2ac9b2fbdc0800af2e46425158054a8",
+    "final-recorder/eth2.pcap": "ef35121467550054fea94b586f06ca5cde584a94baf54302da679d3470dcbe63",
+    "final-recorder/eth2.tcpdump.txt": "bbbcc82eec765adb36b2ecfa476b203cc16dbba1215986554a9ec43b7ede9c6d",
+    "final-recorder/eth3.pcap": "92ce5806246a49efebdbb0f28be9fce25a32254b50d65e325ee81035929b556e",
+    "final-recorder/eth3.tcpdump.txt": "fc430ccfe35abfab7737e4994d525cce5f21ded3c25c37fb28fd07400c9585a3",
+    "final-recorder/host-info.txt": "0825421062aab09294b628e60025c239a9b6cdbe8ed6d96fe0994fcdb0cba484",
+    "final-recorder/kernel-events.txt": "68fcb299fa8cb3a77f93a9a67e90ac263014f1f56e21ccb9ea9b87c539f20449",
+    "final-recorder/link-stats.txt": "e193138f4bc03b00fcf7ae95a6f8acdf68f02a5c907556b803286869ff297cdc",
+    "final-recorder/started.txt": "8a0bd062d2560e059b698acd5b0d835927535f49e27e5458519e5a3c1fcf7a8a",
+    "journal.jsonl": "dc9e45e07238aec8b01ea71c69fb9477dfd583c1cb73d801d177f35d3b74a04d",
+    "result.json": "dec7231fd890bce86126b96c579d248e90ad3dd28c5b5543ebc33892cf0d6d5a",
+    "settled.json": "04a0b12269a3db39f5d6ac7e49e802e6d1c077dcc0c99d79ad495cc237c74d5e"
+  },
+  "watcher_validation": {
+    "targeted_tests_passed": 31,
+    "packet_smoke": {
+      "last_observation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 94,
+        "native_samples": 40,
+        "packet_counts": {
+          "eth2": 4,
+          "eth3": 6
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788656295.2832532,
+        "window_end_epoch": 1788656335.64373,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "capture_kernel_drops": {
+        "eth2": 0,
+        "eth3": 0
+      },
+      "capture_integrity": "ok"
+    }
+  }
+}

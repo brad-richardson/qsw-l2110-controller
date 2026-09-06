@@ -1,0 +1,117 @@
+{
+  "date": "2026-09-05",
+  "runner_commit": "29ba092",
+  "review": {
+    "independent_subagent": true,
+    "blocker_found": "Unprotected router SSH operations at stage boundaries could bypass controlled return after reboot",
+    "fix": "Bounded router-operation retry with QSS check and controlled return from known firmware state",
+    "remaining_execution_blockers": []
+  },
+  "validation": {
+    "targeted_tests_after_review": 29,
+    "earlier_full_suite_passed_without_loopback": 144,
+    "loopback_tests_passed_after_permission": 7,
+    "ruff_passed": true,
+    "passive_recorder_seconds": 40,
+    "passive_recorder_kernel_drops": {
+      "eth2": 0,
+      "eth3": 0
+    },
+    "passive_recorder_result": {
+      "pass": false,
+      "longest_joint_clean_seconds": 0.0,
+      "joint_clean_events": 0,
+      "evaluated_events": 83,
+      "native_samples": 39,
+      "packet_counts": {
+        "eth2": 2,
+        "eth3": 3
+      },
+      "packet_max_age_seconds": 35,
+      "native_max_age_seconds": 2.5,
+      "window_start_epoch": 1788650845.2691352,
+      "window_end_epoch": 1788650885.5345483,
+      "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+    },
+    "qss_posts_during_preparation": 0,
+    "final_read_only_preflight_utc": "2026-09-05T23:33:42.030316+00:00",
+    "final_read_only_preflight_state": "preflight-passed"
+  },
+  "management": {
+    "mac_interface": "en0",
+    "switch_ingress_port": 6,
+    "direct_same_subnet": true,
+    "ingress_depends_on_active_lag": false,
+    "outage_survival_is_inference_not_destructive_test": true
+  },
+  "router": {
+    "bond": "bond0",
+    "member_to_switch_port": {
+      "eth2": 3,
+      "eth3": 4
+    },
+    "native_state": {
+      "members": {
+        "eth2": {
+          "mii": "up",
+          "speed": 2500,
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 0,
+          "actor_port": 1,
+          "actor_state": 61,
+          "partner_system": "02:00:00:00:00:01",
+          "partner_key": 3,
+          "partner_port": 3,
+          "partner_state": 61
+        },
+        "eth3": {
+          "mii": "up",
+          "speed": 2500,
+          "link_failures": 0,
+          "aggregator_id": 1,
+          "partner_churned": 1,
+          "actor_port": 2,
+          "actor_state": 13,
+          "partner_system": "02:00:00:00:00:01",
+          "partner_key": 3,
+          "partner_port": 4,
+          "partner_state": 69
+        }
+      },
+      "aggregator": {
+        "id": 1,
+        "ports": 2,
+        "actor_key": 11,
+        "partner_key": 3,
+        "partner_mac": "02:00:00:00:00:01"
+      }
+    },
+    "ssh_key_copied_with_user_authorization": true,
+    "private_key_committed": false,
+    "identity_agent_required": false
+  },
+  "firmware_sequence": [
+    "2.2.2.20260520",
+    "2.2.1.20260417",
+    "2.2.3.20260713"
+  ],
+  "live_run_started": true,
+  "live_results_pending": false,
+  "private_directory": "backups/firmware-unattended-prep-20260905",
+  "artifact_sha256": {
+    "plan.json": "c7231dd6b193fba07cc5459d4329b5bf32d26a56e1e3894ee11719aea162d585",
+    "management-path.json": "265844b7e429d89a9e09d7d3ba237dbe93ce00e0561851301686e81142e3ccd0",
+    "final-preflight/preflight.json": "7943e2ebc5a191b8205855b737b2a01798637e14ed2fe187cd5013ef6c67266e",
+    "preflight/after-smoke.json": "c470479c26bdd9fdab9f3821daf8f247f5fd924b1430deb50b7143ab7549a335",
+    "preflight/recorder-smoke/eth2.pcap": "f6b5c8bf56df03e47935861b5cf0c09d821a562971075780ec866391c5bf4382",
+    "preflight/recorder-smoke/eth3.pcap": "a49f6ad838cc43909a99805b95e6bd295a6aae8e8a28fb02cc231737e9d4feb4"
+  },
+  "live_run_status": "complete",
+  "live_results_document": "docs/firmware-comparison-results-20260905.md",
+  "sanitization": {
+    "note": "Nonzero device MACs are consistent locally administered placeholders; the all-zero defaulted partner is preserved. Artifact hashes refer to the private originals.",
+    "switch_mac_placeholder": "02:00:00:00:00:01",
+    "router_mac_placeholder": "02:00:00:00:00:02"
+  }
+}

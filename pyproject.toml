@@ -58,6 +58,7 @@ select = ["B", "E", "F", "I", "UP"]
 [tool.ruff.lint.per-file-ignores]
 # Runs on the stock macOS python3 (3.9); keep pyupgrade from introducing newer syntax.
 "tools/lacp_peer_test.py" = ["UP"]
+"tools/mirror_receiver_macos.py" = ["UP"]
 
 [tool.ruff.format]
 # The formatter targets py314 and would rewrite except tuples into 3.14-only syntax.

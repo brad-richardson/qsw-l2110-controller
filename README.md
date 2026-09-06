@@ -5,7 +5,7 @@ Experimental, declarative control of the QNAP QSW-L2110 switch family.
 > **Pre-alpha:** the HTTP interface was derived from QNAP's QSS 2.2.3 firmware and
 > has been exercised on a QSW-L2110-10T, including VLAN transitions and saved
 > configuration. Two-member LACP forwarding with Firewalla remains unresolved;
-> see the [diagnostic report](docs/lacp-diagnostics-20260905.md).
+> see the [current diagnostic handoff](docs/diagnostic-handoff-20260906.md).
 
 The QSW-L2110 does not use the Linux-based `/api/v1` or `/api/v2` interface found
 on many QSW-M switches. Its QSS 2.2.x firmware exposes a smaller, undocumented
@@ -26,7 +26,7 @@ This project currently provides:
 - an optional Firewalla double-LACP policy that enforces exact WAN-transit
   membership, LAN/office trunk parity, and a dedicated rescue port.
 
-It deliberately does **not** restore backups, update firmware, or
+The main configuration CLI deliberately does **not** restore backups, update firmware, or
 change the management address.
 
 ## Target status
@@ -155,10 +155,25 @@ ingress to a dedicated receiver. Raw artifacts stay in ignored private directori
 The [firmware comparison preparation](docs/firmware-comparison-preparation-20260905.md)
 verifies downloaded images, saves read-only snapshots, and rehearses the version
 sequence in memory. It exposes no firmware execution command.
-The [current Long baseline](docs/lacp-long-baseline-20260905.md) records the applied
+The [initial Long baseline](docs/lacp-long-baseline-20260905.md) records the applied
 timeout setting on active pairs 1+2 and 3+4, connectivity checks, and refreshed plan.
 The separately armed [unattended firmware runner](docs/firmware-unattended-runner-20260905.md)
 adds raw upload, bounded configuration repair/recovery, and native/packet LAN LACP checks.
+The [completed firmware comparison](docs/firmware-comparison-results-20260905.md)
+reproduced port-4 failure on 2.2.2, 2.2.1, and restored 2.2.3.
+The [single-LAG and device-event report](docs/lacp-single-group-and-events-20260905.md)
+records the final configuration and includes a read-only five-second recovery watcher.
+The [IoT Wi-Fi isolation follow-up](docs/lacp-iot-wifi-isolation-20260905.md)
+records the user disabling both IoT Wi-Fi networks without clearing the existing failure.
+The [downstream port-isolation preparation](docs/port-isolation-preparation-20260905.md)
+adds separate individual and combined tests with authenticated router-side restoration.
+The [completed branch-isolation tests](docs/port-isolation-results-20260905.md)
+found no recovery with ports 10, 5, and 6 disabled individually or together.
+The [mirror/reboot preparation](docs/mirror-reboot-preparation-20260905.md)
+documents the bounded Mac receiver and the observation sequence.
+The [completed mirror/reboot experiment](docs/mirror-reboot-results-20260906.md)
+reproduced the failure with one LAG and observed port-4 LACP disappear from the
+mirror approximately 93 seconds before QNAP defaulted its partner.
 
 ```console
 uv run ruff check .

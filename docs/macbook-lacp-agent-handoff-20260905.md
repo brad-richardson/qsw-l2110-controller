@@ -1,5 +1,9 @@
 # MacBook agent handoff: LACP on the existing spare pair
 
+**Historical baseline instructions, superseded September 6.** The tests below
+have finished and ports 1+2 are no longer a LAG. Start with the
+[current diagnostic handoff](diagnostic-handoff-20260906.md) when resuming work.
+
 Help me use my MacBook and two USB Ethernet adapters as a second LACP peer
 for a QNAP QSW-L2110-10T. Run the baseline on switch ports **1 and 2**, in
 both connection orders, and save enough evidence to assess sustained

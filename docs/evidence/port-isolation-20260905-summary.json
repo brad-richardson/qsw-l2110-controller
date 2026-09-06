@@ -1,0 +1,277 @@
+{
+  "local_date": "2026-09-05",
+  "utc_date": "2026-09-06",
+  "phases": {
+    "port-10": {
+      "ports": [
+        10
+      ],
+      "off_window_start_utc": "2026-09-06T03:08:41.655944+00:00",
+      "off_window_end_utc": "2026-09-06T03:09:41.501754+00:00",
+      "conservative_disabled_window_seconds": 59.84580969810486,
+      "first_disable_intent_to_enabled_verification_seconds": 64.77893686294556,
+      "individual_port_request_durations_seconds": {
+        "10": 63.10462975502014
+      },
+      "disabled_window_evidence": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 133,
+        "native_samples": 59,
+        "packet_counts": {
+          "eth2": 4,
+          "eth3": 6
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788664121.655944,
+        "window_end_epoch": 1788664181.5017538,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "whole_trial_evidence": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 359,
+        "native_samples": 157,
+        "packet_counts": {
+          "eth2": 10,
+          "eth3": 15
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788664118.397124,
+        "window_end_epoch": 1788664278.0904503,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "native_state_counts_while_disabled": {
+        "eth2": {
+          "(61, 61)": 59
+        },
+        "eth3": {
+          "(13, 69)": 59
+        }
+      },
+      "restoration_verified_utc": "2026-09-06T03:09:43.176061+00:00",
+      "observations_finished_utc": "2026-09-06T03:11:18.090450+00:00",
+      "agent_possible_recovery": false
+    },
+    "port-5": {
+      "ports": [
+        5
+      ],
+      "off_window_start_utc": "2026-09-06T03:11:35.748626+00:00",
+      "off_window_end_utc": "2026-09-06T03:12:35.631457+00:00",
+      "conservative_disabled_window_seconds": 59.88283181190491,
+      "first_disable_intent_to_enabled_verification_seconds": 64.80444931983948,
+      "individual_port_request_durations_seconds": {
+        "5": 63.13276290893555
+      },
+      "disabled_window_evidence": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 132,
+        "native_samples": 59,
+        "packet_counts": {
+          "eth2": 4,
+          "eth3": 6
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788664295.7486255,
+        "window_end_epoch": 1788664355.6314573,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "whole_trial_evidence": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 359,
+        "native_samples": 157,
+        "packet_counts": {
+          "eth2": 10,
+          "eth3": 15
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788664292.4986944,
+        "window_end_epoch": 1788664452.1809235,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "native_state_counts_while_disabled": {
+        "eth2": {
+          "(61, 61)": 59
+        },
+        "eth3": {
+          "(13, 69)": 59
+        }
+      },
+      "restoration_verified_utc": "2026-09-06T03:12:37.303144+00:00",
+      "observations_finished_utc": "2026-09-06T03:14:12.180923+00:00",
+      "agent_possible_recovery": false
+    },
+    "port-6": {
+      "ports": [
+        6
+      ],
+      "off_window_start_utc": "2026-09-06T03:14:29.877307+00:00",
+      "off_window_end_utc": "2026-09-06T03:15:29.734904+00:00",
+      "conservative_disabled_window_seconds": 59.85759711265564,
+      "first_disable_intent_to_enabled_verification_seconds": 64.77615976333618,
+      "individual_port_request_durations_seconds": {
+        "6": 63.112083435058594
+      },
+      "disabled_window_evidence": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 134,
+        "native_samples": 60,
+        "packet_counts": {
+          "eth2": 4,
+          "eth3": 6
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788664469.877307,
+        "window_end_epoch": 1788664529.734904,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "whole_trial_evidence": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 360,
+        "native_samples": 158,
+        "packet_counts": {
+          "eth2": 10,
+          "eth3": 15
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788664466.6228206,
+        "window_end_epoch": 1788664626.3524191,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "native_state_counts_while_disabled": {
+        "eth2": {
+          "(61, 61)": 60
+        },
+        "eth3": {
+          "(13, 69)": 60
+        }
+      },
+      "restoration_verified_utc": "2026-09-06T03:15:31.398980+00:00",
+      "observations_finished_utc": "2026-09-06T03:17:06.352419+00:00",
+      "agent_possible_recovery": false
+    },
+    "all-downstream": {
+      "ports": [
+        10,
+        5,
+        6
+      ],
+      "off_window_start_utc": "2026-09-06T03:21:32.782961+00:00",
+      "off_window_end_utc": "2026-09-06T03:23:30.964030+00:00",
+      "conservative_disabled_window_seconds": 118.18106865882874,
+      "first_disable_intent_to_enabled_verification_seconds": 126.54232978820801,
+      "individual_port_request_durations_seconds": {
+        "10": 124.86601090431213,
+        "5": 123.13942050933838,
+        "6": 121.42535638809204
+      },
+      "disabled_window_evidence": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 268,
+        "native_samples": 117,
+        "packet_counts": {
+          "eth2": 8,
+          "eth3": 12
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788664892.7829614,
+        "window_end_epoch": 1788665010.96403,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "whole_trial_evidence": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 502,
+        "native_samples": 219,
+        "packet_counts": {
+          "eth2": 14,
+          "eth3": 21
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788664887.7948835,
+        "window_end_epoch": 1788665109.0941143,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "native_state_counts_while_disabled": {
+        "eth2": {
+          "(61, 61)": 117
+        },
+        "eth3": {
+          "(13, 69)": 117
+        }
+      },
+      "restoration_verified_utc": "2026-09-06T03:23:34.337213+00:00",
+      "observations_finished_utc": "2026-09-06T03:25:09.094114+00:00",
+      "agent_possible_recovery": false
+    }
+  },
+  "capture_kernel_drops": {
+    "eth2": 0,
+    "eth3": 0
+  },
+  "final_configuration_matches_baseline": true,
+  "final_configuration_sha256": "095e9b619f7d91c3a3a998906f9d812e538c0342660f0a79c365b0895f433c9c",
+  "final_ports": {
+    "3": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    },
+    "4": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    },
+    "5": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    },
+    "6": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    },
+    "10": {
+      "Port_Status": "Enabled",
+      "Spd_Duplex_Actual": "2500MbpsFull"
+    }
+  },
+  "firmware": "2.2.3.20260713",
+  "measurement": "Short isolation/recovery screening; not sustained recovery or throughput validation",
+  "private_directory": "backups/port-isolation-run-20260906T030616Z",
+  "artifact_sha256": {
+    "before.json": "9ef863ac68586248a845a36ffce1748143eb838da6a4151d699aeffa036b590f",
+    "final.json": "19ffe0dde192c7de253c2a3b775685cf3329c2eaa161a6566870cf853daf925e",
+    "armed.json": "0af1603c3649c56ceaf29e0d51c633be6c802f851d6617c883fb2b8d0a111fb0",
+    "final-recorder/eth2.pcap": "bd1dc1603bac76365ea4afc35fb85317c1da2eb7bf34477f62e53997d6596a47",
+    "final-recorder/eth3.pcap": "6e096ea155defd167990a8e3e961211caf64ac1c8298f646314459d5afa2235c",
+    "final-recorder/bond-states.txt": "988c14d44caf0151d80a355243300fb8d4134d8e25aac02ad77e73c168416751"
+  }
+}

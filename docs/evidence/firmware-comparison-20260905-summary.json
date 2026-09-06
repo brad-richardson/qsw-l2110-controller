@@ -1,0 +1,273 @@
+{
+  "local_date": "2026-09-05",
+  "runner_commit": "29ba092",
+  "firmware_restored": "2.2.3.20260713",
+  "finalized_results": {
+    "status": "complete",
+    "results": {
+      "2.2.3.20260713-before": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 1028,
+        "native_samples": 444,
+        "packet_counts": {
+          "eth2": 29,
+          "eth3": 44
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788651544.3884282,
+        "window_end_epoch": 1788651994.6661565,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test",
+        "provisional": false,
+        "final_capture_kernel_drops": {
+          "eth2": 0,
+          "eth3": 0
+        }
+      },
+      "2.2.2.20260520": {
+        "pass": false,
+        "longest_joint_clean_seconds": 207.0150260925293,
+        "joint_clean_events": 457,
+        "evaluated_events": 1018,
+        "native_samples": 444,
+        "packet_counts": {
+          "eth2": 30,
+          "eth3": 38
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788652623.3257241,
+        "window_end_epoch": 1788653074.340564,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test",
+        "provisional": false,
+        "final_capture_kernel_drops": {
+          "eth2": 0,
+          "eth3": 0
+        }
+      },
+      "2.2.1.20260417": {
+        "pass": false,
+        "longest_joint_clean_seconds": 206.8576638698578,
+        "joint_clean_events": 457,
+        "evaluated_events": 1019,
+        "native_samples": 444,
+        "packet_counts": {
+          "eth2": 30,
+          "eth3": 38
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788653699.2550337,
+        "window_end_epoch": 1788654150.2851727,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test",
+        "provisional": false,
+        "final_capture_kernel_drops": {
+          "eth2": 0,
+          "eth3": 0
+        }
+      },
+      "2.2.3.20260713-after": {
+        "pass": false,
+        "longest_joint_clean_seconds": 206.76252603530884,
+        "joint_clean_events": 456,
+        "evaluated_events": 1018,
+        "native_samples": 444,
+        "packet_counts": {
+          "eth2": 30,
+          "eth3": 38
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788654787.847515,
+        "window_end_epoch": 1788655238.9343374,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test",
+        "provisional": false,
+        "final_capture_kernel_drops": {
+          "eth2": 0,
+          "eth3": 0
+        }
+      }
+    }
+  },
+  "port4_transitions": {
+    "2.2.2.20260520": {
+      "switch": {
+        "first_clean_utc": "2026-09-05T23:56:47.454717+00:00",
+        "first_bad_utc": "2026-09-06T00:00:44.549364+00:00",
+        "elapsed_seconds": 237.09464716911316,
+        "first_bad_actor": {
+          "system_priority": 32768,
+          "system": "02:00:00:00:00:01",
+          "key": 3,
+          "port_priority": 128,
+          "port": 4,
+          "state": 69
+        },
+        "first_bad_partner": {
+          "system_priority": 0,
+          "system": "00:00:00:00:00:00",
+          "key": 0,
+          "port_priority": 0,
+          "port": 0,
+          "state": 0
+        }
+      },
+      "router": {
+        "first_clean_utc": "2026-09-05T23:56:46.743553+00:00",
+        "first_bad_utc": "2026-09-06T00:00:44.731480+00:00",
+        "elapsed_seconds": 237.98792695999146,
+        "first_bad_actor": {
+          "system_priority": 65535,
+          "system": "02:00:00:00:00:02",
+          "key": 11,
+          "port_priority": 255,
+          "port": 2,
+          "state": 13
+        },
+        "first_bad_partner": {
+          "system_priority": 32768,
+          "system": "02:00:00:00:00:01",
+          "key": 3,
+          "port_priority": 128,
+          "port": 4,
+          "state": 69
+        }
+      },
+      "switch_default_to_router_response_seconds": 0.18211579322814941
+    },
+    "2.2.1.20260417": {
+      "switch": {
+        "first_clean_utc": "2026-09-06T00:14:43.414044+00:00",
+        "first_bad_utc": "2026-09-06T00:18:40.419069+00:00",
+        "elapsed_seconds": 237.00502514839172,
+        "first_bad_actor": {
+          "system_priority": 32768,
+          "system": "02:00:00:00:00:01",
+          "key": 3,
+          "port_priority": 128,
+          "port": 4,
+          "state": 69
+        },
+        "first_bad_partner": {
+          "system_priority": 0,
+          "system": "00:00:00:00:00:00",
+          "key": 0,
+          "port_priority": 0,
+          "port": 0,
+          "state": 0
+        }
+      },
+      "router": {
+        "first_clean_utc": "2026-09-06T00:14:42.611591+00:00",
+        "first_bad_utc": "2026-09-06T00:18:40.695535+00:00",
+        "elapsed_seconds": 238.08394384384155,
+        "first_bad_actor": {
+          "system_priority": 65535,
+          "system": "02:00:00:00:00:02",
+          "key": 11,
+          "port_priority": 255,
+          "port": 2,
+          "state": 13
+        },
+        "first_bad_partner": {
+          "system_priority": 32768,
+          "system": "02:00:00:00:00:01",
+          "key": 3,
+          "port_priority": 128,
+          "port": 4,
+          "state": 69
+        }
+      },
+      "switch_default_to_router_response_seconds": 0.27646589279174805
+    },
+    "2.2.3.20260713-after": {
+      "switch": {
+        "first_clean_utc": "2026-09-06T00:32:51.901154+00:00",
+        "first_bad_utc": "2026-09-06T00:36:48.796286+00:00",
+        "elapsed_seconds": 236.89513206481934,
+        "first_bad_actor": {
+          "system_priority": 32768,
+          "system": "02:00:00:00:00:01",
+          "key": 3,
+          "port_priority": 128,
+          "port": 4,
+          "state": 69
+        },
+        "first_bad_partner": {
+          "system_priority": 0,
+          "system": "00:00:00:00:00:00",
+          "key": 0,
+          "port_priority": 0,
+          "port": 0,
+          "state": 0
+        }
+      },
+      "router": {
+        "first_clean_utc": "2026-09-06T00:32:51.031465+00:00",
+        "first_bad_utc": "2026-09-06T00:36:48.871593+00:00",
+        "elapsed_seconds": 237.8401279449463,
+        "first_bad_actor": {
+          "system_priority": 65535,
+          "system": "02:00:00:00:00:02",
+          "key": 11,
+          "port_priority": 255,
+          "port": 2,
+          "state": 13
+        },
+        "first_bad_partner": {
+          "system_priority": 32768,
+          "system": "02:00:00:00:00:01",
+          "key": 3,
+          "port_priority": 128,
+          "port": 4,
+          "state": 69
+        }
+      },
+      "switch_default_to_router_response_seconds": 0.07530689239501953
+    }
+  },
+  "configuration_hashes": {
+    "initial.json": "84f599868694e27a4abb959608f192b3d2046b29ca8a94a70b11d88cf557d87b",
+    "stage-0-booted.json": "84f599868694e27a4abb959608f192b3d2046b29ca8a94a70b11d88cf557d87b",
+    "stage-1-booted.json": "84f599868694e27a4abb959608f192b3d2046b29ca8a94a70b11d88cf557d87b",
+    "stage-2-booted.json": "84f599868694e27a4abb959608f192b3d2046b29ca8a94a70b11d88cf557d87b"
+  },
+  "configuration_repair_used": false,
+  "private_directory": "backups/firmware-unattended-prep-20260905/live-run",
+  "artifact_sha256": {
+    "final-recorder/bond-states.txt": "320f816d78e8b39c4c7ca222eb5dc4fa45e110318d770253919e16d061d70088",
+    "final-recorder/eth2.pcap": "aed863adb212bd25091d01ca0543f9f4205dc32f6faed81e6c30fdec4e1a09cd",
+    "final-recorder/eth2.tcpdump.txt": "456033e90271ca2f538ca4c3420ddcb13e3ffd7a2c252c913742905e8c93f80c",
+    "final-recorder/eth3.pcap": "439e60cd9c04ef8fac3414202ae4614ee25035148fe5e4768edb9d377f031a84",
+    "final-recorder/eth3.tcpdump.txt": "3ff193fd7d5d764ef41feab4170c425ecf08bafab07ff2bed5bccfe562aebee3",
+    "final-recorder/host-info.txt": "8307e2d20a48a8dca686911613c946b9b020666f0e31ed4d8961fee229bc0c6f",
+    "final-recorder/kernel-events.txt": "fdb1517058813e34c2dfd2765ce868767ae1e4040421a45c60a335734c0cd52b",
+    "final-recorder/link-stats.txt": "e3a01af5b2c13515b7c2dbb13e611c2ab309b5de2904c51a844d34b348031911",
+    "final-recorder/started.txt": "f34cf10c7c2a0d45b012432e2e0b1633f054a4b8e8955aca6e629a4c4422baa4",
+    "initial.cfg": "db80e44f800d9b877912403c458c030f08489ee1d009d1dc55c5b7c0a2c0e810",
+    "journal.jsonl": "436f1214b3334381593a5f3972ca89393f45103da41a1a736a8298f657e91acb",
+    "result.json": "3b6b92c34a3dba928e175ffc75632731035b07a0b7949ec837a3837b665f080b",
+    "stage-0-before.cfg": "db80e44f800d9b877912403c458c030f08489ee1d009d1dc55c5b7c0a2c0e810",
+    "stage-0-booted.cfg": "db80e44f800d9b877912403c458c030f08489ee1d009d1dc55c5b7c0a2c0e810",
+    "stage-0-booted.json": "1779970314c26c1c49b8f240c5831770e436c3d47e06e18d69b3dd7e1ee425ff",
+    "stage-0-transition-analysis.json": "e9d0e10af13693091870c59bf3aced7a394a20d402db5dd5bbce8c3b5f45ce32",
+    "stage-1-before.cfg": "db80e44f800d9b877912403c458c030f08489ee1d009d1dc55c5b7c0a2c0e810",
+    "stage-1-booted.cfg": "db80e44f800d9b877912403c458c030f08489ee1d009d1dc55c5b7c0a2c0e810",
+    "stage-1-booted.json": "8cf4d4426dfdf535af01a17e794d4b225b22bdde7737a2b4fc95b93a2267ee08",
+    "stage-1-transition-analysis.json": "5eb745e44740f45ebd07d5459a03fccd58206728eb07204038ebd055db86bf3d",
+    "stage-2-before.cfg": "db80e44f800d9b877912403c458c030f08489ee1d009d1dc55c5b7c0a2c0e810",
+    "stage-2-booted.cfg": "db80e44f800d9b877912403c458c030f08489ee1d009d1dc55c5b7c0a2c0e810",
+    "stage-2-booted.json": "97f74500a3040f3d4abe7e927e8839f582d57304d95edf691bc1beeef7833202",
+    "stage-2-transition-analysis.json": "7cc5a3cd1672cf241d699423271c1759a0e7e4e2b251b7d8a1a1410f050dc195",
+    "wifi-gateway.jsonl": "f9ca9896032586ba1eb8c29af1fcaaac15e410c63736453b5bd9aece05909204",
+    "wifi-internet.jsonl": "13f924c451dd6992461a6a1cfbd0a1c7e4c84f2ae5ce34038babbc1c6da5d226",
+    "wifi-route.jsonl": "10a95edab329133fc76f94e5a172c5bd5cba6c1887ae24a5e3964dc760d01040"
+  },
+  "sanitization": {
+    "note": "Nonzero device MACs are consistent locally administered placeholders; the all-zero defaulted partner is preserved. Artifact hashes refer to the private originals.",
+    "switch_mac_placeholder": "02:00:00:00:00:01",
+    "router_mac_placeholder": "02:00:00:00:00:02"
+  }
+}

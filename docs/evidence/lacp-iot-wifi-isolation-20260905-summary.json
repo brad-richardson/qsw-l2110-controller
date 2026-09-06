@@ -1,0 +1,62 @@
+{
+  "local_date": "2026-09-05",
+  "user_report_epoch": 1788656524.974036,
+  "off_window_seconds": 300,
+  "ssid_state_reported_by_user": true,
+  "exact_ap_apply_time_known": false,
+  "result": {
+    "pass": false,
+    "longest_joint_clean_seconds": 0.0,
+    "current_joint_clean_seconds": 0.0,
+    "joint_clean_events": 0,
+    "evaluated_events": 681,
+    "native_samples": 295,
+    "packet_counts": {
+      "eth2": 19,
+      "eth3": 29
+    },
+    "packet_max_age_seconds": 35,
+    "native_max_age_seconds": 2.5,
+    "window_start_epoch": 1788656524.974036,
+    "window_end_epoch": 1788656824.974036,
+    "measurement": "LACP negotiation, not a throughput or per-member forwarding test",
+    "provisional": false,
+    "final_capture_kernel_drops": {
+      "eth2": 0,
+      "eth3": 0
+    },
+    "capture_integrity": "ok"
+  },
+  "native_state_counts": {
+    "eth2": {
+      "(61, 61)": 295
+    },
+    "eth3": {
+      "(13, 69)": 295
+    }
+  },
+  "iot_wifi_reenabled_confirmed_by_user": true,
+  "reenable_confirmation_after_capture_stopped": true,
+  "arp_dhcp_packets": 3426,
+  "arp_dhcp_kernel_drops": 0,
+  "conntrack_events": 48767,
+  "agent_device_or_network_configuration_changes": false,
+  "private_directory": "backups/iot-wifi-isolation-20260905",
+  "artifact_sha256": {
+    "user-events.jsonl": "bd9c04b362afabc7f637a8145bf24497abaf1e23dc14ee6d84580b310f2df289",
+    "lacp/result.json": "f6f3189daba64dadcaded9ec56998823d79adaf8f7b8d13ccb1b5ba1aae97521",
+    "lacp/journal.jsonl": "d9ac87b49f0641277a5e0a414fee473d534294ad824af13da7a3ff919b98b0a0",
+    "lacp/final-recorder/eth2.tcpdump.txt": "27c8451e53a6b90a267c9f595b95bd72191ed458db2914c149c5f05489a44e1f",
+    "lacp/final-recorder/bond-states.txt": "fcc2daddc991a358d8bcfbd417ab2617e458eb7dd3ec4573bcf01d6b10ea1f57",
+    "lacp/final-recorder/eth2.pcap": "2daf0c4f0e323a45db6dab978ba41d8cd7fc096761bd0036e691dc4799156081",
+    "lacp/final-recorder/host-info.txt": "4bf5462c09e35d2fe199cef30adb8427597cd0ede1a7707f23b6c345bfb8c3e4",
+    "lacp/final-recorder/started.txt": "ea5b610129c0b6de77df07ea68a1d24f2de8c1d2deec61bc9b2c68f007d225e4",
+    "lacp/final-recorder/eth3.pcap": "fb2a8e14e8fe973cc16293067b1e7263540227c1ecab01bfd3fa9c781c2ea2c9",
+    "lacp/final-recorder/eth3.tcpdump.txt": "fc430ccfe35abfab7737e4994d525cce5f21ded3c25c37fb28fd07400c9585a3",
+    "lacp/final-recorder/kernel-events.txt": "2dbf1ceff5a23721d8c5c0dcd79392871413c7b5c5bce5277ef8a5a573af32a1",
+    "lacp/final-recorder/link-stats.txt": "fa853f77552aec39ccb15eecb42a30a1c10f11c49643a6947c82c0229434db96",
+    "events/recording.tar.gz": "9d888fd9a3ac13f0c68dd598c771019fc87bead8220cc6613e12ce9a8e73dee2",
+    "events/device-events-during.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "events/during-summary.json": "b97305da8608780e56cc9cf916889672617bcbfa10272a5cf43a72b81440b2ed"
+  }
+}

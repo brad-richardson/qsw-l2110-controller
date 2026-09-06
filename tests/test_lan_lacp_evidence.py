@@ -116,6 +116,34 @@ def test_expired_synced_bits_are_not_clean():
     assert not clean(None)
 
 
+def test_historical_success_does_not_imply_current_recovery(tmp_path):
+    (tmp_path / "bond-states.txt").write_text(
+        "".join(native(second, 13 if 330 <= second < 360 else 61) for second in range(401))
+    )
+    for iface, port in MAPPING.items():
+        (tmp_path / (iface + ".pcap")).write_bytes(
+            pcap(
+                [
+                    (EPOCH + second, frame(port, outbound, state=13 if second == 330 else 61))
+                    for second in range(0, 401, 30)
+                    for outbound in [False, True]
+                ]
+            )
+        )
+    result = evaluate(tmp_path, "bond0", MAPPING, SWITCH, EPOCH, EPOCH + 400)
+    assert result["pass"]
+    assert result["longest_joint_clean_seconds"] >= 300
+    assert result["current_joint_clean_seconds"] == 40
+
+
+def test_watcher_uses_current_interval_instead_of_old_pass():
+    from tools.lan_lacp_watch import display_status
+
+    assert display_status({"pass": True, "current_joint_clean_seconds": 0}).startswith("NOT HEALED")
+    assert display_status({"pass": True, "current_joint_clean_seconds": 40}).startswith("CLEAN NOW")
+    assert display_status({"current_joint_clean_seconds": 300}).startswith("RECOVERY OBSERVED")
+
+
 def test_growing_capture_and_malformed_records():
     raw = pcap([(EPOCH, frame(3, True))])
     assert len(packet_records(raw)) == 1
