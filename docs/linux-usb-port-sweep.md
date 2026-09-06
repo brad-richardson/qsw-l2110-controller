@@ -5,7 +5,36 @@ Port 10 stays connected to the unmanaged switch for management. Ports 9 and 10
 are outside this experiment. This is an initial negotiation map, not a throughput
 or long-term reliability test.
 
-## Current next control: two Realtek adapters
+## Two-Realtek control passed — 18:12 UTC
+
+The run `usb-sweep-20260906T181235Z` completed a 90.296-second control on existing
+QNAP 1+3 without switch writes. Both RTL8153/r8152 members reported 1000/full in
+the same aggregator and native 61/61 after 2.648 seconds, remaining clean thereafter.
+Fresh reciprocal confirmation was observed live after 33.467 seconds; the evaluator
+found a final continuous 59.016-second clean interval. Both members recorded zero
+link failures and partner churn. Each tcpdump captured 12 frames overall with zero
+kernel drops. Host cleanup returned both NICs down with original MACs and no errors.
+
+This establishes a usable independent USB peer for the sweep. Five-minute stability
+and forwarding remain untested; the evaluator's five-minute `pass` is correctly false.
+The earlier ASIX attempts are invalid comparisons. See the
+[sanitized evidence](evidence/linux-usb-realtek-control-20260906.json).
+
+For a fresh full sweep, unplug test Ethernet from QNAP 1–8, retain management
+on 10, and run:
+
+```bash
+sudo .venv/bin/python -m tools.lacp_sweep run \
+  --bench-isolated --insecure --prepare-vlan 1 \
+  --interfaces enx5c857e38d8d1 enxa0cec8597422 \
+  --ports 1-8 --seconds 15 --early-success
+```
+
+Wait for READY, connect 1+2, then follow NEXT. Management defaults to `eno1` /
+QNAP 10. With Slow LACP, even a healthy pair may require approximately 35 seconds
+for fresh reciprocal evidence; the native-clean grace period is intentional.
+
+## Two-Realtek preparation (control completed above)
 
 A replacement adapter was attached through an Anker USB 3 hub and connected
 initially to QNAP port 8: `enxa0cec8597422`, MAC `a0:ce:c8:59:74:22`, USB

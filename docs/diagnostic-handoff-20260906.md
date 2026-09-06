@@ -1,5 +1,14 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest: two-Realtek control PASSED negotiation.** On existing QNAP 1+3,
+`enx5c857e38d8d1` + `enxa0cec8597422` reached native 61/61 at 1000/full in one
+aggregator after 2.65 seconds and held a final 59.02-second reciprocal evidence
+interval during a 90.30-second control. No member failures/churn or capture drops;
+host cleanup passed, switch untouched. The [fresh full-sweep command](linux-usb-port-sweep.md)
+uses these two NICs with 15-second windows and early success, extending healthy
+native state for Slow-PDU confirmation as needed. Earlier ASIX runs are invalid
+port-pair comparisons. Five-minute stability and forwarding remain untested here.
+
 **Current next step:** A second RTL8153/r8152 adapter, `enxa0cec8597422`, is
 available and reports 1000/full. Replace ASIX on QNAP 3 with this adapter's cable
 from 8, retain the original Realtek on 1, then run the updated control command in
