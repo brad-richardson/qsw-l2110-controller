@@ -1,0 +1,435 @@
+{
+  "source_run": "qss-settings-audit-20260906T194559Z",
+  "read_only": true,
+  "settings": {
+    "port_lock_cfg.json": {
+      "PortNum": "10",
+      "Port_1": {
+        "Violdetd_1": "0"
+      },
+      "Port_2": {
+        "Violdetd_2": "0"
+      },
+      "Port_3": {
+        "Violdetd_3": "0"
+      },
+      "Port_4": {
+        "Violdetd_4": "0"
+      },
+      "Port_5": {
+        "Violdetd_5": "0"
+      },
+      "Port_6": {
+        "Violdetd_6": "0"
+      },
+      "Port_7": {
+        "Violdetd_7": "0"
+      },
+      "Port_8": {
+        "Violdetd_8": "0"
+      },
+      "Port_9": {
+        "Violdetd_9": "0"
+      },
+      "Port_10": {
+        "Violdetd_10": "0"
+      },
+      "cPrev": "on",
+      "detect_enable": "1",
+      "time_interval": "5",
+      "recover_time": "6"
+    },
+    "port_loop_status.json": {
+      "PortNum": "10",
+      "Violdetd_1": "0",
+      "Violdetd_2": "0",
+      "Violdetd_3": "0",
+      "Violdetd_4": "0",
+      "Violdetd_5": "0",
+      "Violdetd_6": "0",
+      "Violdetd_7": "0",
+      "Violdetd_8": "0",
+      "Violdetd_9": "0",
+      "Violdetd_10": "0"
+    },
+    "stp.json": {
+      "stp_enable": "0",
+      "stp_rstp_mode": "RSTP",
+      "num_ports": "10",
+      "Port_1": {
+        "Stp_Edge_1": "0",
+        "Stp_Status_1": "Forward",
+        "Hw_Port_Id_1": "Port 1"
+      },
+      "Port_2": {
+        "Stp_Edge_2": "0",
+        "Stp_Status_2": "Forward",
+        "Hw_Port_Id_2": "Port 2"
+      },
+      "Port_3": {
+        "Stp_Edge_3": "0",
+        "Stp_Status_3": "Forward",
+        "Hw_Port_Id_3": "Port 3"
+      },
+      "Port_4": {
+        "Stp_Edge_4": "0",
+        "Stp_Status_4": "Forward",
+        "Hw_Port_Id_4": "Port 4"
+      },
+      "Port_5": {
+        "Stp_Edge_5": "0",
+        "Stp_Status_5": "Forward",
+        "Hw_Port_Id_5": "Port 5"
+      },
+      "Port_6": {
+        "Stp_Edge_6": "0",
+        "Stp_Status_6": "Forward",
+        "Hw_Port_Id_6": "Port 6"
+      },
+      "Port_7": {
+        "Stp_Edge_7": "0",
+        "Stp_Status_7": "Forward",
+        "Hw_Port_Id_7": "Port 7"
+      },
+      "Port_8": {
+        "Stp_Edge_8": "0",
+        "Stp_Status_8": "Forward",
+        "Hw_Port_Id_8": "Port 8"
+      },
+      "Port_9": {
+        "Stp_Edge_9": "0",
+        "Stp_Status_9": "Forward",
+        "Hw_Port_Id_9": "Port 9"
+      },
+      "Port_10": {
+        "Stp_Edge_10": "0",
+        "Stp_Status_10": "Forward",
+        "Hw_Port_Id_10": "Port 10"
+      }
+    },
+    "storm_ctrl_cfg.json": {
+      "portnum": 10,
+      "ports": [
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 1
+        },
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 2
+        },
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 3
+        },
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 4
+        },
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 5
+        },
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 6
+        },
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 7
+        },
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 8
+        },
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 9
+        },
+        {
+          "sctrl_bcast": 0,
+          "sctrl_mcast": 0,
+          "sctrl_unucast": 0,
+          "sctrl_unmcast": 0,
+          "port_id": 10
+        }
+      ]
+    },
+    "eee_config.json": {
+      "Idx_0": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "Idx_1": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "Idx_2": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "Idx_3": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "Idx_4": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "Idx_5": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "Idx_6": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "Idx_7": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "int_port_num": "8",
+      "ext_Idx_0": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "ext_Idx_1": {
+        "eee_enable": "off",
+        "eee_active": "off"
+      },
+      "ext_port_num": "2"
+    },
+    "qos_get_rate_limit.json": {
+      "portnum": 10,
+      "ports": [
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 1
+        },
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 2
+        },
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 3
+        },
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 4
+        },
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 5
+        },
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 6
+        },
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 7
+        },
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 8
+        },
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 9
+        },
+        {
+          "in_rate": 0,
+          "out_rate": 0,
+          "port_id": 10
+        }
+      ]
+    },
+    "qos_get_port_mode.json": {
+      "qos_mode": 0
+    },
+    "igmp_config.json": {
+      "igmp": "off",
+      "fast_leave": "on",
+      "report_flood": "on"
+    },
+    "dhcp_snooping_cfg.json": {
+      "TotalPort": 10,
+      "snooping_mode": 0,
+      "Port_1": {
+        "portTypeId_1": 0,
+        "Port_1_rateLimit": 0
+      },
+      "Port_2": {
+        "portTypeId_2": 0,
+        "Port_2_rateLimit": 0
+      },
+      "Port_3": {
+        "portTypeId_3": 0,
+        "Port_3_rateLimit": 0
+      },
+      "Port_4": {
+        "portTypeId_4": 0,
+        "Port_4_rateLimit": 0
+      },
+      "Port_5": {
+        "portTypeId_5": 0,
+        "Port_5_rateLimit": 0
+      },
+      "Port_6": {
+        "portTypeId_6": 0,
+        "Port_6_rateLimit": 0
+      },
+      "Port_7": {
+        "portTypeId_7": 0,
+        "Port_7_rateLimit": 0
+      },
+      "Port_8": {
+        "portTypeId_8": 0,
+        "Port_8_rateLimit": 0
+      },
+      "Port_9": {
+        "portTypeId_9": 0,
+        "Port_9_rateLimit": 0
+      },
+      "Port_10": {
+        "portTypeId_10": 0,
+        "Port_10_rateLimit": 0
+      }
+    },
+    "acl_add.json": {
+      "total_entries": "0",
+      "sys_port_num": "10"
+    },
+    "port_setting_load.json": {
+      "PortNum": "10",
+      "PortMode": "PORT_MODE_8_PLUS_2",
+      "Port_1": {
+        "Port_Id": "1",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "1000MbpsFull",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      },
+      "Port_2": {
+        "Port_Id": "2",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "Link Down",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      },
+      "Port_3": {
+        "Port_Id": "3",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "Link Down",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      },
+      "Port_4": {
+        "Port_Id": "4",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "Link Down",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      },
+      "Port_5": {
+        "Port_Id": "5",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "Link Down",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      },
+      "Port_6": {
+        "Port_Id": "6",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "Link Down",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      },
+      "Port_7": {
+        "Port_Id": "7",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "1000MbpsFull",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      },
+      "Port_8": {
+        "Port_Id": "8",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "Link Down",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      },
+      "Port_9": {
+        "Port_Id": "9",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "Link Down",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      },
+      "Port_10": {
+        "Port_Id": "10",
+        "Port_Status": "Enabled",
+        "Spd_Duplex_Cfg": "Auto",
+        "Spd_Duplex_Actual": "2500MbpsFull",
+        "Flow_Ctrl_Cfg": "On",
+        "Flow_Ctrl_Actual": "On",
+        "EEE_Status": "eee_inactive"
+      }
+    }
+  }
+}

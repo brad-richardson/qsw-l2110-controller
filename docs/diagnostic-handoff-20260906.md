@@ -1,11 +1,24 @@
 # Diagnostic handoff — September 6, 2026
 
+**Current bench state: QNAP powered off.** Previous 1+7 switch preparation was
+unsaved: inspect its configuration after power-up before preparing any further
+experiment.
+
+**New preparation:** [Fixed-identity 1+7 recovery and offline observation](linux-usb-recovery-20260906.md)
+are implemented and tested in software; neither mode has run on hardware yet.
+The [settings/isolation review](lacp-next-controls-20260906.md) includes fresh
+read-only settings, peer controls, and [QNAP](support/qnap-lacp-report-20260906.md) /
+[Firewalla](support/firewalla-lacp-review-20260906.md) support drafts. No messages
+have been sent and no switch/Firewalla settings changed during this preparation.
+Before power-off, the bench was 1+7 group 4 Long. USB host interfaces are down.
+
 **Latest, 19:32 UTC: 1+7 six-minute repeat FAILED.** Zero native-clean samples
 out of 430, port 1 synchronized, port 7 defaulted throughout. Physical links
 remained 1000/full without link failures. Switch settings match the earlier
 success, but actor identity and configuration-to-peer timing differ. Host cleanup
-verified; QNAP remains on 1+7 group 4 Long, USB NICs down. This supersedes the
-neutral-switch state below. Read the [repeat report](linux-usb-1-7-repeat-20260906.md).
+verified; QNAP was left on 1+7 group 4 Long, USB NICs down, until the later
+power-off above. This superseded the neutral-switch state below.
+Read the [repeat report](linux-usb-1-7-repeat-20260906.md).
 The [historical-pattern review](historical-lacp-patterns-20260906.md) and
 [public-code/firmware investigation](public-lacp-code-20260906.md) are complete.
 The exact firmware contains MaxLinear/Zephyr LACP and CTP/BP/Pmapper references;

@@ -30,6 +30,8 @@ This project currently provides:
 
 For the independent Linux USB-NIC experiment, see the
 [guided 28-pair LACP sweep](docs/linux-usb-port-sweep.md).
+For controlled 1+7 resets and capture without switch polling, see the
+[fixed-identity recovery runner](docs/linux-usb-recovery-20260906.md).
 
 The main configuration CLI deliberately does **not** restore backups, update firmware, or
 change the management address.
