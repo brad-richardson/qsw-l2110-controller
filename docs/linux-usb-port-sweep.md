@@ -5,6 +5,35 @@ Port 10 stays connected to the unmanaged switch for management. Ports 9 and 10
 are outside this experiment. This is an initial negotiation map, not a throughput
 or long-term reliability test.
 
+## Current next control: two Realtek adapters
+
+A replacement adapter was attached through an Anker USB 3 hub and connected
+initially to QNAP port 8: `enxa0cec8597422`, MAC `a0:ce:c8:59:74:22`, USB
+`0bda:8153`, driver `r8152`, bus speed 5000 Mb/s. Ethtool reports 1000 Mb/s,
+full duplex; the host interface is down and unaddressed. It matches the chipset
+and driver family of the working `enx5c857e38d8d1` adapter. Bond operation of
+this replacement remains to be tested.
+
+Move its Ethernet cable from QNAP 8 to QNAP 3, removing the ASIX cable from 3.
+Keep the original Realtek on 1 and management on 10. Run:
+
+```bash
+sudo .venv/bin/python -m tools.lacp_sweep run \
+  --bench-isolated --insecure --existing-pair 1,3 --seconds 90 \
+  --interfaces enx5c857e38d8d1 enxa0cec8597422
+```
+
+After a successful control, the full sweep must also explicitly select these two
+interfaces because three USB NICs are currently attached. Start a **fresh** sweep
+with `--seconds 15 --early-success`; do not resume the earlier ASIX results.
+
+The ASIX vendor module 4.1.0 was loaded by the user, but the attempted unbind
+command was split while pasted. The old `ax88179_178a` driver remained bound;
+the vendor bind returned busy. Vendor-driver runtime behavior has not been tested.
+No driver installation or persistent blacklist/udev rule was made. The unused
+vendor module is still loaded; the ASIX remains down. The replacement Realtek
+path supersedes the pending ASIX rebind experiment.
+
 ## First hardware run: invalid USB peer, then driver correction
 
 The first run (`usb-sweep-20260906T174211Z`) recorded 1+2 as not established

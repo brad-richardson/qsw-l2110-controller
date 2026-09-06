@@ -1,5 +1,11 @@
 # Diagnostic handoff — September 6, 2026
 
+**Current next step:** A second RTL8153/r8152 adapter, `enxa0cec8597422`, is
+available and reports 1000/full. Replace ASIX on QNAP 3 with this adapter's cable
+from 8, retain the original Realtek on 1, then run the updated control command in
+the [runbook](linux-usb-port-sweep.md). Vendor ASIX module loaded, but old driver
+remains bound after a pasted unbind command failed. Two-Realtek control pending.
+
 **Latest USB result:** Native `ax88179_178a` did not produce a usable AX88179B
 link: QNAP port 3 showed 1000/full while Linux reported NO-CARRIER throughout
 the 90-second 1+3 control. Realtek synchronized. Host cleanup passed; no switch
