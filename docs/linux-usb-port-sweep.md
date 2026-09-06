@@ -5,10 +5,13 @@ Port 10 stays connected to the unmanaged switch for management. Ports 9 and 10
 are outside this experiment. This is an initial negotiation map, not a throughput
 or long-term reliability test.
 
-## Latest sweep checkpoint
+## Full sweep complete — 19:19 UTC
 
-The full sweep recorded 16/28 pairs before a management API read failed during
-the move toward 3+7. Cleanup verified. See the [results and exact resume command](linux-usb-sweep-results-20260906.md).
+All 28 pairs are recorded. **1+2, 1+3, 1+7, and 2+3 negotiated**; the other
+24 did not establish in their windows. Switch and host cleanup verified.
+See the [completed matrix, evidence, and follow-ups](linux-usb-sweep-results-20260906.md).
+The commands below describe running a new experiment; the completed sweep does
+not need to be resumed.
 
 ## Two-Realtek control passed — 18:12 UTC
 

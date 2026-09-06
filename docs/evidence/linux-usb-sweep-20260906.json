@@ -1,23 +1,185 @@
 {
-  "run": "usb-sweep-20260906T183251Z",
-  "status": "interrupted between trials; 16 of 28 pairs recorded",
-  "stop": "GET /port_setting_load.json failed; no 3+7 trial started",
-  "switch_cleanup_verified": true,
-  "host_cleanup": {
-    "utc": "2026-09-06T18:59:33.231554+00:00",
-    "errors": [],
-    "capture_exit_codes": [
-      0,
-      0,
-      -2
-    ],
-    "returned_interfaces_left_down": [
-      "enx5c857e38d8d1",
-      "enxa0cec8597422"
-    ]
-  },
+  "status": "complete initial negotiation sweep; 28/28 unique pairs",
+  "model": "QSW-L2110-10T",
+  "firmware": "2.2.3.20260713",
+  "peer": "two RTL8153/r8152 USB NICs at 1000/full",
+  "lag": "group 4 Long; Linux Slow",
+  "bench_vlan": 1,
+  "excluded_ports": [
+    9,
+    10
+  ],
+  "management_port": 10,
+  "settings": "15-second measurement with native-clean grace for Slow-PDU confirmation and early success",
+  "runs": [
+    {
+      "run": "usb-sweep-20260906T183251Z",
+      "host_cleanup": {
+        "utc": "2026-09-06T18:59:33.231554+00:00",
+        "errors": [],
+        "capture_exit_codes": [
+          0,
+          0,
+          -2
+        ],
+        "returned_interfaces_left_down": [
+          "enx5c857e38d8d1",
+          "enxa0cec8597422"
+        ]
+      },
+      "switch_cleanup": {
+        "utc": "2026-09-06T18:59:33.070581+00:00",
+        "event": "switch_cleanup",
+        "verified": true,
+        "saved_bench_vlan_retained": true
+      },
+      "captures": {
+        "enx5c857e38d8d1": {
+          "frames": 622,
+          "decoded_lacp_frames": 622,
+          "kernel_drops": 0,
+          "complete_record_boundary": true
+        },
+        "enxa0cec8597422": {
+          "frames": 767,
+          "decoded_lacp_frames": 767,
+          "kernel_drops": 0,
+          "complete_record_boundary": true
+        }
+      },
+      "max_reported_bad_packet_counters": {
+        "1": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "2": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "3": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "4": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "5": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "6": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "7": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "8": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "9": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "10": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        }
+      },
+      "fatal_errors": [
+        {
+          "utc": "2026-09-06T18:59:33.070768+00:00",
+          "event": "fatal",
+          "error": "GET /port_setting_load.json failed"
+        }
+      ]
+    },
+    {
+      "run": "usb-sweep-20260906T190101Z",
+      "host_cleanup": {
+        "utc": "2026-09-06T19:19:52.791029+00:00",
+        "errors": [],
+        "capture_exit_codes": [
+          0,
+          0,
+          -2
+        ],
+        "returned_interfaces_left_down": [
+          "enx5c857e38d8d1",
+          "enxa0cec8597422"
+        ]
+      },
+      "switch_cleanup": {
+        "utc": "2026-09-06T19:19:52.597434+00:00",
+        "event": "switch_cleanup",
+        "verified": true,
+        "saved_bench_vlan_retained": true
+      },
+      "captures": {
+        "enx5c857e38d8d1": {
+          "frames": 899,
+          "decoded_lacp_frames": 899,
+          "kernel_drops": 0,
+          "complete_record_boundary": true
+        },
+        "enxa0cec8597422": {
+          "frames": 877,
+          "decoded_lacp_frames": 877,
+          "kernel_drops": 0,
+          "complete_record_boundary": true
+        }
+      },
+      "max_reported_bad_packet_counters": {
+        "1": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "2": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "3": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "4": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "5": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "6": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "7": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "8": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "9": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        },
+        "10": {
+          "TxBadPkt": 0,
+          "RxBadPkt": 0
+        }
+      },
+      "fatal_errors": []
+    }
+  ],
   "results": [
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 1,
       "pair": "1+2",
       "start_epoch": 1788719645.3204844,
@@ -87,9 +249,33 @@
         "window_end_epoch": 1788719678.973349,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788719691.616799,
+        "seconds_since_trial_start": 46.29631471633911,
+        "late_native_clean_samples": 4,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial",
+        "evaluation": {
+          "pass": false,
+          "longest_joint_clean_seconds": 5.481263160705566,
+          "current_joint_clean_seconds": 5.481263160705566,
+          "joint_clean_events": 24,
+          "evaluated_events": 115,
+          "native_samples": 46,
+          "packet_counts": {
+            "enx5c857e38d8d1": 6,
+            "enxa0cec8597422": 8
+          },
+          "packet_max_age_seconds": 35,
+          "native_max_age_seconds": 2.5,
+          "window_start_epoch": 1788719645.3204844,
+          "window_end_epoch": 1788719691.616799,
+          "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+        }
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 2,
       "pair": "1+3",
       "start_epoch": 1788719718.7511637,
@@ -159,9 +345,33 @@
         "window_end_epoch": 1788719754.4035769,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788719763.357898,
+        "seconds_since_trial_start": 44.60673427581787,
+        "late_native_clean_samples": 3,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial",
+        "evaluation": {
+          "pass": false,
+          "longest_joint_clean_seconds": 6.534397125244141,
+          "current_joint_clean_seconds": 1.8287758827209473,
+          "joint_clean_events": 32,
+          "evaluated_events": 119,
+          "native_samples": 46,
+          "packet_counts": {
+            "enx5c857e38d8d1": 8,
+            "enxa0cec8597422": 8
+          },
+          "packet_max_age_seconds": 35,
+          "native_max_age_seconds": 2.5,
+          "window_start_epoch": 1788719718.7511637,
+          "window_end_epoch": 1788719763.357898,
+          "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+        }
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 3,
       "pair": "1+4",
       "start_epoch": 1788719792.3228407,
@@ -212,9 +422,16 @@
         }
       },
       "evaluation": {},
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788719829.753118,
+        "seconds_since_trial_start": 37.4302773475647,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 4,
       "pair": "1+5",
       "start_epoch": 1788719860.5263577,
@@ -265,9 +482,16 @@
         }
       },
       "evaluation": {},
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788719916.188776,
+        "seconds_since_trial_start": 55.662418365478516,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 5,
       "pair": "1+6",
       "start_epoch": 1788719943.367261,
@@ -318,9 +542,16 @@
         }
       },
       "evaluation": {},
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720010.017443,
+        "seconds_since_trial_start": 66.65018200874329,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 6,
       "pair": "1+7",
       "start_epoch": 1788720037.1601536,
@@ -390,9 +621,33 @@
         "window_end_epoch": 1788720070.8120277,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720132.793057,
+        "seconds_since_trial_start": 95.63290333747864,
+        "late_native_clean_samples": 32,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial",
+        "evaluation": {
+          "pass": false,
+          "longest_joint_clean_seconds": 54.849647998809814,
+          "current_joint_clean_seconds": 54.849647998809814,
+          "joint_clean_events": 93,
+          "evaluated_events": 177,
+          "native_samples": 73,
+          "packet_counts": {
+            "enx5c857e38d8d1": 10,
+            "enxa0cec8597422": 10
+          },
+          "packet_max_age_seconds": 35,
+          "native_max_age_seconds": 2.5,
+          "window_start_epoch": 1788720037.1601536,
+          "window_end_epoch": 1788720132.793057,
+          "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+        }
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 7,
       "pair": "1+8",
       "start_epoch": 1788720159.9277601,
@@ -443,9 +698,16 @@
         }
       },
       "evaluation": {},
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720257.587935,
+        "seconds_since_trial_start": 97.66017484664917,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 8,
       "pair": "2+8",
       "start_epoch": 1788720286.5645578,
@@ -496,9 +758,16 @@
         }
       },
       "evaluation": {},
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720322.15043,
+        "seconds_since_trial_start": 35.585872173309326,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 9,
       "pair": "2+7",
       "start_epoch": 1788720349.281964,
@@ -568,9 +837,16 @@
         "window_end_epoch": 1788720364.9309134,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720403.163995,
+        "seconds_since_trial_start": 53.882030963897705,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 10,
       "pair": "2+6",
       "start_epoch": 1788720432.1305532,
@@ -640,9 +916,16 @@
         "window_end_epoch": 1788720447.7705688,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720471.380252,
+        "seconds_since_trial_start": 39.249698638916016,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 11,
       "pair": "2+5",
       "start_epoch": 1788720500.3295257,
@@ -712,9 +995,16 @@
         "window_end_epoch": 1788720515.9795876,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720612.648602,
+        "seconds_since_trial_start": 112.31907629966736,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 12,
       "pair": "2+4",
       "start_epoch": 1788720641.6253881,
@@ -784,9 +1074,16 @@
         "window_end_epoch": 1788720657.310288,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720722.938769,
+        "seconds_since_trial_start": 81.31338095664978,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 13,
       "pair": "2+3",
       "start_epoch": 1788720750.0585132,
@@ -856,9 +1153,33 @@
         "window_end_epoch": 1788720783.7073753,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720820.090662,
+        "seconds_since_trial_start": 70.03214883804321,
+        "late_native_clean_samples": 17,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial",
+        "evaluation": {
+          "pass": false,
+          "longest_joint_clean_seconds": 29.236138105392456,
+          "current_joint_clean_seconds": 29.236138105392456,
+          "joint_clean_events": 60,
+          "evaluated_events": 145,
+          "native_samples": 59,
+          "packet_counts": {
+            "enx5c857e38d8d1": 8,
+            "enxa0cec8597422": 8
+          },
+          "packet_max_age_seconds": 35,
+          "native_max_age_seconds": 2.5,
+          "window_start_epoch": 1788720750.0585132,
+          "window_end_epoch": 1788720820.090662,
+          "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+        }
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 14,
       "pair": "3+4",
       "start_epoch": 1788720849.111292,
@@ -928,9 +1249,16 @@
         "window_end_epoch": 1788720864.760436,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788720886.515208,
+        "seconds_since_trial_start": 37.403916120529175,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 15,
       "pair": "3+5",
       "start_epoch": 1788720915.5030577,
@@ -1000,9 +1328,16 @@
         "window_end_epoch": 1788720931.1545427,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788721084.460272,
+        "seconds_since_trial_start": 168.95721435546875,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     },
     {
+      "source_run": "usb-sweep-20260906T183251Z",
       "trial": 16,
       "pair": "3+6",
       "start_epoch": 1788721113.4165492,
@@ -1072,7 +1407,828 @@
         "window_end_epoch": 1788721129.0601296,
         "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
       },
-      "measurement": "initial LACP negotiation; no throughput or long-term stability claim"
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788721141.673342,
+        "seconds_since_trial_start": 28.256792783737183,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 17,
+      "pair": "3+7",
+      "start_epoch": 1788721338.5224888,
+      "end_epoch": 1788721354.1710463,
+      "seconds": 15.648557424545288,
+      "result": "NOT_ESTABLISHED_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0.0,
+      "mapping": {
+        "enx5c857e38d8d1": 7,
+        "enxa0cec8597422": 3
+      },
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 3,
+            "partner_port": 7,
+            "partner_state": 69
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 61,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 3,
+            "partner_port": 3,
+            "partner_state": 61
+          }
+        },
+        "aggregator": {
+          "id": 1,
+          "ports": 2,
+          "actor_key": 9,
+          "partner_key": 3,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 72,
+        "native_samples": 19,
+        "packet_counts": {
+          "enx5c857e38d8d1": 30,
+          "enxa0cec8597422": 6
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788721338.5224888,
+        "window_end_epoch": 1788721354.1710463,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788721372.255967,
+        "seconds_since_trial_start": 33.73347806930542,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 18,
+      "pair": "3+8",
+      "start_epoch": 1788721401.228837,
+      "end_epoch": 1788721416.8775818,
+      "seconds": 15.648744821548462,
+      "result": "NOT_ESTABLISHED_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0.0,
+      "mapping": {
+        "enx5c857e38d8d1": 8,
+        "enxa0cec8597422": 3
+      },
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 3,
+            "partner_port": 8,
+            "partner_state": 69
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 61,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 3,
+            "partner_port": 3,
+            "partner_state": 61
+          }
+        },
+        "aggregator": {
+          "id": 1,
+          "ports": 2,
+          "actor_key": 9,
+          "partner_key": 3,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 73,
+        "native_samples": 18,
+        "packet_counts": {
+          "enx5c857e38d8d1": 32,
+          "enxa0cec8597422": 6
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788721401.228837,
+        "window_end_epoch": 1788721416.8775818,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788721438.623341,
+        "seconds_since_trial_start": 37.39450407028198,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 19,
+      "pair": "4+8",
+      "start_epoch": 1788721467.6252496,
+      "end_epoch": 1788721483.27398,
+      "seconds": 15.648730278015137,
+      "result": "NO_PEER_LACP_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0,
+      "mapping": {},
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 69,
+            "partner_system": "00:00:00:00:00:00",
+            "partner_key": 1,
+            "partner_port": 1,
+            "partner_state": 0
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 2,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 4,
+            "partner_port": 4,
+            "partner_state": 117
+          }
+        },
+        "aggregator": {
+          "id": 2,
+          "ports": 1,
+          "actor_key": 9,
+          "partner_key": 4,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {},
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788721519.64365,
+        "seconds_since_trial_start": 52.01840043067932,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 20,
+      "pair": "4+7",
+      "start_epoch": 1788721546.8350198,
+      "end_epoch": 1788721562.4848428,
+      "seconds": 15.64982295036316,
+      "result": "NO_PEER_LACP_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0,
+      "mapping": {},
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 4,
+            "partner_port": 7,
+            "partner_state": 117
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 2,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 69,
+            "partner_system": "00:00:00:00:00:00",
+            "partner_key": 1,
+            "partner_port": 1,
+            "partner_state": 0
+          }
+        },
+        "aggregator": {
+          "id": 1,
+          "ports": 1,
+          "actor_key": 9,
+          "partner_key": 4,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {},
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788721628.106848,
+        "seconds_since_trial_start": 81.27182817459106,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 21,
+      "pair": "4+6",
+      "start_epoch": 1788721655.2489057,
+      "end_epoch": 1788721670.8972554,
+      "seconds": 15.64834976196289,
+      "result": "NOT_ESTABLISHED_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0.0,
+      "mapping": {
+        "enx5c857e38d8d1": 6,
+        "enxa0cec8597422": 4
+      },
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 4,
+            "partner_port": 6,
+            "partner_state": 117
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 4,
+            "partner_port": 4,
+            "partner_state": 117
+          }
+        },
+        "aggregator": {
+          "id": 1,
+          "ports": 2,
+          "actor_key": 9,
+          "partner_key": 4,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 72,
+        "native_samples": 19,
+        "packet_counts": {
+          "enx5c857e38d8d1": 32,
+          "enxa0cec8597422": 4
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788721655.2489057,
+        "window_end_epoch": 1788721670.8972554,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788721683.510748,
+        "seconds_since_trial_start": 28.261842250823975,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 22,
+      "pair": "4+5",
+      "start_epoch": 1788721712.4890745,
+      "end_epoch": 1788721728.1423225,
+      "seconds": 15.653248071670532,
+      "result": "NOT_ESTABLISHED_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0.0,
+      "mapping": {
+        "enx5c857e38d8d1": 5,
+        "enxa0cec8597422": 4
+      },
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 4,
+            "partner_port": 5,
+            "partner_state": 117
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 4,
+            "partner_port": 4,
+            "partner_state": 117
+          }
+        },
+        "aggregator": {
+          "id": 1,
+          "ports": 2,
+          "actor_key": 9,
+          "partner_key": 4,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 73,
+        "native_samples": 18,
+        "packet_counts": {
+          "enx5c857e38d8d1": 31,
+          "enxa0cec8597422": 7
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788721712.4890745,
+        "window_end_epoch": 1788721728.1423225,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788721841.304561,
+        "seconds_since_trial_start": 128.81548643112183,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 23,
+      "pair": "5+6",
+      "start_epoch": 1788721875.5901604,
+      "end_epoch": 1788721891.2425034,
+      "seconds": 15.652343034744263,
+      "result": "NO_PEER_LACP_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0,
+      "mapping": {},
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 69,
+            "partner_system": "00:00:00:00:00:00",
+            "partner_key": 1,
+            "partner_port": 1,
+            "partner_state": 0
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 2,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 5,
+            "partner_port": 6,
+            "partner_state": 117
+          }
+        },
+        "aggregator": {
+          "id": 2,
+          "ports": 1,
+          "actor_key": 9,
+          "partner_key": 5,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {},
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788721993.443144,
+        "seconds_since_trial_start": 117.85298371315002,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 24,
+      "pair": "5+7",
+      "start_epoch": 1788722022.4260259,
+      "end_epoch": 1788722038.0764022,
+      "seconds": 15.650376319885254,
+      "result": "NO_PEER_LACP_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0,
+      "mapping": {},
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 69,
+            "partner_system": "00:00:00:00:00:00",
+            "partner_key": 1,
+            "partner_port": 1,
+            "partner_state": 0
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 2,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 5,
+            "partner_port": 7,
+            "partner_state": 117
+          }
+        },
+        "aggregator": {
+          "id": 2,
+          "ports": 1,
+          "actor_key": 9,
+          "partner_key": 5,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {},
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788722131.158145,
+        "seconds_since_trial_start": 108.73211908340454,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 25,
+      "pair": "5+8",
+      "start_epoch": 1788722161.959169,
+      "end_epoch": 1788722177.6085453,
+      "seconds": 15.649376392364502,
+      "result": "NOT_ESTABLISHED_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0.0,
+      "mapping": {
+        "enx5c857e38d8d1": 5,
+        "enxa0cec8597422": 8
+      },
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 2,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 5,
+            "partner_port": 5,
+            "partner_state": 117
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 2,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 5,
+            "partner_port": 8,
+            "partner_state": 117
+          }
+        },
+        "aggregator": {
+          "id": 2,
+          "ports": 2,
+          "actor_key": 9,
+          "partner_key": 5,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {
+        "pass": false,
+        "longest_joint_clean_seconds": 0.0,
+        "current_joint_clean_seconds": 0.0,
+        "joint_clean_events": 0,
+        "evaluated_events": 74,
+        "native_samples": 19,
+        "packet_counts": {
+          "enx5c857e38d8d1": 6,
+          "enxa0cec8597422": 32
+        },
+        "packet_max_age_seconds": 35,
+        "native_max_age_seconds": 2.5,
+        "window_start_epoch": 1788722161.959169,
+        "window_end_epoch": 1788722177.6085453,
+        "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+      },
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788722204.875685,
+        "seconds_since_trial_start": 42.916516065597534,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 26,
+      "pair": "6+8",
+      "start_epoch": 1788722232.0004628,
+      "end_epoch": 1788722247.648968,
+      "seconds": 15.648505210876465,
+      "result": "NO_PEER_LACP_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0,
+      "mapping": {},
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 6,
+            "partner_port": 6,
+            "partner_state": 117
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 2,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 69,
+            "partner_system": "00:00:00:00:00:00",
+            "partner_key": 1,
+            "partner_port": 1,
+            "partner_state": 0
+          }
+        },
+        "aggregator": {
+          "id": 1,
+          "ports": 1,
+          "actor_key": 9,
+          "partner_key": 6,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {},
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788722260.244741,
+        "seconds_since_trial_start": 28.24427819252014,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 27,
+      "pair": "6+7",
+      "start_epoch": 1788722287.372566,
+      "end_epoch": 1788722303.0223742,
+      "seconds": 15.649808168411255,
+      "result": "NO_PEER_LACP_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0,
+      "mapping": {},
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 69,
+            "partner_system": "00:00:00:00:00:00",
+            "partner_key": 1,
+            "partner_port": 1,
+            "partner_state": 0
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 2,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 6,
+            "partner_port": 7,
+            "partner_state": 117
+          }
+        },
+        "aggregator": {
+          "id": 2,
+          "ports": 1,
+          "actor_key": 9,
+          "partner_key": 6,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {},
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788722321.142621,
+        "seconds_since_trial_start": 33.770055055618286,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
+    },
+    {
+      "source_run": "usb-sweep-20260906T190101Z",
+      "trial": 28,
+      "pair": "7+8",
+      "start_epoch": 1788722350.1096396,
+      "end_epoch": 1788722365.7568574,
+      "seconds": 15.647217750549316,
+      "result": "NO_PEER_LACP_IN_WINDOW",
+      "first_native_seconds": null,
+      "first_reciprocal_seconds": null,
+      "current_joint_clean_seconds": 0,
+      "mapping": {},
+      "native_final": {
+        "members": {
+          "enx5c857e38d8d1": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 1,
+            "partner_churned": 0,
+            "actor_port": 1,
+            "actor_state": 13,
+            "partner_system": "24:5e:be:77:e5:86",
+            "partner_key": 7,
+            "partner_port": 8,
+            "partner_state": 117
+          },
+          "enxa0cec8597422": {
+            "mii": "up",
+            "speed": 1000,
+            "duplex": "full",
+            "link_failures": 0,
+            "aggregator_id": 2,
+            "partner_churned": 0,
+            "actor_port": 2,
+            "actor_state": 69,
+            "partner_system": "00:00:00:00:00:00",
+            "partner_key": 1,
+            "partner_port": 1,
+            "partner_state": 0
+          }
+        },
+        "aggregator": {
+          "id": 1,
+          "ports": 1,
+          "actor_key": 9,
+          "partner_key": 7,
+          "partner_mac": "24:5e:be:77:e5:86"
+        }
+      },
+      "evaluation": {},
+      "measurement": "initial LACP negotiation; no throughput or long-term stability claim",
+      "post_window_observation": {
+        "end_epoch": 1788722365.7568574,
+        "seconds_since_trial_start": 15.647217750549316,
+        "late_native_clean_samples": 0,
+        "boundary": "stops at first sampled member down, membership change, or link-failure count change; not a separate timed trial"
+      }
     }
   ]
 }

@@ -1,10 +1,15 @@
 # Diagnostic handoff — September 6, 2026
 
-**Latest checkpoint, 18:59 UTC:** The independent two-Realtek sweep recorded
-16/28 pairs: 1+2, 1+3, 1+7, and 2+3 negotiated. Other measured pairs did not
-establish in their windows. A management API read failed during the move toward
-3+7, before that trial started. Switch and host cleanup verified. Read the
-[partial matrix and exact resume command](linux-usb-sweep-results-20260906.md).
+**Latest, 19:19 UTC: independent USB sweep COMPLETE (28/28).** Only **1+2,
+1+3, 1+7, and 2+3 negotiated**. Other pairs did not establish in their windows;
+none recovered in the recorded post-window holds. Ports 9–10 were excluded.
+Switch neutralization and USB host cleanup verified; bench VLAN 1 remains on
+1–8 and management on 10. Firewalla configuration was not changed.
+Read the [complete matrix, evidence, and proposed follow-ups](linux-usb-sweep-results-20260906.md).
+The strongest remaining comparison is 1+7 → 2+7 → 1+7 with longer holds; it has
+not been run. Findings favor QNAP-side LACP behavior but do not distinguish
+firmware/state from hardware. The interrupted sweep resumed successfully.
+
 The updates below are historical; production topology has been dismantled for
 the isolated bench, and the earlier USB-control preparation is complete.
 
