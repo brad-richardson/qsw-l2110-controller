@@ -1,5 +1,14 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest, September 7 at 01:03 UTC: 3+4 also PASSED after restoring VLAN 10.**
+The six-minute Long run held 329.745 continuous clean seconds; capture and
+cleanup passed. Post-run readback confirms the old USB bench VLAN membership
+and PVID layout: 1–8 on 1, 9 on 3999, 10 on 10. LAG/port/mirror settings match
+the preceding pass; VLAN names remain empty. No configuration changes were made
+by the agent, and the read session logged out. USB NICs are down. The operator
+proposed a second configured but unplugged LAG on 1+2 next, separate from the
+inactive-field hypothesis. See the [VLAN 10 follow-up](post-reset-config-comparison-20260907.md).
+
 **Latest, September 7 at 00:42 UTC: 3+4 still PASSED with VLAN 3999 on port 9.**
 Another full six-minute Long observation held 329.777 continuous clean seconds.
 Capture integrity and cleanup passed. Post-run readback verified VLAN/PVID 3999

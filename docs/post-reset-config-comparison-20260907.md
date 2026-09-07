@@ -80,10 +80,10 @@ display offset is compatible with the successful run. The readback does not
 establish when SNTP last synchronized or whether earlier clock steps occurred.
 
 Useful controls preserve this private known-good backup and change one dimension
-at a time through QSS. The VLAN 3999-only probe below has now passed. VLAN 10
-and uplink placement, inactive LAG metadata, and the disabled mirror destination
-remain separate differences to investigate. Do not restore all old settings
-together and attribute any failure to VLANs alone.
+at a time through QSS. Both the VLAN 3999-only probe and subsequent VLAN 10
+restoration below have now passed. Inactive LAG metadata, an additional configured
+group, and the disabled mirror destination remain separate controls to investigate.
+Do not restore all old settings together and attribute any failure to VLANs alone.
 
 ## Follow-up: restoring VLAN 3999 on port 9 did not reproduce failure
 
@@ -109,9 +109,45 @@ Thus this partial restoration of the old VLAN layout was compatible with another
 successful six-minute observation. It does not eliminate interactions involving
 VLAN 10/uplink placement, inactive LAG fields, or sequence/boot history, and it
 does not validate forwarding or long-term reliability. The full old VLAN layout
-has not been restored in this controlled sequence.
+had not yet been restored at this point in the sequence.
 
 [VLAN 3999 probe evidence](evidence/linux-usb-vlan3999-20260907.json).
+
+## Follow-up: VLAN 10 and the old bench membership/PVID layout also passed
+
+The operator added VLAN 10 and ran the same group 4 / Long observer on 3+4.
+Run `usb-ui-sweep-20260907T005541Z` completed its **360.029-second hold** with
+**329.745 continuous clean seconds**. Both members ended at 61/61, 1000/full,
+zero link failures and no partner churn. Both complete captures had zero kernel
+drops; there were 360 native samples with a maximum gap of 1.010 seconds.
+Cleanup at 01:02:32.187174 UTC returned both USB NICs down without errors.
+
+Post-run readback `backups/vlan10-probe-readback-20260907T010256Z/` verified:
+
+- VLAN 1 untagged/PVID 1 on ports 1–8;
+- VLAN 3999 untagged/PVID 3999 on port 9;
+- VLAN 10 untagged/PVID 10 on port 10;
+- unchanged LAG, configured port and mirror settings versus the previous pass.
+
+VLAN IDs, every port membership, and every port PVID now match the pre-reset
+USB bench snapshot. VLAN names remain empty rather than the old descriptive
+labels. No API session occurred during observation, and the subsequent readback
+made no configuration changes and logged out with HTTP 200.
+
+Restoring this VLAN/PVID layout in the reset-era 3+4 setup therefore did not
+reproduce the failure within six minutes. This weakens the layout-alone theory;
+it does not test every boot/order interaction or the old active pair with that
+layout. Inactive LAG metadata and the disabled mirror destination still differ.
+
+The operator proposed adding a second configured LAG on unused ports 1+2 as the
+next control. The suggested test is separate group 1 / Long on unplugged 1+2,
+preserving group 4 / Long on 3+4 and rerunning the same observer without reboot.
+This is **not** the same test as leaving group/timeout values on mode-disabled
+ports. Neither has been performed in this controlled post-reset sequence yet.
+An incompletely configured peer triggering persistent switch state is a hypothesis,
+not an established cause or evidence that the operator damaged the hardware.
+
+[VLAN 10 probe evidence](evidence/linux-usb-vlan10-20260907.json).
 
 [Sanitized comparison evidence](evidence/post-reset-config-comparison-20260907.json).
 Related: [factory-reset 1+7 result](linux-usb-factory-reset-long-20260907.md).
