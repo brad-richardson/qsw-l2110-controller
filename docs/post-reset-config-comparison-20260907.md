@@ -143,7 +143,7 @@ The operator proposed adding a second configured LAG on unused ports 1+2 as the
 next control. The suggested test is separate group 1 / Long on unplugged 1+2,
 preserving group 4 / Long on 3+4 and rerunning the same observer without reboot.
 This is **not** the same test as leaving group/timeout values on mode-disabled
-ports. Neither has been performed in this controlled post-reset sequence yet.
+ports. At that point neither had been performed in this controlled post-reset sequence; the combined follow-up below has since completed.
 An incompletely configured peer triggering persistent switch state is a hypothesis,
 not an established cause or evidence that the operator damaged the hardware.
 
@@ -151,3 +151,47 @@ not an established cause or evidence that the operator damaged the hardware.
 
 [Sanitized comparison evidence](evidence/post-reset-config-comparison-20260907.json).
 Related: [factory-reset 1+7 result](linux-usb-factory-reset-long-20260907.md).
+
+## Follow-up: second configured group plus WAN VLAN membership also passed
+
+The operator added group 1 / Long on unused ports 1+2 and moved those ports to
+untagged VLAN 3999 in the same step. Group 4 / Long remained on 3+4.
+Run `usb-ui-sweep-20260907T010659Z` completed a **360.029-second hold** with
+**328.737 continuous clean reciprocal seconds**. Both members ended 61/61 at
+1000/full, with zero link failures and partner churn. Both captures were complete
+with zero drops. Cleanup finished at 01:13:02.999013 UTC without errors and left
+the USB interfaces down.
+
+Post-run readback `backups/second-lag-probe-readback-20260907T011330Z/` verified
+both groups and VLAN 3999 on 1+2+9, VLAN 1 on 3–8, and VLAN 10 on port 10,
+with matching PVIDs. The read session logged out successfully; no API access
+occurred during observation. The combined change did not reproduce failure,
+but it does not isolate the effects of adding the group versus changing VLAN
+membership. A configured group on unplugged ports also remains distinct from
+retained metadata on ports whose LAG mode is disabled.
+
+[Second-group/VLAN evidence](evidence/linux-usb-second-lag-vlan3999-20260907.json).
+
+## Remaining differences from the earlier production failure
+
+The old USB bench layout above must not be confused with the production layout.
+The saved production baseline
+`backups/lan-ports-1-2-20260906T135419Z/before.json` had group 4 / Long on 3+4,
+but VLAN 10 on **3–7 and 10**, VLAN 3999 on 1+2+9, and VLAN 1 only on 8.
+The current 01:13 readback still has ports 3–7 on VLAN 1. The operator's next
+proposed UI-only test moves those five ports to VLAN 10.
+
+Other differences remain: that production baseline had mode-disabled ports 5+7
+retaining group 5 / Short, and mirror destination 7 with all source directions
+off; the reset-era values are group 0 and mirror destination 0. Production also
+used Firewalla at 2.5 Gb/s, different actor identities and populated network
+connections; these runs use Realtek USB peers at 1 Gb/s. Configured port settings
+and LACP priorities match. The September 5 production snapshot instead had two
+configured groups using Short, so there is no single universal production
+baseline. VLAN names also remain empty rather than the old descriptive labels.
+
+The [headless browser request comparison](ui-controller-request-comparison-20260907.md)
+tests both the proposed VLAN move and a LAG group 4→5 change offline. It identifies
+the disabled-port serialization difference but provides no evidence of a missing
+automatic follow-up write. Live controller reapplication remains untested in this
+controlled post-reset sequence.

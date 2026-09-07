@@ -115,6 +115,12 @@ but the two payloads are not byte-for-byte equivalent, and side effects of
 these extra disabled-port fields have not been excluded. No write was made
 during this audit. See [the UI audit](qnap-ui-audit-20260905.md).
 
+The [September 7 headless Apply comparison](ui-controller-request-comparison-20260907.md)
+confirmed this difference while changing group 4 to 5 on ports 3+4, and found
+exact VLAN payload equality for a VLAN 1→10 membership move. It used intercepted
+POSTs and synthetic replies, not live switch writes. No additional configuration
+POST followed either Apply in the observed client-side path; global Save is separate.
+
 ## VLAN configuration
 
 ```text

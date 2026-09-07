@@ -1,0 +1,603 @@
+{
+  "mode": "offline browser with intercepted requests and synthetic success responses",
+  "source_run": "backups/ui-request-audit-20260907T012128Z",
+  "baseline": "backups/second-lag-probe-readback-20260907T011330Z/state.json",
+  "same_configuration_plan_is_empty": true,
+  "observation_after_each_apply_seconds": 6.5,
+  "page_errors": [],
+  "missing_resources": [],
+  "cases": {
+    "lag": {
+      "desired": {
+        "schema_version": 1,
+        "device": {
+          "models": [
+            "QSW-L2110-10T"
+          ],
+          "firmware": [
+            "2.2.3.20260713"
+          ],
+          "port_count": 10
+        },
+        "link_aggregation": {
+          "system_priority": 32768,
+          "managed_ports": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "groups": [
+            {
+              "id": 1,
+              "mode": "lacp",
+              "members": [
+                1,
+                2
+              ],
+              "port_priority": 128,
+              "timeout": "long"
+            },
+            {
+              "id": 5,
+              "mode": "lacp",
+              "members": [
+                3,
+                4
+              ],
+              "port_priority": 128,
+              "timeout": "long"
+            }
+          ]
+        },
+        "vlans": [
+          {
+            "id": 1,
+            "name": "",
+            "untagged": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "tagged": []
+          },
+          {
+            "id": 3999,
+            "name": "",
+            "untagged": [
+              1,
+              2,
+              9
+            ],
+            "tagged": []
+          },
+          {
+            "id": 10,
+            "name": "",
+            "untagged": [
+              10
+            ],
+            "tagged": []
+          }
+        ]
+      },
+      "ui_request": {
+        "method": "POST",
+        "path": "/port_trunk_cfg.json",
+        "payload": {
+          "portTypeId_1": "2",
+          "portPriorityId_1": "128",
+          "lacpTimeoutId_1": "1",
+          "Port_1_grpInd": "1",
+          "portTypeId_2": "2",
+          "portPriorityId_2": "128",
+          "lacpTimeoutId_2": "1",
+          "Port_2_grpInd": "1",
+          "portTypeId_3": "2",
+          "portPriorityId_3": "128",
+          "lacpTimeoutId_3": "1",
+          "Port_3_grpInd": "5",
+          "portTypeId_4": "2",
+          "portPriorityId_4": "128",
+          "lacpTimeoutId_4": "1",
+          "Port_4_grpInd": "5",
+          "portTypeId_5": "0",
+          "portTypeId_6": "0",
+          "portTypeId_7": "0",
+          "portTypeId_8": "0",
+          "portTypeId_9": "0",
+          "portTypeId_10": "0",
+          "system_priority": "32768"
+        }
+      },
+      "controller_payload": {
+        "system_priority": "32768",
+        "portTypeId_1": "2",
+        "portPriorityId_1": "128",
+        "lacpTimeoutId_1": "1",
+        "Port_1_grpInd": "1",
+        "portTypeId_2": "2",
+        "portPriorityId_2": "128",
+        "lacpTimeoutId_2": "1",
+        "Port_2_grpInd": "1",
+        "portTypeId_3": "2",
+        "portPriorityId_3": "128",
+        "lacpTimeoutId_3": "1",
+        "Port_3_grpInd": "5",
+        "portTypeId_4": "2",
+        "portPriorityId_4": "128",
+        "lacpTimeoutId_4": "1",
+        "Port_4_grpInd": "5",
+        "portTypeId_5": "0",
+        "portPriorityId_5": "128",
+        "lacpTimeoutId_5": "0",
+        "Port_5_grpInd": "0",
+        "portTypeId_6": "0",
+        "portPriorityId_6": "128",
+        "lacpTimeoutId_6": "0",
+        "Port_6_grpInd": "0",
+        "portTypeId_7": "0",
+        "portPriorityId_7": "128",
+        "lacpTimeoutId_7": "0",
+        "Port_7_grpInd": "0",
+        "portTypeId_8": "0",
+        "portPriorityId_8": "128",
+        "lacpTimeoutId_8": "0",
+        "Port_8_grpInd": "0",
+        "portTypeId_9": "0",
+        "portPriorityId_9": "128",
+        "lacpTimeoutId_9": "0",
+        "Port_9_grpInd": "0",
+        "portTypeId_10": "0",
+        "portPriorityId_10": "128",
+        "lacpTimeoutId_10": "0",
+        "Port_10_grpInd": "0"
+      },
+      "plan_changes": [
+        {
+          "area": "lag",
+          "key": "Port_3_grpInd",
+          "before": "4",
+          "after": "5"
+        },
+        {
+          "area": "lag",
+          "key": "Port_4_grpInd",
+          "before": "4",
+          "after": "5"
+        }
+      ],
+      "payloads_equal": false,
+      "requests_after_apply": [
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_trunk_refresh.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_trunk_refresh.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_trunk_refresh.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_trunk_refresh.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_trunk_refresh.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_trunk_refresh.json"
+        }
+      ],
+      "response": {
+        "status": 200,
+        "body": {
+          "status": "success"
+        },
+        "synthetic": true
+      },
+      "ui_field_count": 23,
+      "controller_field_count": 41,
+      "shared_mismatches": {},
+      "controller_only_fields": {
+        "portPriorityId_5": "128",
+        "lacpTimeoutId_5": "0",
+        "Port_5_grpInd": "0",
+        "portPriorityId_6": "128",
+        "lacpTimeoutId_6": "0",
+        "Port_6_grpInd": "0",
+        "portPriorityId_7": "128",
+        "lacpTimeoutId_7": "0",
+        "Port_7_grpInd": "0",
+        "portPriorityId_8": "128",
+        "lacpTimeoutId_8": "0",
+        "Port_8_grpInd": "0",
+        "portPriorityId_9": "128",
+        "lacpTimeoutId_9": "0",
+        "Port_9_grpInd": "0",
+        "portPriorityId_10": "128",
+        "lacpTimeoutId_10": "0",
+        "Port_10_grpInd": "0"
+      }
+    },
+    "vlan": {
+      "desired": {
+        "schema_version": 1,
+        "device": {
+          "models": [
+            "QSW-L2110-10T"
+          ],
+          "firmware": [
+            "2.2.3.20260713"
+          ],
+          "port_count": 10
+        },
+        "link_aggregation": {
+          "system_priority": 32768,
+          "managed_ports": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "groups": [
+            {
+              "id": 1,
+              "mode": "lacp",
+              "members": [
+                1,
+                2
+              ],
+              "port_priority": 128,
+              "timeout": "long"
+            },
+            {
+              "id": 4,
+              "mode": "lacp",
+              "members": [
+                3,
+                4
+              ],
+              "port_priority": 128,
+              "timeout": "long"
+            }
+          ]
+        },
+        "vlans": [
+          {
+            "id": 1,
+            "name": "",
+            "untagged": [
+              8
+            ],
+            "tagged": []
+          },
+          {
+            "id": 3999,
+            "name": "",
+            "untagged": [
+              1,
+              2,
+              9
+            ],
+            "tagged": []
+          },
+          {
+            "id": 10,
+            "name": "",
+            "untagged": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              10
+            ],
+            "tagged": []
+          }
+        ]
+      },
+      "ui_request": {
+        "method": "POST",
+        "path": "/tag_vlan.json",
+        "payload": {
+          "updatedVlans": [
+            {
+              "vlan_id": "10",
+              "vlan_name": "",
+              "port_states": [
+                0,
+                0,
+                0,
+                1,
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "vlan_id": "1",
+              "vlan_name": "",
+              "port_states": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "deletedVlans": []
+        }
+      },
+      "controller_payload": {
+        "updatedVlans": [
+          {
+            "vlan_id": "10",
+            "vlan_name": "",
+            "port_states": [
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "vlan_id": "1",
+            "vlan_name": "",
+            "port_states": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          }
+        ],
+        "deletedVlans": []
+      },
+      "plan_changes": [
+        {
+          "area": "vlan",
+          "key": "1",
+          "before": {
+            "vlan_id": "1",
+            "vlan_name": "",
+            "port_states": [
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              0
+            ]
+          },
+          "after": {
+            "vlan_id": "1",
+            "vlan_name": "",
+            "port_states": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "area": "vlan",
+          "key": "10",
+          "before": {
+            "vlan_id": "10",
+            "vlan_name": "",
+            "port_states": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          "after": {
+            "vlan_id": "10",
+            "vlan_name": "",
+            "port_states": [
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              0,
+              1
+            ]
+          }
+        },
+        {
+          "area": "pvid",
+          "key": "3",
+          "before": 1,
+          "after": 10
+        },
+        {
+          "area": "pvid",
+          "key": "4",
+          "before": 1,
+          "after": 10
+        },
+        {
+          "area": "pvid",
+          "key": "5",
+          "before": 1,
+          "after": 10
+        },
+        {
+          "area": "pvid",
+          "key": "6",
+          "before": 1,
+          "after": 10
+        },
+        {
+          "area": "pvid",
+          "key": "7",
+          "before": 1,
+          "after": 10
+        }
+      ],
+      "payloads_equal": true,
+      "requests_after_apply": [
+        {
+          "method": "GET",
+          "path": "/tag_vlan.json"
+        },
+        {
+          "method": "GET",
+          "path": "/check_session_alive.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/port_stats.json"
+        }
+      ],
+      "response": {
+        "status": 200,
+        "body": {
+          "status": "success"
+        },
+        "synthetic": true
+      }
+    }
+  },
+  "firmware_sha256": "4c9282b57e6d497623a6700c65c5a75bb33b19e504bf813155a2ae0ccb19b12b",
+  "asset_checks": [
+    {
+      "asset": "js/myajax.js",
+      "sha256": "695c53340cc2be3f88e7bb5300feca5ba0a0e3413cab483224388132ea315064",
+      "firmware_byte_offset": 2827228
+    },
+    {
+      "asset": "js/port_trunking.js",
+      "sha256": "98840b4795fdf43deea4eb088cd16941c80ba8c64835439d6174a545f37cd128",
+      "firmware_byte_offset": 2957964
+    },
+    {
+      "asset": "js/tag_basedvlan.js",
+      "sha256": "9f02cda2f650dc0cf389c0ba623aac44e1ca5fd244ba6ff6d95fd93b1aef6eaa",
+      "firmware_byte_offset": 3093744
+    },
+    {
+      "asset": "js/comm.js",
+      "sha256": "5d1f58823d0a6497b4b23ae0cf2f7ab95c3d5ab5d805898aa87d208d1b72fce5",
+      "firmware_byte_offset": 2054116
+    },
+    {
+      "asset": "link_aggregation.html",
+      "sha256": "2082bfa7b863675d113ed2401da7319aa906412ccedddc52c583f5ba08f94c9b",
+      "firmware_byte_offset": 2740560
+    },
+    {
+      "asset": "tag_based_vlan.html",
+      "sha256": "3988922bafd28b541a8f0a24a828b4c13b9bdd48c1962ee460aa75831c4136ab",
+      "firmware_byte_offset": 3090992
+    }
+  ]
+}
