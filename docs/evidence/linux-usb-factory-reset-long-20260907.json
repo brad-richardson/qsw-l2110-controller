@@ -1,0 +1,123 @@
+{
+  "trial": 1,
+  "pair": "1+7",
+  "source_run": "usb-ui-sweep-20260907T000941Z/trial-001-1-7",
+  "result": "NEGOTIATED",
+  "start_epoch": 1788739841.5879593,
+  "end_epoch": 1788740202.7166862,
+  "seconds": 361.1287269592285,
+  "observation_seconds": 360.02521435699964,
+  "first_native_seconds": 4.125006914138794,
+  "first_reciprocal_seconds": 32.13747453689575,
+  "current_joint_clean_seconds": 329.77283215522766,
+  "stable_300_seconds_at_end": true,
+  "expected_mapping": {
+    "enx5c857e38d8d1": 1,
+    "enxa0cec8597422": 7
+  },
+  "observed_mapping": {
+    "enx5c857e38d8d1": 1,
+    "enxa0cec8597422": 7
+  },
+  "mapping_verified": true,
+  "peer_tx_seen": {
+    "enx5c857e38d8d1": true,
+    "enxa0cec8597422": true
+  },
+  "link_failure_baseline": {
+    "enx5c857e38d8d1": 0,
+    "enxa0cec8597422": 0
+  },
+  "max_native_sample_gap_seconds": 1.0109105110168457,
+  "native_final": {
+    "members": {
+      "enx5c857e38d8d1": {
+        "mii": "up",
+        "speed": 1000,
+        "duplex": "full",
+        "link_failures": 0,
+        "aggregator_id": 1,
+        "partner_churned": 0,
+        "actor_port": 1,
+        "actor_state": 61,
+        "partner_system": "24:5e:be:77:e5:86",
+        "partner_key": 1,
+        "partner_port": 1,
+        "partner_state": 61
+      },
+      "enxa0cec8597422": {
+        "mii": "up",
+        "speed": 1000,
+        "duplex": "full",
+        "link_failures": 0,
+        "aggregator_id": 1,
+        "partner_churned": 0,
+        "actor_port": 2,
+        "actor_state": 61,
+        "partner_system": "24:5e:be:77:e5:86",
+        "partner_key": 1,
+        "partner_port": 7,
+        "partner_state": 61
+      }
+    },
+    "aggregator": {
+      "id": 1,
+      "ports": 2,
+      "actor_key": 9,
+      "partner_key": 1,
+      "partner_mac": "24:5e:be:77:e5:86"
+    }
+  },
+  "evaluation": {
+    "pass": true,
+    "longest_joint_clean_seconds": 329.77283215522766,
+    "current_joint_clean_seconds": 329.77283215522766,
+    "joint_clean_events": 752,
+    "evaluated_events": 821,
+    "native_samples": 361,
+    "packet_counts": {
+      "enx5c857e38d8d1": 26,
+      "enxa0cec8597422": 26
+    },
+    "packet_max_age_seconds": 35,
+    "native_max_age_seconds": 2.5,
+    "window_start_epoch": 1788739841.5879593,
+    "window_end_epoch": 1788740202.7166862,
+    "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+  },
+  "switch_configuration_verified": false,
+  "measurement": "LACP observation only; no forwarding/throughput test or switch API access",
+  "capture_integrity": {
+    "enx5c857e38d8d1": {
+      "dropped": 0,
+      "pcap_complete": true
+    },
+    "enxa0cec8597422": {
+      "dropped": 0,
+      "pcap_complete": true
+    }
+  },
+  "host_cleanup": {
+    "utc": "2026-09-07T00:16:42.894364+00:00",
+    "errors": [],
+    "capture_exit_codes": [
+      0,
+      0,
+      -2
+    ],
+    "returned_interfaces_left_down": [
+      "enx5c857e38d8d1",
+      "enxa0cec8597422"
+    ]
+  },
+  "operator_report": {
+    "factory_reset": true,
+    "post_reset_changes": [
+      "password updated (value excluded)",
+      "LACP group 4 configured",
+      "timeout changed from default Short to Long"
+    ],
+    "port10_connected": null
+  },
+  "actor_system": "02:3f:6c:3a:ff:a7"
+}

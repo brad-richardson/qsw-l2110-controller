@@ -58,8 +58,7 @@ Key observations:
   already-established failure. A later port-10 disconnection and peer restart
   also did not recover within a deliberately shortened 289-second observation.
   An isolated power cycle restored initial reciprocal negotiation, but that run
-  stopped at 77 seconds and does not establish stability. No factory reset has
-  been used as a controlled test.
+  stopped at 77 seconds and does not establish stability.
 - A second full six-minute observation after reboot with port 10 connected
   reproduced port-7 defaulting at 189.025 seconds after peer setup, versus
   189.063 seconds in the earlier connected no-API run. Measured from the first
@@ -67,6 +66,14 @@ Key observations:
   suggests a repeatable timer/state sequence worth investigating; it does not
   identify the initiating event or component. See the [uplink controls and
   timing comparison](../linux-usb-uplink-controls-20260906.md).
+- September 7 follow-up: after an operator-reported factory reset and only
+  password, group 4 membership and Long-timeout setup, the same USB 1+7 actor
+  and NIC mapping passed a full six-minute observation with 329.773 continuous
+  clean seconds. Capture integrity and cleanup passed; physical links did not
+  fail. Port-10 state is not yet confirmed, and reset/default settings were not
+  independently read via API. This demonstrates improvement after reset, without
+  identifying the responsible setting or internal state. See the
+  [factory-reset result](../linux-usb-factory-reset-long-20260907.md).
 
 A useful reproduction environment is an isolated two-NIC Linux 802.3ad peer,
 untagged matching VLANs, group 4 Long, and at least six minutes of simultaneous

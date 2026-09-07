@@ -1,5 +1,16 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest, September 7 at 00:16 UTC: factory-reset 1+7 / group 4 Long PASSED.**
+The operator reset the switch and reported only password, LAG and Long-timeout
+changes. The same USB actor and NIC mapping held 329.773 continuous clean
+seconds in the full six-minute observation. Links stayed 1000/full without
+failures/churn; capture integrity and cleanup passed. USB NICs are down.
+Port-10 state for this run remains unconfirmed, and no API verified reset/default
+settings. This is sustained negotiation, not forwarding or long-term validation.
+See the [factory-reset report and proposed Short comparison](linux-usb-factory-reset-long-20260907.md).
+The operator chose 3+4 / group 4 Long as the next trial, before testing Short.
+The all-six-pairs UI sweep remains unperformed; the entries below are historical.
+
 **Latest, 23:39 UTC: connected reboot reproduced the delayed failure.**
 The full six-minute 1+7 observation lost port 7 at 189.025 seconds after setup,
 versus 189.063 seconds in the earlier connected no-API run. In both captures,
