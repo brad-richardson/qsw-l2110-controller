@@ -193,10 +193,9 @@ baseline. VLAN names also remain empty rather than the old descriptive labels.
 The [headless browser request comparison](ui-controller-request-comparison-20260907.md)
 tests both the proposed VLAN move and a LAG group 4→5 change offline. It identifies
 the disabled-port serialization difference but provides no evidence of a missing
-automatic follow-up write. Live controller reapplication remains untested in this
-controlled post-reset sequence.
+automatic follow-up write. The subsequent live reapply and observation are recorded below.
 
-## Production VLAN layout passed; controller reapply awaiting observation
+## Production VLAN layout and post-controller-reapply observation both passed
 
 The operator applied the production membership/PVID layout through QSS, retaining
 group 4 / Long on 3+4 and group 1 / Long on 1+2. Run
@@ -239,10 +238,45 @@ Private artifacts are in `backups/controller-reapply-20260907T013852Z/`.
 
 The two LAG runtime status fields changed from 1 to 0 after reapply; the USB peers
 were already down from observer cleanup. This is not evidence of failed LACP.
-No post-reapply negotiation observation has completed yet. Because the full
-sequence included LAG, a timed-out VLAN request, and Save, any changed negotiation
-result would require narrower controls before assigning the cause to one action
-or the 18 disabled-port fields. Reboot persistence was not tested.
+The post-reapply observation below subsequently passed. The full sequence included
+LAG, a timed-out VLAN request, and Save; it does not isolate individual internal
+effects of those actions. Reboot persistence was not tested.
 
 [UI production-layout baseline evidence](evidence/linux-usb-production-vlans-ui-20260907.json).
 [Controller reapply evidence](evidence/controller-reapply-20260907.json).
+
+
+### Post-reapply six-minute observation passed
+
+Run `usb-ui-sweep-20260907T014118Z` retained the same actor, USB NIC mapping,
+ports 3+4, group 4 and Long metadata. Its **360.028-second hold** supplied
+**328.741 continuous clean reciprocal seconds**. Both members ended 61/61 at
+1000/full, with zero link failures and partner churn. All 360 native samples
+and both complete, zero-drop captures support the result. Host cleanup completed
+at 01:47:25.060034 UTC without errors and left both USB interfaces down.
+No switch API access occurred during observation; no additional switch read or
+configuration change was made when reviewing this result.
+
+The rebuilt production membership/PVID layout, a second configured group on
+unplugged 1+2, and this full 41-field LAG reapply are therefore compatible with
+another six-minute pass. Merely including the 18 disabled-port fields is not
+sufficient to reproduce the problem with their current group-0/Short values.
+That does not exonerate every controller transition: earlier sweeps retained
+nonzero group metadata on disabled ports and repeatedly changed membership.
+The VLAN POST timeout remains an API observation, not proof that VLANs were
+internally reapplied successfully or that negotiation is unreliable.
+
+A configuration-history or internal-state problem remains a plausible explanation
+for the reset-era improvement, rather than an established cause. These results
+weaken a permanent inability of ports 3+4 to negotiate, but do not establish
+2.5 Gb/s behavior, forwarding, simultaneous live groups, or long-term reliability.
+
+The next small control is a power cycle with this saved rebuilt layout and the
+same cabling, then the same six-minute 3+4 observation with no further UI changes.
+That tests loading this configuration at boot. If it passes, controlled real
+LAG membership/group transitions with observations between changes would address
+history more directly than another identical reapply. A later Firewalla peer
+comparison addresses the remaining speed/peer difference; no Firewalla change
+is part of this result review.
+
+[Post-reapply observation evidence](evidence/linux-usb-after-controller-reapply-20260907.json).

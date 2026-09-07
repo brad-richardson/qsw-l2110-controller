@@ -152,5 +152,11 @@
       "final_matches_before": true
     }
   },
-  "all_41_lag_configuration_fields_verified": true
+  "all_41_lag_configuration_fields_verified": true,
+  "subsequent_observation": {
+    "evidence": "linux-usb-after-controller-reapply-20260907.json",
+    "result": "NEGOTIATED",
+    "current_joint_clean_seconds": 328.7407696247101,
+    "note": "The original result records retest pending at the time of reapply; this follow-up completed afterward."
+  }
 }
