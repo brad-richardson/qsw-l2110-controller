@@ -1,5 +1,13 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest, September 7 at 00:42 UTC: 3+4 still PASSED with VLAN 3999 on port 9.**
+Another full six-minute Long observation held 329.777 continuous clean seconds.
+Capture integrity and cleanup passed. Post-run readback verified VLAN/PVID 3999
+on 9, VLAN/PVID 1 on 1–8 and 10, no VLAN 10, and unchanged LAG/port/mirror
+settings against the working reset snapshot. The read session logged out and
+made no configuration writes. USB interfaces are down. This partial VLAN
+restoration did not reproduce failure; see the [follow-up comparison](post-reset-config-comparison-20260907.md).
+
 **Latest, September 7 at 00:26 UTC: reset-era 3+4 / group 4 Long also PASSED.**
 The full USB observation held 329.777 continuous clean seconds; capture and
 cleanup passed. The user then authorized an authenticated readback and private

@@ -79,13 +79,39 @@ The current working configuration also still reports SNTP enabled, poll value
 display offset is compatible with the successful run. The readback does not
 establish when SNTP last synchronized or whether earlier clock steps occurred.
 
-Useful next controls preserve this private known-good backup and change one
-dimension at a time through QSS. A VLAN probe could first restore VLAN 3999
-only on unused port 9, leaving management port 10 intact, then observe 3+4 for
-six minutes. That is a proposed partial reproduction, not restoration of the
-whole old VLAN configuration. Separately investigate inactive LAG metadata or
-the disabled mirror destination. Do not restore all old settings together and
-attribute any failure to VLANs alone. No such changes have been made.
+Useful controls preserve this private known-good backup and change one dimension
+at a time through QSS. The VLAN 3999-only probe below has now passed. VLAN 10
+and uplink placement, inactive LAG metadata, and the disabled mirror destination
+remain separate differences to investigate. Do not restore all old settings
+together and attribute any failure to VLANs alone.
+
+## Follow-up: restoring VLAN 3999 on port 9 did not reproduce failure
+
+Run `usb-ui-sweep-20260907T003542Z`, group 4 / Long on 3+4 with the same actor
+and NIC mapping, completed a **360.028-second hold** with **329.777 current
+continuous clean seconds**. Both members remained 1000/full, 61/61, without
+link failures or partner churn. Both PCAPs were complete with zero kernel drops;
+360 native samples had a maximum gap of 1.010 seconds. Host cleanup completed
+at 00:41:46.649082 UTC without errors, leaving both USB interfaces down.
+
+The user indicated the next test was running after the VLAN 3999 proposal, but
+did not separately answer the detailed configuration question. A post-run
+authenticated readback at `backups/vlan-probe-readback-20260907T004228Z/`
+verified the actual state: VLAN 3999 untagged on port 9 with PVID 3999, VLAN 1
+untagged on ports 1–8 and 10 with PVID 1, and no VLAN 10. LAG, configured port
+settings and mirroring match the preceding working post-reset snapshot exactly.
+The new VLAN's name is empty, unlike the old `wan-transit` label. No API session
+was opened during observation; the post-run readback made no configuration
+changes and logged out with HTTP 200. It verifies the state after the capture,
+not an independently sampled configuration history throughout the run.
+
+Thus this partial restoration of the old VLAN layout was compatible with another
+successful six-minute observation. It does not eliminate interactions involving
+VLAN 10/uplink placement, inactive LAG fields, or sequence/boot history, and it
+does not validate forwarding or long-term reliability. The full old VLAN layout
+has not been restored in this controlled sequence.
+
+[VLAN 3999 probe evidence](evidence/linux-usb-vlan3999-20260907.json).
 
 [Sanitized comparison evidence](evidence/post-reset-config-comparison-20260907.json).
 Related: [factory-reset 1+7 result](linux-usb-factory-reset-long-20260907.md).

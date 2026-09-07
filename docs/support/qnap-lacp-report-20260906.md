@@ -82,6 +82,12 @@ Key observations:
   Other inspected protection/port settings match. These are separate unisolated
   differences; we have not established VLANs or the inactive LAG fields as the
   cause. See the [configuration comparison](../post-reset-config-comparison-20260907.md).
+- A subsequent six-minute 3+4 Long run also passed with 329.777 continuous
+  clean seconds. Post-run readback verified VLAN 3999/PVID 3999 restored on
+  unused port 9 while port 10 stayed on VLAN 1, with LAG/port/mirror settings
+  unchanged from the working reset snapshot. That partial VLAN restoration
+  did not reproduce failure; VLAN 10/uplink placement and inactive LAG fields
+  remain unisolated differences.
 
 A useful reproduction environment is an isolated two-NIC Linux 802.3ad peer,
 untagged matching VLANs, group 4 Long, and at least six minutes of simultaneous
