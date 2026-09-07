@@ -195,3 +195,54 @@ tests both the proposed VLAN move and a LAG group 4→5 change offline. It ident
 the disabled-port serialization difference but provides no evidence of a missing
 automatic follow-up write. Live controller reapplication remains untested in this
 controlled post-reset sequence.
+
+## Production VLAN layout passed; controller reapply awaiting observation
+
+The operator applied the production membership/PVID layout through QSS, retaining
+group 4 / Long on 3+4 and group 1 / Long on 1+2. Run
+`usb-ui-sweep-20260907T013218Z` completed **360.028 seconds** with **328.710
+continuous clean reciprocal seconds**. Both members ended 61/61 at 1000/full,
+with zero link failures or partner churn. Captures were complete with zero drops;
+cleanup finished at 01:38:21.807506 UTC without errors, leaving both USB NICs down.
+No switch API access occurred during the observation.
+
+The subsequent authenticated readback verified VLAN 10 untagged/PVID 10 on
+3–7 and 10, VLAN 3999 on 1+2+9, and VLAN 1 on 8. Thus the production VLAN
+membership/PVID layout also permits a six-minute pass in this reset-era USB
+setup. Peer/speed, disabled-port LAG metadata, mirror destination, and history
+remain differences from the earlier failed production setup.
+
+### Deliberate reapply through the controller client
+
+After cleanup, a controlled one-shot harness used the controller's client and
+configuration validation to resubmit the same values. This was **not ordinary
+CLI apply**, which correctly produced an empty plan and would send no changes.
+The LAG body was the previously audited 41-field controller payload with group
+4 retained; VLAN entries used the controller's serializer for all three current
+VLANs. It kept the same group numbers, timeout, VLAN names/memberships and PVIDs.
+
+The harness checked model/build/MAC, the successful baseline and cleanup, USB
+interfaces down/unaddressed, independent management on `eno1`, exact intended
+configuration, a private native backup, and a refreshed pre-write snapshot.
+Private artifacts are in `backups/controller-reapply-20260907T013852Z/`.
+
+- LAG POST at 01:39:08.891882 UTC returned HTTP 200 with an empty body. All
+  41 configuration fields matched on readback, and VLANs/PVIDs were unchanged.
+- The following VLAN POST **timed out waiting for response headers** with an
+  eight-second client timeout. It was not retried. The harness stopped before
+  Save and successfully logged out.
+- An independent read session verified the desired LAG/VLAN/PVID state and
+  unchanged configured port/mirror settings. The VLAN timeout therefore does
+  not establish a configuration mismatch or whether internal work occurred.
+- A subsequent session verified the state again, completed Save, verified again,
+  and logged out successfully. There was no second VLAN POST.
+
+The two LAG runtime status fields changed from 1 to 0 after reapply; the USB peers
+were already down from observer cleanup. This is not evidence of failed LACP.
+No post-reapply negotiation observation has completed yet. Because the full
+sequence included LAG, a timed-out VLAN request, and Save, any changed negotiation
+result would require narrower controls before assigning the cause to one action
+or the 18 disabled-port fields. Reboot persistence was not tested.
+
+[UI production-layout baseline evidence](evidence/linux-usb-production-vlans-ui-20260907.json).
+[Controller reapply evidence](evidence/controller-reapply-20260907.json).

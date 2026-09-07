@@ -1,0 +1,259 @@
+{
+  "trial": 1,
+  "pair": "3+4",
+  "source_run": "usb-ui-sweep-20260907T013218Z/trial-001-3-4",
+  "result": "NEGOTIATED",
+  "start_epoch": 1788744740.516268,
+  "end_epoch": 1788745101.641122,
+  "seconds": 361.1248540878296,
+  "observation_seconds": 360.0283300230003,
+  "first_native_seconds": 4.124486684799194,
+  "first_reciprocal_seconds": 33.132036209106445,
+  "current_joint_clean_seconds": 328.7101800441742,
+  "stable_300_seconds_at_end": true,
+  "expected_mapping": {
+    "enx5c857e38d8d1": 3,
+    "enxa0cec8597422": 4
+  },
+  "observed_mapping": {
+    "enx5c857e38d8d1": 3,
+    "enxa0cec8597422": 4
+  },
+  "mapping_verified": true,
+  "peer_tx_seen": {
+    "enx5c857e38d8d1": true,
+    "enxa0cec8597422": true
+  },
+  "link_failure_baseline": {
+    "enx5c857e38d8d1": 0,
+    "enxa0cec8597422": 0
+  },
+  "max_native_sample_gap_seconds": 1.0112879276275635,
+  "native_final": {
+    "members": {
+      "enx5c857e38d8d1": {
+        "mii": "up",
+        "speed": 1000,
+        "duplex": "full",
+        "link_failures": 0,
+        "aggregator_id": 1,
+        "partner_churned": 0,
+        "actor_port": 1,
+        "actor_state": 61,
+        "partner_system": "24:5e:be:77:e5:86",
+        "partner_key": 3,
+        "partner_port": 3,
+        "partner_state": 61
+      },
+      "enxa0cec8597422": {
+        "mii": "up",
+        "speed": 1000,
+        "duplex": "full",
+        "link_failures": 0,
+        "aggregator_id": 1,
+        "partner_churned": 0,
+        "actor_port": 2,
+        "actor_state": 61,
+        "partner_system": "24:5e:be:77:e5:86",
+        "partner_key": 3,
+        "partner_port": 4,
+        "partner_state": 61
+      }
+    },
+    "aggregator": {
+      "id": 1,
+      "ports": 2,
+      "actor_key": 9,
+      "partner_key": 3,
+      "partner_mac": "24:5e:be:77:e5:86"
+    }
+  },
+  "evaluation": {
+    "pass": true,
+    "longest_joint_clean_seconds": 328.7101800441742,
+    "current_joint_clean_seconds": 328.7101800441742,
+    "joint_clean_events": 753,
+    "evaluated_events": 828,
+    "native_samples": 361,
+    "packet_counts": {
+      "enx5c857e38d8d1": 28,
+      "enxa0cec8597422": 28
+    },
+    "packet_max_age_seconds": 35,
+    "native_max_age_seconds": 2.5,
+    "window_start_epoch": 1788744740.516268,
+    "window_end_epoch": 1788745101.641122,
+    "measurement": "LACP negotiation, not a throughput or per-member forwarding test"
+  },
+  "switch_configuration_verified": false,
+  "measurement": "LACP observation only; no forwarding/throughput test or switch API access",
+  "capture_integrity": {
+    "enx5c857e38d8d1": {
+      "dropped": 0,
+      "pcap_complete": true
+    },
+    "enxa0cec8597422": {
+      "dropped": 0,
+      "pcap_complete": true
+    }
+  },
+  "host_cleanup": {
+    "utc": "2026-09-07T01:38:21.807506+00:00",
+    "errors": [],
+    "capture_exit_codes": [
+      0,
+      0,
+      -2
+    ],
+    "returned_interfaces_left_down": [
+      "enx5c857e38d8d1",
+      "enxa0cec8597422"
+    ]
+  },
+  "operator_report": "Applied production VLAN layout through QSS; preserved group 4 / Long on 3+4 and group 1 / Long on 1+2.",
+  "post_run_pre_reapply_readback": {
+    "source": "backups/controller-reapply-20260907T013852Z/before.json",
+    "lags": {
+      "PortNum": 10,
+      "system_priority": 32768,
+      "Port_1": {
+        "portTypeId_1": 2,
+        "portPriorityId_1": 128,
+        "lacpTimeoutId_1": 1,
+        "Port_1_grpInd": 1,
+        "Port_1_state": 0
+      },
+      "Port_2": {
+        "portTypeId_2": 2,
+        "portPriorityId_2": 128,
+        "lacpTimeoutId_2": 1,
+        "Port_2_grpInd": 1,
+        "Port_2_state": 0
+      },
+      "Port_3": {
+        "portTypeId_3": 2,
+        "portPriorityId_3": 128,
+        "lacpTimeoutId_3": 1,
+        "Port_3_grpInd": 4,
+        "Port_3_state": 1
+      },
+      "Port_4": {
+        "portTypeId_4": 2,
+        "portPriorityId_4": 128,
+        "lacpTimeoutId_4": 1,
+        "Port_4_grpInd": 4,
+        "Port_4_state": 1
+      },
+      "Port_5": {
+        "portTypeId_5": 0,
+        "portPriorityId_5": 128,
+        "lacpTimeoutId_5": 0,
+        "Port_5_grpInd": 0,
+        "Port_5_state": 0
+      },
+      "Port_6": {
+        "portTypeId_6": 0,
+        "portPriorityId_6": 128,
+        "lacpTimeoutId_6": 0,
+        "Port_6_grpInd": 0,
+        "Port_6_state": 0
+      },
+      "Port_7": {
+        "portTypeId_7": 0,
+        "portPriorityId_7": 128,
+        "lacpTimeoutId_7": 0,
+        "Port_7_grpInd": 0,
+        "Port_7_state": 0
+      },
+      "Port_8": {
+        "portTypeId_8": 0,
+        "portPriorityId_8": 128,
+        "lacpTimeoutId_8": 0,
+        "Port_8_grpInd": 0,
+        "Port_8_state": 0
+      },
+      "Port_9": {
+        "portTypeId_9": 0,
+        "portPriorityId_9": 128,
+        "lacpTimeoutId_9": 0,
+        "Port_9_grpInd": 0,
+        "Port_9_state": 0
+      },
+      "Port_10": {
+        "portTypeId_10": 0,
+        "portPriorityId_10": 128,
+        "lacpTimeoutId_10": 0,
+        "Port_10_grpInd": 0,
+        "Port_10_state": 1
+      }
+    },
+    "vlans": [
+      {
+        "vlan_id": 1,
+        "vlan_name": "",
+        "port_states": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "vlan_id": 3999,
+        "vlan_name": "",
+        "port_states": [
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "vlan_id": 10,
+        "vlan_name": "",
+        "port_states": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1
+        ]
+      }
+    ],
+    "pvids": {
+      "port_pvids": [
+        0,
+        3999,
+        3999,
+        10,
+        10,
+        10,
+        10,
+        10,
+        1,
+        3999,
+        10
+      ]
+    }
+  }
+}

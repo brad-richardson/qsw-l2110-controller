@@ -1,0 +1,156 @@
+{
+  "source": "backups/controller-reapply-20260907T013852Z",
+  "baseline_run": "usb-ui-sweep-20260907T013218Z/trial-001-3-4",
+  "method": "Controlled low-level controller-client reapply; ordinary CLI would skip an empty plan",
+  "result": {
+    "configuration_verified": true,
+    "lag_post_http_status": 200,
+    "vlan_post_result": "ReadTimeout before response headers; not retried",
+    "save_completed_after_independent_readback": true,
+    "utc": "2026-09-07T01:40:58.956577+00:00",
+    "negotiation_retest_pending": true
+  },
+  "requests": {
+    "lag": {
+      "system_priority": "32768",
+      "portTypeId_1": "2",
+      "portPriorityId_1": "128",
+      "lacpTimeoutId_1": "1",
+      "Port_1_grpInd": "1",
+      "portTypeId_2": "2",
+      "portPriorityId_2": "128",
+      "lacpTimeoutId_2": "1",
+      "Port_2_grpInd": "1",
+      "portTypeId_3": "2",
+      "portPriorityId_3": "128",
+      "lacpTimeoutId_3": "1",
+      "Port_3_grpInd": "4",
+      "portTypeId_4": "2",
+      "portPriorityId_4": "128",
+      "lacpTimeoutId_4": "1",
+      "Port_4_grpInd": "4",
+      "portTypeId_5": "0",
+      "portPriorityId_5": "128",
+      "lacpTimeoutId_5": "0",
+      "Port_5_grpInd": "0",
+      "portTypeId_6": "0",
+      "portPriorityId_6": "128",
+      "lacpTimeoutId_6": "0",
+      "Port_6_grpInd": "0",
+      "portTypeId_7": "0",
+      "portPriorityId_7": "128",
+      "lacpTimeoutId_7": "0",
+      "Port_7_grpInd": "0",
+      "portTypeId_8": "0",
+      "portPriorityId_8": "128",
+      "lacpTimeoutId_8": "0",
+      "Port_8_grpInd": "0",
+      "portTypeId_9": "0",
+      "portPriorityId_9": "128",
+      "lacpTimeoutId_9": "0",
+      "Port_9_grpInd": "0",
+      "portTypeId_10": "0",
+      "portPriorityId_10": "128",
+      "lacpTimeoutId_10": "0",
+      "Port_10_grpInd": "0"
+    },
+    "vlans": {
+      "updatedVlans": [
+        {
+          "vlan_id": "1",
+          "vlan_name": "",
+          "port_states": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "vlan_id": "3999",
+          "vlan_name": "",
+          "port_states": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "vlan_id": "10",
+          "vlan_name": "",
+          "port_states": [
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "deletedVlans": []
+    },
+    "save_after_verified_readback": true
+  },
+  "lag_response": {
+    "status_code": 200,
+    "body": ""
+  },
+  "lag_runtime_status_change": {
+    "Port_3_state": [
+      1,
+      0
+    ],
+    "Port_4_state": [
+      1,
+      0
+    ],
+    "interpretation": "USB peers had already been brought down by observer cleanup; not a negotiation result"
+  },
+  "save": {
+    "client_save_returned_successfully": true,
+    "utc": "2026-09-07T01:40:52.673162+00:00"
+  },
+  "logout": {
+    "status_code": 200
+  },
+  "readback_comparison": {
+    "vlans": {
+      "after_lag_matches_before": true,
+      "final_matches_before": true
+    },
+    "pvids": {
+      "after_lag_matches_before": true,
+      "final_matches_before": true
+    },
+    "ports": {
+      "after_lag_matches_before": true,
+      "final_matches_before": true
+    },
+    "mirror": {
+      "after_lag_matches_before": true,
+      "final_matches_before": true
+    }
+  },
+  "all_41_lag_configuration_fields_verified": true
+}
