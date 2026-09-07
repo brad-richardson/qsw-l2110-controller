@@ -1,5 +1,15 @@
 # Diagnostic handoff — September 6, 2026
 
+**Latest, September 7 at 00:26 UTC: reset-era 3+4 / group 4 Long also PASSED.**
+The full USB observation held 329.777 continuous clean seconds; capture and
+cleanup passed. The user then authorized an authenticated readback and private
+configuration backup. Test-port VLAN/PVID settings match the old USB bench,
+but VLANs 10/3999 are gone, ports 9/10 now use VLAN 1, inactive LAG fields are
+cleared, and the disabled mirror destination changed from 7 to 0. Inspected
+loop/STP/storm/EEE/DHCP/IGMP/ACL settings match. No switch changes were made;
+the session logged out. Read the [configuration comparison](post-reset-config-comparison-20260907.md)
+before choosing a VLAN or inactive-LAG-field control. USB NICs are down.
+
 **Latest, September 7 at 00:16 UTC: factory-reset 1+7 / group 4 Long PASSED.**
 The operator reset the switch and reported only password, LAG and Long-timeout
 changes. The same USB actor and NIC mapping held 329.773 continuous clean

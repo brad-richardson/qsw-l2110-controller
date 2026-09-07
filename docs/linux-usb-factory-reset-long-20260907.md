@@ -41,10 +41,9 @@ EBUSY failure, and it did not fix the failing member. The earlier Mac
 Short→Long→Short test had a separate timeout-dependent failure. Neither replaces
 the proposed USB comparison. See [peer-side controls](peer-lacp-controls-20260906.md).
 
-The operator chose to test **3+4 / group 4 Long next**, before Short. Keep the
-same actor and adapter order (first NIC to 3, second to 4), change only the pair
-in QSS, and use `--ports 3,4` with the same observer. Results are pending; this
-is the desired former LAN pair, not a claimed successful configuration.
+The subsequent **3+4 / group 4 Long** test also passed its full observation,
+with 329.777 continuous clean seconds. The operator then requested an
+authenticated configuration comparison. See the [3+4 result and readback](post-reset-config-comparison-20260907.md).
 
 For a separate Short trial, manually change only group 4's member timeout to
 Short in QSS, keep the same pair/actor and other conditions, then run:

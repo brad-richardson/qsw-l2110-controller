@@ -1,0 +1,346 @@
+{
+  "baseline": "backups/usb-sweep-20260906T192611Z/original-state.json",
+  "post_reset_private_root": "backups/factory-reset-config-20260907T002540Z",
+  "audit_baseline": "backups/qss-settings-audit-20260906T194559Z",
+  "old_vlans": {
+    "vlans": [
+      {
+        "id": 1,
+        "name": "default",
+        "untagged": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "tagged": []
+      },
+      {
+        "id": 10,
+        "name": "lan",
+        "untagged": [
+          10
+        ],
+        "tagged": []
+      },
+      {
+        "id": 3999,
+        "name": "wan-transit",
+        "untagged": [
+          9
+        ],
+        "tagged": []
+      }
+    ],
+    "pvids": {
+      "1": 1,
+      "2": 1,
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 3999,
+      "10": 10
+    }
+  },
+  "new_vlans": {
+    "vlans": [
+      {
+        "id": 1,
+        "name": "",
+        "untagged": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "tagged": []
+      }
+    ],
+    "pvids": {
+      "1": 1,
+      "2": 1,
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1
+    }
+  },
+  "old_lag": {
+    "system_priority": "32768",
+    "Port_1": {
+      "portTypeId_1": "2",
+      "portPriorityId_1": "128",
+      "lacpTimeoutId_1": "1",
+      "Port_1_grpInd": "4"
+    },
+    "Port_2": {
+      "portTypeId_2": "0",
+      "portPriorityId_2": "128",
+      "lacpTimeoutId_2": "1",
+      "Port_2_grpInd": "4"
+    },
+    "Port_3": {
+      "portTypeId_3": "0",
+      "portPriorityId_3": "128",
+      "lacpTimeoutId_3": "1",
+      "Port_3_grpInd": "4"
+    },
+    "Port_4": {
+      "portTypeId_4": "0",
+      "portPriorityId_4": "128",
+      "lacpTimeoutId_4": "1",
+      "Port_4_grpInd": "4"
+    },
+    "Port_5": {
+      "portTypeId_5": "0",
+      "portPriorityId_5": "128",
+      "lacpTimeoutId_5": "1",
+      "Port_5_grpInd": "4"
+    },
+    "Port_6": {
+      "portTypeId_6": "0",
+      "portPriorityId_6": "128",
+      "lacpTimeoutId_6": "1",
+      "Port_6_grpInd": "4"
+    },
+    "Port_7": {
+      "portTypeId_7": "2",
+      "portPriorityId_7": "128",
+      "lacpTimeoutId_7": "1",
+      "Port_7_grpInd": "4"
+    },
+    "Port_8": {
+      "portTypeId_8": "0",
+      "portPriorityId_8": "128",
+      "lacpTimeoutId_8": "1",
+      "Port_8_grpInd": "4"
+    },
+    "Port_9": {
+      "portTypeId_9": "0",
+      "portPriorityId_9": "128",
+      "lacpTimeoutId_9": "0",
+      "Port_9_grpInd": "0"
+    },
+    "Port_10": {
+      "portTypeId_10": "0",
+      "portPriorityId_10": "128",
+      "lacpTimeoutId_10": "0",
+      "Port_10_grpInd": "0"
+    }
+  },
+  "new_lag": {
+    "system_priority": "32768",
+    "Port_1": {
+      "portTypeId_1": "0",
+      "portPriorityId_1": "128",
+      "lacpTimeoutId_1": "0",
+      "Port_1_grpInd": "0"
+    },
+    "Port_2": {
+      "portTypeId_2": "0",
+      "portPriorityId_2": "128",
+      "lacpTimeoutId_2": "0",
+      "Port_2_grpInd": "0"
+    },
+    "Port_3": {
+      "portTypeId_3": "2",
+      "portPriorityId_3": "128",
+      "lacpTimeoutId_3": "1",
+      "Port_3_grpInd": "4"
+    },
+    "Port_4": {
+      "portTypeId_4": "2",
+      "portPriorityId_4": "128",
+      "lacpTimeoutId_4": "1",
+      "Port_4_grpInd": "4"
+    },
+    "Port_5": {
+      "portTypeId_5": "0",
+      "portPriorityId_5": "128",
+      "lacpTimeoutId_5": "0",
+      "Port_5_grpInd": "0"
+    },
+    "Port_6": {
+      "portTypeId_6": "0",
+      "portPriorityId_6": "128",
+      "lacpTimeoutId_6": "0",
+      "Port_6_grpInd": "0"
+    },
+    "Port_7": {
+      "portTypeId_7": "0",
+      "portPriorityId_7": "128",
+      "lacpTimeoutId_7": "0",
+      "Port_7_grpInd": "0"
+    },
+    "Port_8": {
+      "portTypeId_8": "0",
+      "portPriorityId_8": "128",
+      "lacpTimeoutId_8": "0",
+      "Port_8_grpInd": "0"
+    },
+    "Port_9": {
+      "portTypeId_9": "0",
+      "portPriorityId_9": "128",
+      "lacpTimeoutId_9": "0",
+      "Port_9_grpInd": "0"
+    },
+    "Port_10": {
+      "portTypeId_10": "0",
+      "portPriorityId_10": "128",
+      "lacpTimeoutId_10": "0",
+      "Port_10_grpInd": "0"
+    }
+  },
+  "port_settings_identical": true,
+  "old_mirror": {
+    "PortNum": "10",
+    "MonitoringPortId": "7",
+    "Port_1": {
+      "Port_Id": "1",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_2": {
+      "Port_Id": "2",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_3": {
+      "Port_Id": "3",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_4": {
+      "Port_Id": "4",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_5": {
+      "Port_Id": "5",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_6": {
+      "Port_Id": "6",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_7": {
+      "Port_Id": "7",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_8": {
+      "Port_Id": "8",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_9": {
+      "Port_Id": "9",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_10": {
+      "Port_Id": "10",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    }
+  },
+  "new_mirror": {
+    "PortNum": "10",
+    "MonitoringPortId": "0",
+    "Port_1": {
+      "Port_Id": "1",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_2": {
+      "Port_Id": "2",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_3": {
+      "Port_Id": "3",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_4": {
+      "Port_Id": "4",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_5": {
+      "Port_Id": "5",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_6": {
+      "Port_Id": "6",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_7": {
+      "Port_Id": "7",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_8": {
+      "Port_Id": "8",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_9": {
+      "Port_Id": "9",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    },
+    "Port_10": {
+      "Port_Id": "10",
+      "Ingress_Status": "Disabled",
+      "Egress_Status": "Disabled"
+    }
+  },
+  "identical_audit_sections": {
+    "loop_config": true,
+    "loop_status": true,
+    "stp": true,
+    "storm": true,
+    "dhcp_snooping": true,
+    "eee": true,
+    "acl": true,
+    "qos_port_mode": true,
+    "igmp": true
+  },
+  "post_reset_sntp": {
+    "sntp_state": "1",
+    "sntp_poll": "64",
+    "sntp_server_ip": "pool.ntp.org"
+  },
+  "post_reset_time": {
+    "timeVal": "19:25:59",
+    "dateVal": "06/09/2026",
+    "timezoneOffsetVal": "-05:00",
+    "daylightSavingVal": "0"
+  },
+  "post_readback_port10_speed": "2500MbpsFull",
+  "logout": {
+    "status_code": 200
+  }
+}

@@ -74,6 +74,14 @@ Key observations:
   independently read via API. This demonstrates improvement after reset, without
   identifying the responsible setting or internal state. See the
   [factory-reset result](../linux-usb-factory-reset-long-20260907.md).
+- Moving the reset-era USB setup to 3+4 / group 4 Long also sustained 329.777
+  continuous clean seconds in a full six-minute observation. An authorized
+  post-run readback found test ports 1–8 still on the same VLAN 1/PVID 1 as
+  before reset, but extra VLANs 10/3999 removed, ports 9/10 on VLAN 1, inactive
+  LAG group/timeout fields cleared, and a disabled mirror destination cleared.
+  Other inspected protection/port settings match. These are separate unisolated
+  differences; we have not established VLANs or the inactive LAG fields as the
+  cause. See the [configuration comparison](../post-reset-config-comparison-20260907.md).
 
 A useful reproduction environment is an isolated two-NIC Linux 802.3ad peer,
 untagged matching VLANs, group 4 Long, and at least six minutes of simultaneous
